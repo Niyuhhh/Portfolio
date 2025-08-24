@@ -9,8 +9,8 @@ import { Pagination } from "@/components/ui/pagination"
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
 
-const CLOSED_SCALE = 1.2
-const OPEN_SCALE = 1.2
+const CLOSED_SCALE = 1
+const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 
 interface Page {
