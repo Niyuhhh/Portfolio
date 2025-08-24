@@ -9,8 +9,8 @@ import { Pagination } from "@/components/ui/pagination"
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
 
-const CLOSED_SCALE = 1.2
-const OPEN_SCALE = 1.2
+const CLOSED_SCALE = 0.85
+const OPEN_SCALE = 0.85
 const INITIAL_POS = { x: 0, y: 0 }
 
 interface Page {
@@ -36,12 +36,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const pageWidth = PAGE_WIDTH * scale
   const pageHeight = PAGE_HEIGHT * scale
   const bookEdge = pageWidth / 2
-  const offsetX =
-    currentPage === 0
-      ? -pageWidth / 2
-      : currentPage === totalPages - 1
-      ? pageWidth / 2
-      : 0
+  const offsetX = 0
 
   const handleNextPage = () => {
     bookRef.current?.pageFlip().flipNext()
@@ -80,7 +75,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
       // Current transformation matrix of the book
       const currentMatrix = new DOMMatrix()
-        .translate(offsetX + translate.x, translate.y)
+        .translate(translate.x, translate.y)
         .scale(scale)
 
       // Convert cursor position to book coordinates
@@ -97,22 +92,14 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         return
       }
 
-      const newPageWidth = PAGE_WIDTH * newScale
-      const offsetXNew =
-        currentPage === 0
-          ? -newPageWidth / 2
-          : currentPage === totalPages - 1
-          ? newPageWidth / 2
-          : 0
-
       // Calculate translation so the point under cursor stays fixed
-      const newTranslateX = cursor.x - offsetXNew - bookPoint.x * newScale
+      const newTranslateX = cursor.x - bookPoint.x * newScale
       const newTranslateY = cursor.y - bookPoint.y * newScale
 
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [scale, translate, currentPage, totalPages, offsetX]
+    [scale, translate]
   )
 
   const handleFlip = (e: any) => {
@@ -196,7 +183,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         ref={bookRef}
         onFlip={handleFlip}
           style={{
-            transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+            transform: `translate(${translate.x}px, ${translate.y}px) scale(${scale})`,
             transition: "transform 0.3s ease",
             transformOrigin: "0 0",
           }}
