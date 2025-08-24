@@ -9,8 +9,8 @@ import { Pagination } from "@/components/ui/pagination"
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
 
-const CLOSED_SCALE = 1
-const OPEN_SCALE = 1
+const CLOSED_SCALE = 1.2
+const OPEN_SCALE = 1.2
 const INITIAL_POS = { x: 0, y: 0 }
 
 interface Page {
@@ -61,7 +61,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
   const zoomOut = () => {
     setScale((prev) => {
-      const newScale = Math.max(prev - 0.1, 1)
+      const newScale = Math.max(prev - 0.1, OPEN_SCALE)
       if (newScale <= OPEN_SCALE) {
         setTranslate(INITIAL_POS)
       }
@@ -89,7 +89,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       // Smooth zoom factor based on wheel delta
       const zoomIntensity = 0.001
       let newScale = scale * Math.exp(-e.deltaY * zoomIntensity)
-      newScale = Math.min(Math.max(newScale, 1), 2)
+      newScale = Math.min(Math.max(newScale, OPEN_SCALE), 2)
 
       if (newScale <= OPEN_SCALE) {
         setTranslate(INITIAL_POS)
