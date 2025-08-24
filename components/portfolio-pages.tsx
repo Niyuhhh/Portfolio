@@ -1,6 +1,17 @@
 import Image from "next/image"
 import { Mail, Linkedin, Instagram, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import fs from "fs"
+import path from "path"
+
+const readDataUri = (file: string) =>
+  fs.readFileSync(path.join(process.cwd(), "public/images", file), "utf8")
+
+const portfolioCover = readDataUri("portfolio-cover.txt")
+const page6 = readDataUri("page-6.txt")
+const page7 = readDataUri("page-7.txt")
+const page8 = readDataUri("page-8.txt")
+const page9 = readDataUri("page-9.txt")
 
 export const portfolioPages = [
   // Cover Page (Single)
@@ -9,11 +20,12 @@ export const portfolioPages = [
     content: (
       <div className="relative w-full h-full opacity-100">
         <Image
-          src="/images/portfolio-cover.png"
+          src={portfolioCover}
           alt="Portfolio Cover - COFFRE Elliott 2025"
           fill
           className="object-cover"
           priority
+          unoptimized
         />
       </div>
     ),
@@ -43,7 +55,7 @@ export const portfolioPages = [
     id: 6,
     content: (
       <div className="relative w-full h-full">
-        <Image src="/images/page-6.png" alt="BJÖRN Project - Page 6" fill className="object-cover" />
+        <Image src={page6} alt="BJÖRN Project - Page 6" fill className="object-cover" unoptimized />
       </div>
     ),
   },
@@ -52,19 +64,33 @@ export const portfolioPages = [
     id: 7,
     content: (
       <div className="relative w-full h-full">
-        <Image src="/images/page-7.png" alt="BJÖRN Ice Cream Packaging - Page 7" fill className="object-cover" />
+        <Image
+          src={page7}
+          alt="BJÖRN Ice Cream Packaging - Page 7"
+          fill
+          className="object-cover"
+          unoptimized
+        />
       </div>
     ),
   },
 
   {
     id: 8,
-    content: <div className="w-full h-full bg-white">{/* Empty page */}</div>,
+    content: (
+      <div className="relative w-full h-full">
+        <Image src={page8} alt="Portfolio Page 8" fill className="object-cover" unoptimized />
+      </div>
+    ),
   },
 
   {
     id: 9,
-    content: <div className="w-full h-full bg-white">{/* Empty page */}</div>,
+    content: (
+      <div className="relative w-full h-full">
+        <Image src={page9} alt="Portfolio Page 9" fill className="object-cover" unoptimized />
+      </div>
+    ),
   },
 
   // Contact Page (Single - Last page)
