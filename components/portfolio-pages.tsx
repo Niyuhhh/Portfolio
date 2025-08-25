@@ -88,7 +88,7 @@ export const portfolioPages = [
     id: 9,
     content: (
       <div className="relative w-full h-full">
-        <Image src={page9} alt="Page 9" fill className="object-cover" unoptimized />
+        <Image src={page9} alt="Portfolio spread - Page 9" fill className="object-cover" unoptimized />
       </div>
     ),
   },
