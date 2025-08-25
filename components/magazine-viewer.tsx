@@ -33,6 +33,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const [isDragging, setIsDragging] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
 
+  const isZoomed = scale > OPEN_SCALE
+
   const totalPages = pages.length
   const PAGE_WIDTH = 420
   const PAGE_HEIGHT = 594
@@ -47,14 +49,17 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       : 0
 
   const handleNextPage = () => {
+    if (isZoomed) return
     bookRef.current?.pageFlip()?.flipNext()
   }
 
   const handlePrevPage = () => {
+    if (isZoomed) return
     bookRef.current?.pageFlip()?.flipPrev()
   }
 
   const goToPage = (page: number) => {
+    if (isZoomed) return
     bookRef.current?.pageFlip()?.flip(page - 1)
   }
 
@@ -275,6 +280,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         maxShadowOpacity={0.2}
         showPageCorners
         disableFlipByClick
+        useMouseEvents={!isZoomed}
         className="shadow-md"
         ref={bookRef}
           onFlip={handleFlip}
@@ -298,6 +304,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         variant="ghost"
         size="icon"
         onClick={handlePrevPage}
+        disabled={isZoomed}
         className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
       >
         <ChevronLeft className="h-8 w-8" />
@@ -306,6 +313,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         variant="ghost"
         size="icon"
         onClick={handleNextPage}
+        disabled={isZoomed}
         className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
       >
         <ChevronRight className="h-8 w-8" />
@@ -315,7 +323,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage + 1}
-          goToPage={goToPage}
+          goToPage={(p) => !isZoomed && goToPage(p)}
         />
       </div>
 
