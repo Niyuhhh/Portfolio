@@ -272,15 +272,15 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         height={pageHeight}
         showCover
         maxShadowOpacity={0.2}
-        className="shadow-md"
+        className="shadow-md pointer-events-none"
         ref={bookRef}
-          onFlip={handleFlip}
-            style={{
-              transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-              transition: isDragging ? "none" : "transform 0.3s ease",
-              transformOrigin: "0 0",
-            }}
-        >
+        onFlip={handleFlip}
+        style={{
+          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+          transition: isDragging ? "none" : "transform 0.3s ease",
+          transformOrigin: "0 0",
+        }}
+      >
         {pages.map((page) => (
           <div
             key={page.id}
@@ -290,6 +290,15 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           </div>
         ))}
       </HTMLFlipBook>
+
+      <div
+        className="absolute top-0 left-0 h-full w-[10%]"
+        onClick={handlePrevPage}
+      />
+      <div
+        className="absolute top-0 right-0 h-full w-[10%]"
+        onClick={handleNextPage}
+      />
 
       <Button
         variant="ghost"
