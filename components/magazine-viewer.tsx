@@ -277,12 +277,13 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         disableFlipByClick
         className="shadow-md"
         ref={bookRef}
-          onFlip={handleFlip}
-            style={{
-              transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-              transition: isDragging ? "none" : "transform 0.3s ease",
-              transformOrigin: "0 0",
-            }}
+        useMouseEvents={scale <= OPEN_SCALE}
+        onFlip={handleFlip}
+        style={{
+          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+          transition: isDragging ? "none" : "transform 0.3s ease",
+          transformOrigin: "0 0",
+        }}
         >
         {pages.map((page) => (
           <div
