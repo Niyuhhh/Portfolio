@@ -273,6 +273,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         height={pageHeight}
         showCover
         maxShadowOpacity={0.2}
+        showPageCorners
+        disableFlipByClick
         className="shadow-md"
         ref={bookRef}
           onFlip={handleFlip}
