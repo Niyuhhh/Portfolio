@@ -188,13 +188,46 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
     let startX = 0
     let startY = 0
+    let startDistance = 0
+    let initialScale = scale
+    let isPinching = false
+
+    const getDistance = (t1: Touch, t2: Touch) =>
+      Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY)
 
     const handleTouchStart = (e: TouchEvent) => {
-      startX = e.touches[0].clientX
-      startY = e.touches[0].clientY
+      if (e.touches.length === 1) {
+        startX = e.touches[0].clientX
+        startY = e.touches[0].clientY
+        isPinching = false
+      } else if (e.touches.length === 2) {
+        e.preventDefault()
+        isPinching = true
+        startDistance = getDistance(e.touches[0], e.touches[1])
+        initialScale = scale
+      }
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isPinching && e.touches.length === 2) {
+        e.preventDefault()
+        const newDistance = getDistance(e.touches[0], e.touches[1])
+        const rect = container.getBoundingClientRect()
+        const midpoint = new DOMPoint(
+          (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left,
+          (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top,
+        )
+        const newScale = (newDistance / startDistance) * initialScale
+        zoomAtPoint(midpoint, newScale)
+      }
     }
 
     const handleTouchEnd = (e: TouchEvent) => {
+      if (isPinching && e.touches.length < 2) {
+        isPinching = false
+        return
+      }
+
       const endX = e.changedTouches[0].clientX
       const endY = e.changedTouches[0].clientY
       const diffX = startX - endX
@@ -210,14 +243,16 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       }
     }
 
-    container.addEventListener("touchstart", handleTouchStart)
+    container.addEventListener("touchstart", handleTouchStart, { passive: false })
+    container.addEventListener("touchmove", handleTouchMove, { passive: false })
     container.addEventListener("touchend", handleTouchEnd)
 
     return () => {
       container.removeEventListener("touchstart", handleTouchStart)
+      container.removeEventListener("touchmove", handleTouchMove)
       container.removeEventListener("touchend", handleTouchEnd)
     }
-  }, [])
+  }, [scale, zoomAtPoint])
 
   return (
     <div
