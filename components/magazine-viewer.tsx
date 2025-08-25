@@ -55,47 +55,20 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     bookRef.current?.pageFlip().flip(page - 1)
   }
 
-  const zoomIn = () => {
-    setScale((prev) => Math.min(prev + 0.1, 2))
-  }
-
-  const zoomOut = () => {
-    setScale((prev) => {
-      const newScale = Math.max(prev - 0.1, OPEN_SCALE)
-      if (newScale <= OPEN_SCALE) {
-        setTranslate(INITIAL_POS)
-      }
-      return newScale
-    })
-  }
-
-  const handleWheel = useCallback(
-    (e: WheelEvent) => {
-      e.preventDefault()
-      const container = containerRef.current
-      if (!container) return
-
-      const rect = container.getBoundingClientRect()
-      const cursor = new DOMPoint(e.clientX - rect.left, e.clientY - rect.top)
-
-      // Current transformation matrix of the book
-      const currentMatrix = new DOMMatrix()
-        .translate(offsetX + translate.x, translate.y)
-        .scale(scale)
-
-      // Convert cursor position to book coordinates
-      const bookPoint = cursor.matrixTransform(currentMatrix.inverse())
-
-      // Smooth zoom factor based on wheel delta
-      const zoomIntensity = 0.001
-      let newScale = scale * Math.exp(-e.deltaY * zoomIntensity)
-      newScale = Math.min(Math.max(newScale, OPEN_SCALE), 2)
+  const zoomAtPoint = useCallback(
+    (point: DOMPoint, targetScale: number) => {
+      let newScale = Math.min(Math.max(targetScale, OPEN_SCALE), 2)
 
       if (newScale <= OPEN_SCALE) {
         setTranslate(INITIAL_POS)
         setScale(newScale)
         return
       }
+
+      const currentMatrix = new DOMMatrix()
+        .translate(offsetX + translate.x, translate.y)
+        .scale(scale)
+      const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
       const newPageWidth = PAGE_WIDTH * newScale
       const offsetXNew =
@@ -105,14 +78,40 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           ? newPageWidth / 2
           : 0
 
-      // Calculate translation so the point under cursor stays fixed
-      const newTranslateX = cursor.x - offsetXNew - bookPoint.x * newScale
-      const newTranslateY = cursor.y - bookPoint.y * newScale
+      const newTranslateX = point.x - offsetXNew - bookPoint.x * newScale
+      const newTranslateY = point.y - bookPoint.y * newScale
 
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [scale, translate, currentPage, totalPages, offsetX]
+    [currentPage, totalPages, offsetX, scale, translate]
+  )
+
+  const zoom = (delta: number) => {
+    const container = containerRef.current
+    if (!container) return
+    const rect = container.getBoundingClientRect()
+    const center = new DOMPoint(rect.width / 2, rect.height / 2)
+    zoomAtPoint(center, scale + delta)
+  }
+
+  const zoomIn = () => zoom(0.1)
+
+  const zoomOut = () => zoom(-0.1)
+
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      e.preventDefault()
+      const container = containerRef.current
+      if (!container) return
+
+      const rect = container.getBoundingClientRect()
+      const cursor = new DOMPoint(e.clientX - rect.left, e.clientY - rect.top)
+      const zoomIntensity = 0.001
+      const newScale = scale * Math.exp(-e.deltaY * zoomIntensity)
+      zoomAtPoint(cursor, newScale)
+    },
+    [scale, zoomAtPoint]
   )
 
   const handleFlip = (e: any) => {
