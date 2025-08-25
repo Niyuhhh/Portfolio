@@ -33,8 +33,30 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 420
-  const PAGE_HEIGHT = 594
+  const [pageSize, setPageSize] = useState({ width: 0, height: 0 })
+
+  useEffect(() => {
+    const updatePageSize = () => {
+      const { innerWidth, innerHeight } = window
+      const aspect = 594 / 420
+      const maxWidth = innerWidth * 0.9
+      const maxHeight = innerHeight * 0.9
+      let width = maxWidth
+      let height = width * aspect
+      if (height > maxHeight) {
+        height = maxHeight
+        width = height / aspect
+      }
+      setPageSize({ width, height })
+    }
+
+    updatePageSize()
+    window.addEventListener("resize", updatePageSize)
+    return () => window.removeEventListener("resize", updatePageSize)
+  }, [])
+
+  const PAGE_WIDTH = pageSize.width
+  const PAGE_HEIGHT = pageSize.height
   const pageWidth = PAGE_WIDTH * scale
   const pageHeight = PAGE_HEIGHT * scale
   const bookEdge = pageWidth / 2
@@ -268,19 +290,21 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       onTouchEnd={endDragging}
     >
       <HTMLFlipBook
-        width={pageWidth}
-        height={pageHeight}
+        width={PAGE_WIDTH}
+        height={PAGE_HEIGHT}
         showCover
         maxShadowOpacity={0.2}
         className="shadow-md"
         ref={bookRef}
-          onFlip={handleFlip}
-            style={{
-              transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-              transition: isDragging ? "none" : "transform 0.3s ease",
-              transformOrigin: "0 0",
-            }}
-        >
+        onFlip={handleFlip}
+        style={{
+          width: pageWidth,
+          height: pageHeight,
+          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+          transition: isDragging ? "none" : "transform 0.3s ease",
+          transformOrigin: "0 0",
+        }}
+      >
         {pages.map((page) => (
           <div
             key={page.id}
