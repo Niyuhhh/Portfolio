@@ -10,6 +10,8 @@ const readDataUri = (file: string) =>
 const portfolioCover = readDataUri("portfolio-cover.txt")
 const page6 = readDataUri("page-6.txt")
 const page7 = readDataUri("page-7.txt")
+const page8 = readDataUri("page-8.txt")
+const page9 = readDataUri("page-9.txt")
 
 export const portfolioPages = [
   // Cover Page (Single)
@@ -75,12 +77,20 @@ export const portfolioPages = [
 
   {
     id: 8,
-    content: <div className="w-full h-full bg-white">{/* Empty page */}</div>,
+    content: (
+      <div className="relative w-full h-full">
+        <Image src={page8} alt="Page 8" fill className="object-cover" unoptimized />
+      </div>
+    ),
   },
 
   {
     id: 9,
-    content: <div className="w-full h-full bg-white">{/* Empty page */}</div>,
+    content: (
+      <div className="relative w-full h-full">
+        <Image src={page9} alt="Page 9" fill className="object-cover" unoptimized />
+      </div>
+    ),
   },
 
   // Contact Page (Single - Last page)
