@@ -6,6 +6,7 @@ import { Plus, Minus, ChevronLeft, ChevronRight } from "lucide-react"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { Pagination } from "@/components/ui/pagination"
+import type { default as FlipBook } from "react-pageflip"
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
 
@@ -24,7 +25,7 @@ interface MagazineViewerProps {
 }
 
 export function MagazineViewer({ pages }: MagazineViewerProps) {
-  const bookRef = useRef<any>(null)
+  const bookRef = useRef<FlipBook | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [currentPage, setCurrentPage] = useState(0)
   const [scale, setScale] = useState(CLOSED_SCALE)
@@ -46,15 +47,15 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       : 0
 
   const handleNextPage = () => {
-    bookRef.current?.pageFlip().flipNext()
+    bookRef.current?.pageFlip()?.flipNext()
   }
 
   const handlePrevPage = () => {
-    bookRef.current?.pageFlip().flipPrev()
+    bookRef.current?.pageFlip()?.flipPrev()
   }
 
   const goToPage = (page: number) => {
-    bookRef.current?.pageFlip().flip(page - 1)
+    bookRef.current?.pageFlip()?.flip(page - 1)
   }
 
   const zoomAtPoint = useCallback(
