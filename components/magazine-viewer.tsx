@@ -291,22 +291,18 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         ))}
       </HTMLFlipBook>
 
-      <Button
-        variant="ghost"
-        size="icon"
+      <div
         onClick={handlePrevPage}
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+        className="group absolute inset-y-0 left-0 w-1/6 cursor-pointer hover:bg-white/5 transition-colors"
       >
-        <ChevronLeft className="h-8 w-8" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
+        <ChevronLeft className="absolute left-4 top-1/2 -translate-y-1/2 h-8 w-8 text-white/70 group-hover:text-white transition-colors" />
+      </div>
+      <div
         onClick={handleNextPage}
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+        className="group absolute inset-y-0 right-0 w-1/6 cursor-pointer hover:bg-white/5 transition-colors"
       >
-        <ChevronRight className="h-8 w-8" />
-      </Button>
+        <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 h-8 w-8 text-white/70 group-hover:text-white transition-colors" />
+      </div>
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
         <Pagination
