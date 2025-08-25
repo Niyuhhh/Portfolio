@@ -31,12 +31,40 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const [translate, setTranslate] = useState(INITIAL_POS)
   const [isDragging, setIsDragging] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
+  const [basePageSize, setBasePageSize] = useState({ width: 420, height: 594 })
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const updateSize = (width: number, height: number) => {
+      const aspect = 420 / 594
+      let newWidth = width
+      let newHeight = newWidth / aspect
+      if (newHeight > height) {
+        newHeight = height
+        newWidth = newHeight * aspect
+      }
+      setBasePageSize({ width: newWidth, height: newHeight })
+    }
+
+    updateSize(container.clientWidth, container.clientHeight)
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0]
+      if (entry) {
+        const { width, height } = entry.contentRect
+        updateSize(width, height)
+      }
+    })
+
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [])
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 420
-  const PAGE_HEIGHT = 594
-  const pageWidth = PAGE_WIDTH * scale
-  const pageHeight = PAGE_HEIGHT * scale
+  const pageWidth = basePageSize.width * scale
+  const pageHeight = basePageSize.height * scale
   const bookEdge = pageWidth / 2
   const offsetX =
     currentPage === 0
@@ -72,7 +100,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         .scale(scale)
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
-      const newPageWidth = PAGE_WIDTH * newScale
+      const newPageWidth = basePageSize.width * newScale
       const offsetXNew =
         currentPage === 0
           ? -newPageWidth / 2
@@ -86,7 +114,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate]
+    [currentPage, totalPages, offsetX, scale, translate, basePageSize.width]
   )
 
   const zoom = (delta: number) => {
