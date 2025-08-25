@@ -274,13 +274,14 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         maxShadowOpacity={0.2}
         className="shadow-md"
         ref={bookRef}
-          onFlip={handleFlip}
-            style={{
-              transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-              transition: isDragging ? "none" : "transform 0.3s ease",
-              transformOrigin: "0 0",
-            }}
-        >
+        clickable={false}
+        onFlip={handleFlip}
+        style={{
+          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+          transition: isDragging ? "none" : "transform 0.3s ease",
+          transformOrigin: "0 0",
+        }}
+      >
         {pages.map((page) => (
           <div
             key={page.id}
@@ -291,11 +292,28 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         ))}
       </HTMLFlipBook>
 
+      <div className="pointer-events-none absolute inset-0 z-10">
+        <div
+          className="pointer-events-auto absolute top-0 left-0 h-full w-[12%] cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation()
+            handlePrevPage()
+          }}
+        />
+        <div
+          className="pointer-events-auto absolute top-0 right-0 h-full w-[12%] cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation()
+            handleNextPage()
+          }}
+        />
+      </div>
+
       <Button
         variant="ghost"
         size="icon"
         onClick={handlePrevPage}
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+        className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300 z-20"
       >
         <ChevronLeft className="h-8 w-8" />
       </Button>
@@ -303,7 +321,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         variant="ghost"
         size="icon"
         onClick={handleNextPage}
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+        className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300 z-20"
       >
         <ChevronRight className="h-8 w-8" />
       </Button>
