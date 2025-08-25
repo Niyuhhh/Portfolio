@@ -10,8 +10,10 @@ const readDataUri = (file: string) =>
 const portfolioCover = readDataUri("portfolio-cover.txt")
 const page6 = readDataUri("page-6.txt")
 const page7 = readDataUri("page-7.txt")
-const page8 = readDataUri("page-8.txt")
-const page9 = readDataUri("page-9.txt")
+const page8 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123459/PAGE_8_kvkts2.png"
+const page9 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123454/PAGE_9_ywcjcm.png"
 
 export const portfolioPages = [
   // Cover Page (Single)
