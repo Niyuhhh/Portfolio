@@ -88,11 +88,11 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   )
 
   const zoom = (delta: number) => {
-    const container = containerRef.current
-    if (!container) return
-    const rect = container.getBoundingClientRect()
-    const center = new DOMPoint(rect.width / 2, rect.height / 2)
-    zoomAtPoint(center, scale + delta)
+    const bookCenter = new DOMPoint(
+      offsetX + translate.x + pageWidth / 2,
+      translate.y + pageHeight / 2
+    )
+    zoomAtPoint(bookCenter, scale + delta)
   }
 
   const zoomIn = () => zoom(0.1)
