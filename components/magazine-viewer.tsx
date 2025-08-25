@@ -267,29 +267,44 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       onTouchMove={handleTouchMove}
       onTouchEnd={endDragging}
     >
-      <HTMLFlipBook
-        width={pageWidth}
-        height={pageHeight}
-        showCover
-        maxShadowOpacity={0.2}
-        className="shadow-md"
-        ref={bookRef}
+      <div
+        className="relative"
+        style={{
+          width: pageWidth,
+          height: pageHeight,
+          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+          transition: isDragging ? "none" : "transform 0.3s ease",
+          transformOrigin: "0 0",
+        }}
+      >
+        <HTMLFlipBook
+          width={pageWidth}
+          height={pageHeight}
+          showCover
+          maxShadowOpacity={0.2}
+          className="shadow-md pointer-events-none"
+          ref={bookRef}
           onFlip={handleFlip}
-            style={{
-              transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-              transition: isDragging ? "none" : "transform 0.3s ease",
-              transformOrigin: "0 0",
-            }}
         >
-        {pages.map((page) => (
-          <div
-            key={page.id}
-            className="w-full h-full bg-white overflow-hidden shadow-md"
-          >
-            {page.content}
-          </div>
-        ))}
-      </HTMLFlipBook>
+          {pages.map((page) => (
+            <div
+              key={page.id}
+              className="w-full h-full bg-white overflow-hidden shadow-md"
+            >
+              {page.content}
+            </div>
+          ))}
+        </HTMLFlipBook>
+
+        <div
+          className="absolute top-0 left-0 h-full w-[10%]"
+          onClick={handlePrevPage}
+        />
+        <div
+          className="absolute top-0 right-0 h-full w-[10%]"
+          onClick={handleNextPage}
+        />
+      </div>
 
       <Button
         variant="ghost"
