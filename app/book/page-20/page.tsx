@@ -1,0 +1,15 @@
+import Link from "next/link"
+
+export default function Page20() {
+  return (
+    <main className="p-8">
+      <h1 className="text-2xl font-bold mb-4">Page 20</h1>
+      <p>This is the content for page 20.</p>
+      <nav className="mt-8 flex justify-between">
+        <Link href="/book/page-19">Previous</Link>
+        <Link href="/book">Index</Link>
+        <span />
+      </nav>
+    </main>
+  )
+}
