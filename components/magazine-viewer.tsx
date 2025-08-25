@@ -29,6 +29,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const [currentPage, setCurrentPage] = useState(0)
   const [scale, setScale] = useState(CLOSED_SCALE)
   const [translate, setTranslate] = useState(INITIAL_POS)
+  const [isDragging, setIsDragging] = useState(false)
+  const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
   const PAGE_WIDTH = 420
@@ -119,6 +121,43 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     setCurrentPage(page)
   }
 
+  const startDragging = (clientX: number, clientY: number) => {
+    setIsDragging(true)
+    lastPointer.current = { x: clientX, y: clientY }
+  }
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (scale <= OPEN_SCALE) return
+    startDragging(e.clientX, e.clientY)
+  }
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (scale <= OPEN_SCALE) return
+    const touch = e.touches[0]
+    startDragging(touch.clientX, touch.clientY)
+  }
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging) return
+    const dx = e.clientX - lastPointer.current.x
+    const dy = e.clientY - lastPointer.current.y
+    setTranslate((prev) => ({ x: prev.x + dx, y: prev.y + dy }))
+    lastPointer.current = { x: e.clientX, y: e.clientY }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isDragging) return
+    const touch = e.touches[0]
+    const dx = touch.clientX - lastPointer.current.x
+    const dy = touch.clientY - lastPointer.current.y
+    setTranslate((prev) => ({ x: prev.x + dx, y: prev.y + dy }))
+    lastPointer.current = { x: touch.clientX, y: touch.clientY }
+  }
+
+  const endDragging = () => {
+    setIsDragging(false)
+  }
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -185,6 +224,13 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       ref={containerRef}
       className="relative w-full h-screen overflow-hidden flex items-center justify-center"
       style={{ backgroundColor: "#0E0E0E" }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={endDragging}
+      onMouseLeave={endDragging}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={endDragging}
     >
       <HTMLFlipBook
         width={pageWidth}
@@ -193,13 +239,13 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         maxShadowOpacity={0.2}
         className="shadow-md"
         ref={bookRef}
-        onFlip={handleFlip}
-          style={{
-            transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-            transition: "transform 0.3s ease",
-            transformOrigin: "0 0",
-          }}
-      >
+          onFlip={handleFlip}
+            style={{
+              transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+              transition: isDragging ? "none" : "transform 0.3s ease",
+              transformOrigin: "0 0",
+            }}
+        >
         {pages.map((page) => (
           <div
             key={page.id}
