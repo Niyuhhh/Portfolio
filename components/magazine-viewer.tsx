@@ -254,6 +254,12 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     }
   }, [scale, zoomAtPoint])
 
+  const transformStyle = {
+    transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+    transition: isDragging ? "none" : "transform 0.3s ease",
+    transformOrigin: "0 0",
+  }
+
   return (
     <div
       ref={containerRef}
@@ -276,11 +282,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         ref={bookRef}
         clickable={false}
         onFlip={handleFlip}
-        style={{
-          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-          transition: isDragging ? "none" : "transform 0.3s ease",
-          transformOrigin: "0 0",
-        }}
+        style={transformStyle}
       >
         {pages.map((page) => (
           <div
@@ -292,16 +294,19 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         ))}
       </HTMLFlipBook>
 
-      <div className="pointer-events-none absolute inset-0 z-10">
+      <div
+        className="pointer-events-none absolute top-0 left-0 z-10"
+        style={{ width: pageWidth, height: pageHeight, ...transformStyle }}
+      >
         <div
-          className="pointer-events-auto absolute top-0 left-0 h-full w-[12%] cursor-pointer"
+          className="pointer-events-auto absolute top-0 left-0 h-full w-[10%] cursor-pointer"
           onClick={(e) => {
             e.stopPropagation()
             handlePrevPage()
           }}
         />
         <div
-          className="pointer-events-auto absolute top-0 right-0 h-full w-[12%] cursor-pointer"
+          className="pointer-events-auto absolute top-0 right-0 h-full w-[10%] cursor-pointer"
           onClick={(e) => {
             e.stopPropagation()
             handleNextPage()
