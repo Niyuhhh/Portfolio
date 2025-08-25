@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useRef, useEffect, useCallback } from "react"
-import { Plus, Minus } from "lucide-react"
+import { Plus, Minus, ChevronLeft, ChevronRight } from "lucide-react"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { Pagination } from "@/components/ui/pagination"
@@ -209,6 +209,23 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           </div>
         ))}
       </HTMLFlipBook>
+
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={handlePrevPage}
+        className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+      >
+        <ChevronLeft className="h-8 w-8" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={handleNextPage}
+        className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+      >
+        <ChevronRight className="h-8 w-8" />
+      </Button>
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
         <Pagination
