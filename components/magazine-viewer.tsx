@@ -259,7 +259,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     <div
       ref={containerRef}
       className="relative w-full h-screen overflow-hidden flex items-center justify-center"
-      style={{ backgroundColor: "#0E0E0E" }}
+      style={{ backgroundColor: "#0E0E0E", perspective: "1000px" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={endDragging}
@@ -272,7 +272,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         width={pageWidth}
         height={pageHeight}
         showCover
-        maxShadowOpacity={0.2}
+        maxShadowOpacity={0.4}
         showPageCorners
         disableFlipByClick
         className="shadow-md"
@@ -282,6 +282,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
               transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
               transition: isDragging ? "none" : "transform 0.3s ease",
               transformOrigin: "0 0",
+              filter: "drop-shadow(0 0 10px rgba(0,0,0,0.3))",
             }}
         >
         {pages.map((page, index) => {
