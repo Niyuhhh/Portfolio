@@ -34,10 +34,25 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 420
-  const PAGE_HEIGHT = 594
-  const pageWidth = PAGE_WIDTH * scale
-  const pageHeight = PAGE_HEIGHT * scale
+  const PAGE_RATIO = 594 / 420
+  const [pageSize, setPageSize] = useState({ width: 420, height: 594 })
+  const updatePageSize = useCallback(() => {
+    const container = containerRef.current
+    const baseWidth = container
+      ? container.clientWidth * 0.9
+      : window.innerWidth * 0.9
+    const width = Math.min(baseWidth, 462)
+    setPageSize({ width, height: width * PAGE_RATIO })
+  }, [])
+
+  useEffect(() => {
+    updatePageSize()
+    window.addEventListener("resize", updatePageSize)
+    return () => window.removeEventListener("resize", updatePageSize)
+  }, [updatePageSize])
+
+  const pageWidth = pageSize.width * scale
+  const pageHeight = pageSize.height * scale
   const bookEdge = pageWidth / 2
   const offsetX =
     currentPage === 0
@@ -73,7 +88,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         .scale(scale)
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
-      const newPageWidth = PAGE_WIDTH * newScale
+      const newPageWidth = pageSize.width * newScale
       const offsetXNew =
         currentPage === 0
           ? -newPageWidth / 2
@@ -87,7 +102,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate]
+    [currentPage, totalPages, offsetX, scale, translate, pageSize.width]
   )
 
   const zoom = (delta: number) => {
@@ -258,7 +273,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
+      className="relative w-full h-full min-h-screen overflow-hidden flex items-center justify-center"
       style={{ backgroundColor: "#0E0E0E" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -275,7 +290,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         maxShadowOpacity={0.2}
         showPageCorners
         disableFlipByClick
-        className="shadow-md"
+        className="shadow-md max-w-full h-auto"
         ref={bookRef}
           onFlip={handleFlip}
             style={{
