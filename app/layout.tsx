@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
 import { Open_Sans } from "next/font/google"
+import { Sora } from "next/font/google"
 import "./globals.css"
 
 const montserrat = Montserrat({
@@ -18,6 +19,12 @@ const openSans = Open_Sans({
   weight: ["400", "500", "600"],
 })
 
+const sora = Sora({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sora",
+})
+
 export const metadata: Metadata = {
   title: "COFFRE Elliott - Portfolio 2025",
   description:
@@ -31,7 +38,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${openSans.variable} antialiased`}>
+    <html
+      lang="en"
+      className={`${montserrat.variable} ${openSans.variable} ${sora.variable} antialiased`}
+    >
       <body className="font-sans">{children}</body>
     </html>
   )
