@@ -6,6 +6,7 @@ import { Plus, Minus, ChevronLeft, ChevronRight } from "lucide-react"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { Pagination } from "@/components/ui/pagination"
+import { FullScreenButton } from "@/components/fullscreen-button"
 import type { default as FlipBook } from "react-pageflip"
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
@@ -331,6 +332,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       </div>
 
       <div className="absolute bottom-4 right-4 flex flex-col gap-2 items-end">
+        <FullScreenButton />
         <Button
           variant="ghost"
           size="icon"
