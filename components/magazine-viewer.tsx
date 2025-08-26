@@ -305,6 +305,13 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         })}
       </HTMLFlipBook>
 
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-8">
+        <div className="absolute top-0 right-0 h-full w-[2px] bg-black/20" />
+        <div className="absolute top-0 right-[2px] h-full w-[2px] bg-black/15" />
+        <div className="absolute top-0 right-[4px] h-full w-[2px] bg-black/10" />
+        <div className="absolute top-0 right-[6px] h-full w-[2px] bg-black/5" />
+      </div>
+
       <Button
         variant="ghost"
         size="icon"
