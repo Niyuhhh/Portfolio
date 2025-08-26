@@ -1,0 +1,32 @@
+/* Styles for the flipbook stacked pages effect */
+.flipbook {
+  position: relative;
+  overflow: visible;
+}
+
+/* pseudo-element representing the remaining stacked pages */
+.flipbook::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: -12px;
+  width: 12px;
+  height: calc(100% - 8px);
+  background: repeating-linear-gradient(
+    to right,
+    #f5f5f5,
+    #f5f5f5 2px,
+    #e0e0e0 2px,
+    #e0e0e0 4px
+  );
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+
+/* ensure book pages stay above the stack and visible when flipping */
+.flipbook .page {
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
