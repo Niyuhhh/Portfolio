@@ -1,5 +1,7 @@
 import Head from "next/head"
 import Image, { type ImageProps } from "next/image"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 import fs from "fs"
 import path from "path"
 
@@ -63,6 +65,18 @@ const bjornChapterPages = [
           className="object-cover"
           unoptimized
         />
+        <Link
+          href="https://www.figma.com/proto/NITAGZXbWhIXvS86y4oytS/Site-Web-MBAT?page-id=0%3A1&node-id=176-9725&viewport=777%2C-291%2C0.31&t=QTx62eY5jD6B6o68-8&scaling=scale-down-width&content-scaling=fixed&hide-ui=1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button
+            variant="outline"
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 border-gray-400 text-gray-700 bg-white/90 hover:bg-gray-100"
+          >
+            visiter le site
+          </Button>
+        </Link>
       </div>
     ),
   },
