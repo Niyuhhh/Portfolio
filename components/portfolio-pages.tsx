@@ -15,6 +15,22 @@ const page8 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123459/PAGE_8_kvkts2.png"
 const page9 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123454/PAGE_9_ywcjcm.png"
+const page10 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/PORTFOLIO_PAGE_10_fzdgem.png"
+const page11 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/PORTFOLIO_PAGE_11_pcapqn.png"
+const page12 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/PORTFOLIO_PAGE_12_gq1jdn.png"
+const page13 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/PORTFOLIO_PAGE_13_yqvld1.png"
+const page14 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/PORTFOLIO_PAGE_14_qi1z3r.png"
+const page15 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/PORTFOLIO_PAGE_15_jvpwvk.png"
+const page16 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/PORTFOLIO_PAGE_16_uc9pr0.png"
+const page17 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/PORTFOLIO_PAGE_17_tedncj.png"
 
 interface PreloadImageProps extends Omit<ImageProps, "src"> {
   src: string
@@ -115,39 +131,74 @@ export const portfolioPages = [
       </div>
     ),
   },
-
-  // Contact Page (Single - Last page)
   {
     id: 10,
     content: (
-      <div className="p-12 h-full flex flex-col justify-center bg-gradient-to-br from-orange-500/10 to-red-500/10">
-        <div className="max-w-md mx-auto text-center">
-          <h2 className="font-serif font-black text-4xl mb-8 text-gray-900">Let's Work Together</h2>
-          <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-            Ready to bring your vision to life? Get in touch to discuss your next project.
-          </p>
+      <div className="relative w-full h-full">
+        <PreloadImage src={page10} alt="Page 10" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
 
-          <div className="space-y-4 mb-8">
-            <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium" size="lg">
-              <Mail className="w-4 h-4 mr-2" />
-              elliott.coffre@brassart.fr
-            </Button>
+  {
+    id: 11,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page11} alt="Page 11" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
 
-            <div className="flex gap-4 justify-center">
-              <Button variant="outline" size="icon">
-                <Linkedin className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon">
-                <Instagram className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon">
-                <Globe className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+  {
+    id: 12,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page12} alt="Page 12" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
 
-          <p className="text-sm text-gray-500">Based in France • Available worldwide</p>
-        </div>
+  {
+    id: 13,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page13} alt="Page 13" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 14,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page14} alt="Page 14" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 15,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page15} alt="Page 15" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 16,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page16} alt="Page 16" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 17,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page17} alt="Page 17" fill className="object-cover" unoptimized />
       </div>
     ),
   },
