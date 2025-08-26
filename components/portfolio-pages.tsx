@@ -15,6 +15,22 @@ const page8 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123459/PAGE_8_kvkts2.png"
 const page9 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123454/PAGE_9_ywcjcm.png"
+const page10 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123453/PAGE_10_qwerty.png"
+const page11 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123452/PAGE_11_asdfgh.png"
+const page12 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123451/PAGE_12_zxcvbn.png"
+const page13 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123450/PAGE_13_uiopjk.png"
+const page14 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123449/PAGE_14_lmnnop.png"
+const page15 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123448/PAGE_15_qazwsx.png"
+const page16 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123447/PAGE_16_edcrfv.png"
+const page17 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123446/PAGE_17_tgbnhy.png"
 
 interface PreloadImageProps extends Omit<ImageProps, "src"> {
   src: string
@@ -116,9 +132,81 @@ export const portfolioPages = [
     ),
   },
 
-  // Contact Page (Single - Last page)
   {
     id: 10,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page10} alt="Page 10" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 11,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page11} alt="Page 11" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 12,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page12} alt="Page 12" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 13,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page13} alt="Page 13" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 14,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page14} alt="Page 14" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 15,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page15} alt="Page 15" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 16,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page16} alt="Page 16" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  {
+    id: 17,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage src={page17} alt="Page 17" fill className="object-cover" unoptimized />
+      </div>
+    ),
+  },
+
+  // Contact Page (Single - Last page)
+  {
+    id: 18,
     content: (
       <div className="p-12 h-full flex flex-col justify-center bg-gradient-to-br from-orange-500/10 to-red-500/10">
         <div className="max-w-md mx-auto text-center">
