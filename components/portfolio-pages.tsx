@@ -72,9 +72,9 @@ const bjornChapterPages = [
         >
           <Button
             variant="outline"
-            className="absolute bottom-10 right-10 z-10 border-white text-white hover:bg-white hover:text-black"
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 border-gray-400 text-gray-700 bg-white/90 hover:bg-gray-100"
           >
-            Visiter le site
+            visiter le site
           </Button>
         </Link>
       </div>
