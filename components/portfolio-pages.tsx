@@ -20,12 +20,12 @@ export const portfolioPages = [
   {
     id: 1,
     content: (
-      <div className="relative w-full h-full opacity-100">
+      <div className="relative w-full h-full overflow-hidden">
         <Image
           src={portfolioCover}
           alt="Portfolio Cover - COFFRE Elliott 2025"
           fill
-          className="object-cover"
+          className="object-cover transition-transform duration-300 hover:scale-105"
           priority
           unoptimized
         />
