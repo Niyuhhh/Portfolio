@@ -25,7 +25,7 @@ export const portfolioPages = [
           src={portfolioCover}
           alt="Portfolio Cover - COFFRE Elliott 2025"
           fill
-          className="object-cover transition-transform duration-300 hover:scale-105"
+          className="object-cover"
           priority
           unoptimized
         />

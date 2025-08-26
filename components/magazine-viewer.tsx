@@ -268,21 +268,22 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       onTouchMove={handleTouchMove}
       onTouchEnd={endDragging}
     >
-      <HTMLFlipBook
-        width={pageWidth}
-        height={pageHeight}
-        showCover
-        maxShadowOpacity={0.2}
-        showPageCorners
-        disableFlipByClick
-        className="shadow-md"
-        ref={bookRef}
+      <div className="transition-transform duration-300 hover:scale-105">
+        <HTMLFlipBook
+          width={pageWidth}
+          height={pageHeight}
+          showCover
+          maxShadowOpacity={0.2}
+          showPageCorners
+          disableFlipByClick
+          className="shadow-md"
+          ref={bookRef}
           onFlip={handleFlip}
-            style={{
-              transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-              transition: isDragging ? "none" : "transform 0.3s ease",
-              transformOrigin: "0 0",
-            }}
+          style={{
+            transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+            transition: isDragging ? "none" : "transform 0.3s ease",
+            transformOrigin: "0 0",
+          }}
         >
         {pages.map((page, index) => {
           const isFirst = index === 0
@@ -304,6 +305,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           )
         })}
       </HTMLFlipBook>
+      </div>
 
       <Button
         variant="ghost"
