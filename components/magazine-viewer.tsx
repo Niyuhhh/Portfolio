@@ -284,14 +284,25 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
               transformOrigin: "0 0",
             }}
         >
-        {pages.map((page) => (
-          <div
-            key={page.id}
-            className="w-full h-full bg-white overflow-hidden shadow-md"
-          >
-            {page.content}
-          </div>
-        ))}
+        {pages.map((page, index) => {
+          const isFirst = index === 0
+          const isLast = index === totalPages - 1
+
+          return (
+            <div
+              key={page.id}
+              className={`w-full h-full bg-white overflow-hidden shadow-md ${
+                isFirst || isLast ? "cursor-pointer" : ""
+              }`}
+              onClick={() => {
+                if (isFirst) handleNextPage()
+                else if (isLast) handlePrevPage()
+              }}
+            >
+              {page.content}
+            </div>
+          )
+        })}
       </HTMLFlipBook>
 
       <Button
