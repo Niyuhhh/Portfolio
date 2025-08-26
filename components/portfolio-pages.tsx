@@ -1,4 +1,5 @@
-import Image from "next/image"
+import Head from "next/head"
+import Image, { type ImageProps } from "next/image"
 import { Mail, Linkedin, Instagram, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import fs from "fs"
@@ -15,13 +16,26 @@ const page8 =
 const page9 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123454/PAGE_9_ywcjcm.png"
 
+interface PreloadImageProps extends Omit<ImageProps, "src"> {
+  src: string
+}
+
+const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
+  <>
+    <Head>
+      <link rel="preload" as="image" href={src} />
+    </Head>
+    <Image src={src} {...props} />
+  </>
+)
+
 export const portfolioPages = [
   // Cover Page (Single)
   {
     id: 1,
     content: (
       <div className="relative w-full h-full opacity-100">
-        <Image
+        <PreloadImage
           src={portfolioCover}
           alt="Portfolio Cover - COFFRE Elliott 2025"
           fill
@@ -57,7 +71,14 @@ export const portfolioPages = [
     id: 6,
     content: (
       <div className="relative w-full h-full">
-        <Image src={page6} alt="BJÖRN Project - Page 6" fill className="object-cover" unoptimized />
+        <PreloadImage
+          src={page6}
+          alt="BJÖRN Project - Page 6"
+          fill
+          className="object-cover"
+          unoptimized
+          loading="eager"
+        />
       </div>
     ),
   },
@@ -66,7 +87,7 @@ export const portfolioPages = [
     id: 7,
     content: (
       <div className="relative w-full h-full">
-        <Image
+        <PreloadImage
           src={page7}
           alt="BJÖRN Ice Cream Packaging - Page 7"
           fill
@@ -81,7 +102,7 @@ export const portfolioPages = [
     id: 8,
     content: (
       <div className="relative w-full h-full">
-        <Image src={page8} alt="Page 8" fill className="object-cover" unoptimized />
+        <PreloadImage src={page8} alt="Page 8" fill className="object-cover" unoptimized />
       </div>
     ),
   },
@@ -90,7 +111,7 @@ export const portfolioPages = [
     id: 9,
     content: (
       <div className="relative w-full h-full">
-        <Image src={page9} alt="Page 9" fill className="object-cover" unoptimized />
+        <PreloadImage src={page9} alt="Page 9" fill className="object-cover" unoptimized />
       </div>
     ),
   },
