@@ -194,3 +194,18 @@
 .transition-all {
   transition: all 0.3s ease;
 }
+
+/* Custom flipbook page styling */
+.flipbook .stf__item {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.flipbook .stf__item > div {
+  backface-visibility: hidden;
+  transition: transform var(--flip-duration, 700ms) ease;
+}
+
+/* Slight delay for the back face to simulate page thickness */
+.flipbook .stf__item > div:nth-child(2) {
+  transition-delay: 0.1s;
+}

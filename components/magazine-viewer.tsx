@@ -14,6 +14,7 @@ const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
 const CLOSED_SCALE = 1
 const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
+const FLIP_DURATION = 700
 
 interface Page {
   id: number
@@ -274,17 +275,21 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         height={pageHeight}
         showCover
         maxShadowOpacity={0.2}
+        drawShadow
+        flippingTime={FLIP_DURATION}
         showPageCorners
         disableFlipByClick
-        className="shadow-md"
+        swipeDistance={30}
+        className="shadow-md flipbook"
         ref={bookRef}
-          onFlip={handleFlip}
-            style={{
-              transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-              transition: isDragging ? "none" : "transform 0.3s ease",
-              transformOrigin: "0 0",
-            }}
-        >
+        onFlip={handleFlip}
+        style={{
+          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+          transition: isDragging ? "none" : "transform 0.3s ease",
+          transformOrigin: "0 0",
+          ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
+        }}
+      >
         {pages.map((page, index) => {
           const isFirst = index === 0
           const isLast = index === totalPages - 1
