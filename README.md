@@ -1,5 +1,7 @@
 # Portfolio
 
+Ce portfolio comprend désormais un chapitre supplémentaire de dix pages détaillant le processus de conception du projet Björn. La table des matières et la pagination ont été mises à jour pour refléter cette extension.
+
 ## Pagination with Jump
 
 Use `PaginationJump` to let users navigate directly to a page.
