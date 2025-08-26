@@ -13,19 +13,10 @@ const page8 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123459/PAGE_8_kvkts2.png"
 const page9 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123454/PAGE_9_ywcjcm.png"
-
-const bjornChapterPages = [
-  { id: 10, content: <div className="w-full h-full bg-white" /> },
-  { id: 11, content: <div className="w-full h-full bg-white" /> },
-  { id: 12, content: <div className="w-full h-full bg-white" /> },
-  { id: 13, content: <div className="w-full h-full bg-white" /> },
-  { id: 14, content: <div className="w-full h-full bg-white" /> },
-  { id: 15, content: <div className="w-full h-full bg-white" /> },
-  { id: 16, content: <div className="w-full h-full bg-white" /> },
-  { id: 17, content: <div className="w-full h-full bg-white" /> },
-  { id: 18, content: <div className="w-full h-full bg-white" /> },
-  { id: 19, content: <div className="w-full h-full bg-white" /> },
-]
+const page16 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230040/PORTFOLIO_PAGE_16_nodtmh.png"
+const page17 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230034/PORTFOLIO_PAGE_17_tedncj.png"
 
 interface PreloadImageProps extends Omit<ImageProps, "src"> {
   src: string
@@ -39,6 +30,45 @@ const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
     <Image src={src} {...props} />
   </>
 )
+
+const bjornChapterPages = [
+  { id: 10, content: <div className="w-full h-full bg-white" /> },
+  { id: 11, content: <div className="w-full h-full bg-white" /> },
+  { id: 12, content: <div className="w-full h-full bg-white" /> },
+  { id: 13, content: <div className="w-full h-full bg-white" /> },
+  { id: 14, content: <div className="w-full h-full bg-white" /> },
+  { id: 15, content: <div className="w-full h-full bg-white" /> },
+  {
+    id: 16,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page16}
+          alt="Portfolio Page 16"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 17,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page17}
+          alt="Portfolio Page 17"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  { id: 18, content: <div className="w-full h-full bg-white" /> },
+  { id: 19, content: <div className="w-full h-full bg-white" /> },
+]
 
 export const portfolioPages = [
   // Cover Page (Single)
