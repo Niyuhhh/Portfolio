@@ -36,8 +36,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 420
-  const PAGE_HEIGHT = 594
+  const PAGE_WIDTH = 500
+  const PAGE_HEIGHT = 710
   const pageWidth = PAGE_WIDTH * scale
   const pageHeight = PAGE_HEIGHT * scale
   const bookEdge = pageWidth / 2
@@ -260,7 +260,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
+      className="relative w-full h-screen overflow-hidden flex items-center justify-center p-4"
       style={{ backgroundColor: "#0E0E0E" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
