@@ -7,6 +7,7 @@ import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { Pagination } from "@/components/ui/pagination"
 import type { default as FlipBook } from "react-pageflip"
+import "@/styles/flipbook.css"
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
 
@@ -258,8 +259,10 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
+      className="flipbook-container relative w-full h-screen overflow-hidden flex items-center justify-center"
       style={{ backgroundColor: "#0E0E0E" }}
+      role="region"
+      aria-label="Magazine viewer"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={endDragging}
@@ -277,13 +280,15 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         disableFlipByClick
         className="shadow-md"
         ref={bookRef}
-          onFlip={handleFlip}
-            style={{
-              transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-              transition: isDragging ? "none" : "transform 0.3s ease",
-              transformOrigin: "0 0",
-            }}
-        >
+        aria-label="Magazine pages"
+        role="group"
+        onFlip={handleFlip}
+        style={{
+          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+          transition: isDragging ? "none" : "transform 0.3s ease",
+          transformOrigin: "0 0",
+        }}
+      >
         {pages.map((page, index) => {
           const isFirst = index === 0
           const isLast = index === totalPages - 1
@@ -298,6 +303,21 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
                 if (isFirst) handleNextPage()
                 else if (isLast) handlePrevPage()
               }}
+              role={isFirst || isLast ? "button" : undefined}
+              tabIndex={isFirst || isLast ? 0 : undefined}
+              aria-label={
+                isFirst
+                  ? "Go to next page"
+                  : isLast
+                  ? "Go to previous page"
+                  : undefined
+              }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  if (isFirst) handleNextPage()
+                  else if (isLast) handlePrevPage()
+                }
+              }}
             >
               {page.content}
             </div>
@@ -309,17 +329,21 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         variant="ghost"
         size="icon"
         onClick={handlePrevPage}
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+        aria-label="Previous page"
+        role="button"
+        className="flipbook-button absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white hover:text-white border-none transition-all duration-300"
       >
-        <ChevronLeft className="h-8 w-8" />
+        <ChevronLeft aria-hidden="true" className="h-8 w-8" />
       </Button>
       <Button
         variant="ghost"
         size="icon"
         onClick={handleNextPage}
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+        aria-label="Next page"
+        role="button"
+        className="flipbook-button absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white hover:text-white border-none transition-all duration-300"
       >
-        <ChevronRight className="h-8 w-8" />
+        <ChevronRight aria-hidden="true" className="h-8 w-8" />
       </Button>
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
@@ -327,6 +351,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           totalPages={totalPages}
           currentPage={currentPage + 1}
           goToPage={goToPage}
+          aria-label="Page navigation"
         />
       </div>
 
@@ -335,17 +360,21 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           variant="ghost"
           size="icon"
           onClick={zoomIn}
-          className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+          aria-label="Zoom in"
+          role="button"
+          className="flipbook-button bg-transparent hover:bg-white/10 text-white hover:text-white border-none transition-all duration-300"
         >
-          <Plus className="h-8 w-8" />
+          <Plus aria-hidden="true" className="h-8 w-8" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
           onClick={zoomOut}
-          className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+          aria-label="Zoom out"
+          role="button"
+          className="flipbook-button bg-transparent hover:bg-white/10 text-white hover:text-white border-none transition-all duration-300"
         >
-          <Minus className="h-8 w-8" />
+          <Minus aria-hidden="true" className="h-8 w-8" />
         </Button>
       </div>
     </div>

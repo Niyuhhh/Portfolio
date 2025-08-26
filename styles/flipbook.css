@@ -1,0 +1,30 @@
+.flipbook-container {
+  height: 100vh;
+}
+
+.flipbook-button {
+  width: 4rem;
+  height: 4rem;
+}
+
+.flipbook-button svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+@media (max-width: 640px) {
+  .flipbook-container {
+    padding: 1rem;
+    height: auto;
+  }
+
+  .flipbook-button {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .flipbook-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
