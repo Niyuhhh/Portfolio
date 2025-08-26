@@ -34,8 +34,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 420
-  const PAGE_HEIGHT = 594
+  const PAGE_WIDTH = 420 * 1.1
+  const PAGE_HEIGHT = 594 * 1.1
   const pageWidth = PAGE_WIDTH * scale
   const pageHeight = PAGE_HEIGHT * scale
   const bookEdge = pageWidth / 2
