@@ -5,11 +5,16 @@ import { cn } from "@/lib/utils"
 import { useHighlightButtons } from "./highlight-buttons-context"
 import type { ComponentProps } from "react"
 
-export function BookButton({ className, ...props }: ComponentProps<typeof Button>) {
+export function BookButton({
+  className,
+  disabled,
+  ...props
+}: ComponentProps<typeof Button>) {
   const highlightButtons = useHighlightButtons()
   return (
     <Button
       className={cn(className, highlightButtons && "grayscale pointer-events-none")}
+      disabled={disabled || highlightButtons}
       {...props}
     />
   )
