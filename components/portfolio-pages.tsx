@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import fs from "fs"
 import path from "path"
+import { useEffect, useId, type ComponentProps } from "react"
 
 const readDataUri = (file: string) =>
   fs.readFileSync(path.join(process.cwd(), "public/images", file), "utf8")
@@ -32,6 +33,23 @@ const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
     <Image src={src} {...props} />
   </>
 )
+
+const BookPageButton = ({
+  className,
+  ...props
+}: ComponentProps<typeof Button>) => {
+  const id = useId()
+
+  useEffect(() => {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.classList.add("book-button-highlight")
+    const remove = () => el.classList.remove("book-button-highlight")
+    el.addEventListener("animationend", remove, { once: true })
+  }, [id])
+
+  return <Button id={id} className={className} {...props} />
+}
 
 const bjornChapterPages = [
   { id: 10, content: <div className="w-full h-full bg-white" /> },
@@ -70,12 +88,12 @@ const bjornChapterPages = [
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button
+          <BookPageButton
             variant="outline"
-              className="absolute bottom-30 left-[51%] z-10 -translate-x-1/2 rounded-none border border-[#1C1C1C] bg-white px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
+            className="absolute bottom-30 left-[51%] z-10 -translate-x-1/2 rounded-none border border-[#1C1C1C] bg-white px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
           >
             visiter le site
-          </Button>
+          </BookPageButton>
         </Link>
       </div>
     ),
