@@ -216,12 +216,17 @@
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    background-color: white;
+  }
+  50% {
+    background-color: #f0f0f0;
   }
   70% {
     box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
   }
   100% {
     box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    background-color: white;
   }
 }
 
