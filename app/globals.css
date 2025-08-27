@@ -213,24 +213,27 @@
 }
 
 /* Blue pulse animation for clickable book buttons */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-  }
+@keyframes blue-pulse {
+  0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    background-color: white;
+  }
+  50% {
+    background-color: #3b82f6;
   }
 }
 
 .book-clickable {
-  animation: pulse 2s ease-in-out 3;
+  animation: blue-pulse 2s ease-in-out 3;
   background: white;
   color: black;
   border: 1px solid black;
   transition: background-color 0.2s, filter 0.2s;
+}
+
+.book-clickable:hover,
+.book-clickable:active {
+  animation: none;
 }
 
 .book-clickable:hover {
