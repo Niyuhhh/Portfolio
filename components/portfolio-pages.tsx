@@ -69,6 +69,7 @@ const bjornChapterPages = [
           href="https://www.figma.com/proto/NITAGZXbWhIXvS86y4oytS/Site-Web-MBAT?page-id=0%3A1&node-id=176-9725&viewport=777%2C-291%2C0.31&t=QTx62eY5jD6B6o68-8&scaling=scale-down-width&content-scaling=fixed&hide-ui=1"
           target="_blank"
           rel="noopener noreferrer"
+          className="clickable-effect"
         >
           <Button
             variant="outline"
