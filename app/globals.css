@@ -233,7 +233,7 @@
 
 .book-clickable:hover,
 .book-clickable:active {
-  animation: none;
+  animation-play-state: paused;
 }
 
 .book-clickable:hover {
