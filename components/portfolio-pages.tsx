@@ -72,7 +72,7 @@ const bjornChapterPages = [
         >
           <Button
             variant="outline"
-            className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2 rounded-none border border-gray-400 bg-white px-8 py-3 font-sora text-xs text-gray-700 hover:bg-gray-100"
+            className="absolute bottom-20 left-[55%] z-10 -translate-x-1/2 rounded-none border border-gray-400 bg-white px-8 py-3 font-sora text-xs text-gray-700 hover:bg-gray-100"
           >
             visiter le site
           </Button>
