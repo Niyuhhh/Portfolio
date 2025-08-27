@@ -219,7 +219,7 @@
     background-color: white;
   }
   50% {
-    background-color: #3b82f6;
+    background-color: rgba(59,130,246,0.4);
   }
 }
 
