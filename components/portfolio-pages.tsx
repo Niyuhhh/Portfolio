@@ -1,7 +1,7 @@
 import Head from "next/head"
 import Image, { type ImageProps } from "next/image"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { BookButton } from "@/components/book-button"
 import fs from "fs"
 import path from "path"
 
@@ -70,12 +70,12 @@ const bjornChapterPages = [
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button
-            variant="outline"
+            <BookButton
+              variant="outline"
               className="absolute bottom-30 left-[51%] z-10 -translate-x-1/2 rounded-none border border-[#1C1C1C] bg-white px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
-          >
-            visiter le site
-          </Button>
+            >
+              visiter le site
+            </BookButton>
         </Link>
       </div>
     ),

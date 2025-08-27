@@ -4,9 +4,10 @@ import type React from "react"
 import { useState, useRef, useEffect, useCallback } from "react"
 import { Plus, Minus, ChevronLeft, ChevronRight } from "lucide-react"
 import dynamic from "next/dynamic"
-import { Button } from "@/components/ui/button"
 import { Pagination } from "@/components/ui/pagination"
 import { FullScreenButton } from "@/components/fullscreen-button"
+import { BookButton } from "@/components/book-button"
+import { HighlightButtonsContext } from "./highlight-buttons-context"
 import type { default as FlipBook } from "react-pageflip"
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
@@ -34,6 +35,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const [translate, setTranslate] = useState(INITIAL_POS)
   const [isDragging, setIsDragging] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
+  const [highlightButtons, setHighlightButtons] = useState(true)
 
   const totalPages = pages.length
   const PAGE_WIDTH = 500
@@ -184,6 +186,12 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     }
   }, [handleWheel])
 
+  useEffect(() => {
+    setHighlightButtons(true)
+    const timeout = setTimeout(() => setHighlightButtons(false), 2000)
+    return () => clearTimeout(timeout)
+  }, [currentPage])
+
   // Handle touch gestures for mobile
   useEffect(() => {
     const container = containerRef.current
@@ -258,18 +266,19 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   }, [scale, zoomAtPoint])
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center p-4"
-      style={{ backgroundColor: "#0E0E0E" }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={endDragging}
-      onMouseLeave={endDragging}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={endDragging}
-    >
+    <HighlightButtonsContext.Provider value={highlightButtons}>
+      <div
+        ref={containerRef}
+        className="relative w-full h-screen overflow-hidden flex items-center justify-center p-4"
+        style={{ backgroundColor: "#0E0E0E" }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={endDragging}
+        onMouseLeave={endDragging}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={endDragging}
+      >
       <HTMLFlipBook
         width={pageWidth}
         height={pageHeight}
@@ -311,22 +320,22 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         })}
       </HTMLFlipBook>
 
-      <Button
+      <BookButton
         variant="ghost"
         size="icon"
         onClick={handlePrevPage}
         className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
       >
         <ChevronLeft className="h-8 w-8" />
-      </Button>
-      <Button
+      </BookButton>
+      <BookButton
         variant="ghost"
         size="icon"
         onClick={handleNextPage}
         className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
       >
         <ChevronRight className="h-8 w-8" />
-      </Button>
+      </BookButton>
 
       <div className="absolute bottom-4 left-4">
         <Pagination
@@ -338,23 +347,24 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
       <div className="absolute bottom-4 right-4 flex flex-col gap-2 items-end">
         <FullScreenButton />
-        <Button
+        <BookButton
           variant="ghost"
           size="icon"
           onClick={zoomIn}
           className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
         >
           <Plus className="h-8 w-8" />
-        </Button>
-        <Button
+        </BookButton>
+        <BookButton
           variant="ghost"
           size="icon"
           onClick={zoomOut}
           className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
         >
           <Minus className="h-8 w-8" />
-        </Button>
+        </BookButton>
       </div>
-    </div>
+      </div>
+    </HighlightButtonsContext.Provider>
   )
 }

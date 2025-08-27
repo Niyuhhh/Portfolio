@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Maximize2, Minimize2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { BookButton } from "@/components/book-button"
 
 export function FullScreenButton() {
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -22,7 +22,7 @@ export function FullScreenButton() {
   }
 
   return (
-    <Button
+    <BookButton
       variant="ghost"
       size="icon"
       onClick={toggleFullscreen}
@@ -33,7 +33,7 @@ export function FullScreenButton() {
       ) : (
         <Maximize2 className="h-8 w-8" />
       )}
-    </Button>
+    </BookButton>
   )
 }
 
