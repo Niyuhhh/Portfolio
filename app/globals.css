@@ -216,15 +216,19 @@
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    background-color: #ffffff;
   }
   70% {
     box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    background-color: #f3f4f6;
   }
   100% {
     box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    background-color: #ffffff;
   }
 }
 
 .book-clickable {
+  background-color: #ffffff;
   animation: pulse 2s ease-in-out 3;
 }

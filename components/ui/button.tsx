@@ -28,7 +28,7 @@ const buttonVariants = cva(
         icon: "size-9",
       },
       highlight: {
-        true: "book-clickable",
+        true: "book-clickable bg-white",
         false: "",
       },
     },
@@ -56,7 +56,7 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, highlight, className }))}
+      className={cn(buttonVariants({ variant, size, highlight }), className)}
       {...props}
     />
   )

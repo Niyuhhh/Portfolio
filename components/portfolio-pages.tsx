@@ -70,13 +70,13 @@ const bjornChapterPages = [
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button
-            variant="outline"
-            highlight
-            className="absolute bottom-30 left-[51%] z-10 -translate-x-1/2 rounded-none border border-[#1C1C1C] bg-white px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
-          >
-            visiter le site
-          </Button>
+            <Button
+              variant="outline"
+              highlight
+              className="absolute bottom-30 left-[51%] z-10 -translate-x-1/2 rounded-none border border-[#1C1C1C] px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
+            >
+              visiter le site
+            </Button>
         </Link>
       </div>
     ),
