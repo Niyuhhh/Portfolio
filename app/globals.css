@@ -227,4 +227,21 @@
 
 .book-clickable {
   animation: pulse 2s ease-in-out 3;
+  background: white;
+  color: black;
+  border: 1px solid black;
+  transition: background-color 0.2s, filter 0.2s;
+}
+
+.book-clickable:hover {
+  background: black;
+  color: white;
+}
+
+.book-clickable:active {
+  filter: brightness(0.85);
+}
+
+.book-clickable:hover:active {
+  filter: brightness(1.15);
 }
