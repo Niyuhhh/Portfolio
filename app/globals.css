@@ -239,9 +239,9 @@
 }
 
 .book-clickable:active {
-  filter: brightness(0.85);
+  filter: contrast(1.15);
 }
 
 .book-clickable:hover:active {
-  filter: brightness(1.15);
+  filter: contrast(0.85);
 }
