@@ -15,6 +15,14 @@ const page8 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123459/PAGE_8_kvkts2.png"
 const page9 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123454/PAGE_9_ywcjcm.png"
+const page10 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230026/PORTFOLIO_PAGE_10_fzdgem.png"
+const page11 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230030/PORTFOLIO_PAGE_11_hrn5b0.png"
+const page12 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230036/PORTFOLIO_PAGE_12_yre8mu.png"
+const page13 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230035/PORTFOLIO_PAGE_13_ddicyv.png"
 const page16 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230040/PORTFOLIO_PAGE_16_nodtmh.png"
 const page17 =
@@ -34,10 +42,62 @@ const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
 )
 
 const bjornChapterPages = [
-  { id: 10, content: <div className="w-full h-full bg-white" /> },
-  { id: 11, content: <div className="w-full h-full bg-white" /> },
-  { id: 12, content: <div className="w-full h-full bg-white" /> },
-  { id: 13, content: <div className="w-full h-full bg-white" /> },
+  {
+    id: 10,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page10}
+          alt="Portfolio Page 10"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 11,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page11}
+          alt="Portfolio Page 11"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 12,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page12}
+          alt="Portfolio Page 12"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 13,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page13}
+          alt="Portfolio Page 13"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
   { id: 14, content: <div className="w-full h-full bg-white" /> },
   { id: 15, content: <div className="w-full h-full bg-white" /> },
   {
