@@ -35,6 +35,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${montserrat.variable} ${openSans.variable} ${sora.variable} antialiased`}>
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230026/PORTFOLIO_PAGE_10_fzdgem.png"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230030/PORTFOLIO_PAGE_11_hrn5b0.png"
+        />
+      </head>
       <body className="font-sans">{children}</body>
     </html>
   )

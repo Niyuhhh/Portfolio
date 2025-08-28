@@ -1,4 +1,3 @@
-import Head from "next/head"
 import Image, { type ImageProps } from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -37,12 +36,7 @@ interface PreloadImageProps extends Omit<ImageProps, "src"> {
 }
 
 const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
-  <>
-    <Head>
-      <link rel="preload" as="image" href={src} />
-    </Head>
-    <Image src={src} {...props} />
-  </>
+  <Image src={src} {...props} />
 )
 
 const bjornChapterPages = [
@@ -223,7 +217,7 @@ export const portfolioPages = [
           fill
           className="object-cover"
           unoptimized
-          loading="eager"
+          priority
         />
       </div>
     ),
@@ -239,6 +233,7 @@ export const portfolioPages = [
           fill
           className="object-cover"
           unoptimized
+          priority
         />
       </div>
     ),
@@ -248,7 +243,7 @@ export const portfolioPages = [
     id: 8,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage src={page8} alt="Page 8" fill className="object-cover" unoptimized />
+        <PreloadImage src={page8} alt="Page 8" fill className="object-cover" unoptimized priority />
       </div>
     ),
   },
@@ -257,7 +252,7 @@ export const portfolioPages = [
     id: 9,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage src={page9} alt="Page 9" fill className="object-cover" unoptimized />
+        <PreloadImage src={page9} alt="Page 9" fill className="object-cover" unoptimized priority />
       </div>
     ),
   },
