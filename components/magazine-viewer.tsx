@@ -257,6 +257,15 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     }
   }, [scale, zoomAtPoint])
 
+  useEffect(() => {
+    const buttons = document.querySelectorAll(".book-clickable")
+    buttons.forEach((btn) => btn.classList.remove("pulse-active"))
+
+    if (currentPage + 1 === 17) {
+      buttons.forEach((btn) => btn.classList.add("pulse-active"))
+    }
+  }, [currentPage])
+
   return (
     <div
       ref={containerRef}

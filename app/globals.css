@@ -224,11 +224,14 @@
 }
 
 .book-clickable {
-  animation: blue-pulse 2s ease-in-out 2;
   background: white;
   color: black;
   border: 1px solid black;
   transition: background-color 0.2s, filter 0.2s;
+}
+
+.pulse-active {
+  animation: blue-pulse 2s ease-in-out 2;
 }
 
 .book-clickable:hover {
