@@ -327,7 +327,7 @@ export const portfolioPages = [
               className="absolute left-[11%] bottom-[6.7%] w-[39.9%] h-[42.5%] flex items-center justify-center bg-transparent"
               aria-label="Play video"
             >
-              <PlayIcon className="w-12 h-12 text-white" />
+              <PlayIcon className="w-12 h-12 text-white stroke-[1.5]" />
             </button>
           }
         />
