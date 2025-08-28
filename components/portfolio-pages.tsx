@@ -324,7 +324,7 @@ export const portfolioPages = [
         <VideoModal
           trigger={
             <button
-              className="absolute left-[11%] bottom-[6.7%] w-[39.9%] h-[42.5%] flex items-center justify-center bg-transparent hover:bg-black/20 transition-colors"
+              className="book-clickable absolute left-[11%] bottom-[6.7%] w-[39.9%] h-[42.5%] flex items-center justify-center bg-transparent hover:bg-black/20 transition-colors"
               aria-label="Play video"
             >
               <PlayIcon className="w-12 h-12 text-white" />
