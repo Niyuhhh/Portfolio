@@ -274,10 +274,10 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         width={pageWidth}
         height={pageHeight}
         showCover
-        maxShadowOpacity={0.2}
-        drawShadow
+        maxShadowOpacity={scale <= OPEN_SCALE ? 0.2 : 0}
+        drawShadow={scale <= OPEN_SCALE}
         flippingTime={FLIP_DURATION}
-        showPageCorners
+        showPageCorners={scale <= OPEN_SCALE}
         disableFlipByClick
         swipeDistance={30}
         className="shadow-md flipbook"
