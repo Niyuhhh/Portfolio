@@ -11,7 +11,7 @@ export function VideoModal({ trigger }: VideoModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-w-6xl w-full p-0" showCloseButton>
+      <DialogContent className="sm:max-w-screen-xl w-full p-0" showCloseButton>
         <div className="aspect-video w-full">
           <iframe
             src="https://www.youtube.com/embed/WOCJAxqM7uU?autoplay=1"
