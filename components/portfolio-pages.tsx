@@ -30,6 +30,26 @@ const page16 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230040/PORTFOLIO_PAGE_16_nodtmh.png"
 const page17 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230034/PORTFOLIO_PAGE_17_tedncj.png"
+const page21 =
+  "https://via.placeholder.com/500x710?text=Page+21"
+const page22 =
+  "https://via.placeholder.com/500x710?text=Page+22"
+const page23 =
+  "https://via.placeholder.com/500x710?text=Page+23"
+const page24 =
+  "https://via.placeholder.com/500x710?text=Page+24"
+const page25 =
+  "https://via.placeholder.com/500x710?text=Page+25"
+const page26 =
+  "https://via.placeholder.com/500x710?text=Page+26"
+const page27 =
+  "https://via.placeholder.com/500x710?text=Page+27"
+const page28 =
+  "https://via.placeholder.com/500x710?text=Page+28"
+const page29 =
+  "https://via.placeholder.com/500x710?text=Page+29"
+const page30 =
+  "https://via.placeholder.com/500x710?text=Page+30"
 
 interface PreloadImageProps extends Omit<ImageProps, "src"> {
   src: string
@@ -259,9 +279,149 @@ export const portfolioPages = [
 
   ...bjornChapterPages,
 
-  // Contact Page (Single - Last page)
+  // Contact Page (Single)
   {
     id: 20,
     content: <div className="w-full h-full bg-white" />,
+  },
+  {
+    id: 21,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page21}
+          alt="Portfolio Page 21"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 22,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page22}
+          alt="Portfolio Page 22"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 23,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page23}
+          alt="Portfolio Page 23"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 24,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page24}
+          alt="Portfolio Page 24"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 25,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page25}
+          alt="Portfolio Page 25"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 26,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page26}
+          alt="Portfolio Page 26"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 27,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page27}
+          alt="Portfolio Page 27"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 28,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page28}
+          alt="Portfolio Page 28"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 29,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page29}
+          alt="Portfolio Page 29"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 30,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page30}
+          alt="Portfolio Page 30"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
   },
 ]

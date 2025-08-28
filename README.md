@@ -1,6 +1,6 @@
 # Portfolio
 
-Ce portfolio comprend désormais un chapitre supplémentaire de dix pages détaillant le processus de conception du projet Björn. La table des matières et la pagination ont été mises à jour pour refléter cette extension.
+Ce portfolio comprend désormais un chapitre supplémentaire de dix pages détaillant le processus de conception du projet Björn, portant le total à 30 pages. La table des matières et la pagination ont été mises à jour pour refléter cette extension.
 
 ## Pagination with Jump
 
@@ -25,7 +25,7 @@ function Example() {
         </PaginationItem>
         <PaginationItem>
           <PaginationJump
-            totalPages={20}
+            totalPages={30}
             onPageChange={(page) => console.log("Go to", page)}
           />
         </PaginationItem>
