@@ -74,8 +74,9 @@ const bjornChapterPages = [
             variant="outline"
             highlight
             className="absolute bottom-30 left-[51%] z-10 -translate-x-1/2 rounded-none border border-[#1C1C1C] bg-white px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
+            aria-label="Visiter le site"
           >
-            visiter le site
+            Visiter le site
           </Button>
         </Link>
       </div>
