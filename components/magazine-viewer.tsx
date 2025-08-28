@@ -70,26 +70,35 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         return
       }
 
+      const container = containerRef.current
+      const rect = container?.getBoundingClientRect()
+      const baseX = rect ? (rect.width - pageWidth) / 2 : 0
+      const baseY = rect ? (rect.height - pageHeight) / 2 : 0
+
       const currentMatrix = new DOMMatrix()
-        .translate(offsetX + translate.x, translate.y)
+        .translate(baseX + offsetX + translate.x, baseY + translate.y)
         .scale(scale)
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
       const newPageWidth = PAGE_WIDTH * newScale
+      const newPageHeight = PAGE_HEIGHT * newScale
       const offsetXNew =
         currentPage === 0
           ? -newPageWidth / 2
           : currentPage === totalPages - 1
           ? newPageWidth / 2
           : 0
+      const baseXNew = rect ? (rect.width - newPageWidth) / 2 : 0
+      const baseYNew = rect ? (rect.height - newPageHeight) / 2 : 0
 
-      const newTranslateX = point.x - offsetXNew - bookPoint.x * newScale
-      const newTranslateY = point.y - bookPoint.y * newScale
+      const newTranslateX =
+        point.x - (baseXNew + offsetXNew) - bookPoint.x * newScale
+      const newTranslateY = point.y - baseYNew - bookPoint.y * newScale
 
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate]
+    [currentPage, totalPages, offsetX, scale, translate, pageWidth, pageHeight]
   )
 
   const zoom = (delta: number) => {
