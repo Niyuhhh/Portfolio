@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import fs from "fs"
 import path from "path"
+import Page21Video from "./page21-video"
 
 const readDataUri = (file: string) =>
   fs.readFileSync(path.join(process.cwd(), "public/images", file), "utf8")
@@ -310,17 +311,7 @@ export const portfolioPages = [
   },
   {
     id: 21,
-    content: (
-      <div className="relative w-full h-full">
-        <PreloadImage
-          src={page21}
-          alt="Portfolio Page 21"
-          fill
-          className="object-cover"
-          unoptimized
-        />
-      </div>
-    ),
+    content: <Page21Video imageSrc={page21} alt="Portfolio Page 21" />,
   },
   { id: 22, content: <div className="w-full h-full bg-white" /> },
   { id: 23, content: <div className="w-full h-full bg-white" /> },
