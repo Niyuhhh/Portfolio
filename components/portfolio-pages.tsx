@@ -30,6 +30,12 @@ const page16 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230040/PORTFOLIO_PAGE_16_nodtmh.png"
 const page17 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230034/PORTFOLIO_PAGE_17_tedncj.png"
+const page18 =
+  "https://via.placeholder.com/500x710?text=Page+18"
+const page19 =
+  "https://via.placeholder.com/500x710?text=Page+19"
+const page20 =
+  "https://via.placeholder.com/500x710?text=Page+20"
 const page21 =
   "https://via.placeholder.com/500x710?text=Page+21"
 const page22 =
@@ -185,8 +191,34 @@ const bjornChapterPages = [
       </div>
     ),
   },
-  { id: 18, content: <div className="w-full h-full bg-white" /> },
-  { id: 19, content: <div className="w-full h-full bg-white" /> },
+  {
+    id: 18,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page18}
+          alt="Portfolio Page 18"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 19,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page19}
+          alt="Portfolio Page 19"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
 ]
 
 export const portfolioPages = [
@@ -282,7 +314,17 @@ export const portfolioPages = [
   // Contact Page (Single)
   {
     id: 20,
-    content: <div className="w-full h-full bg-white" />,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page20}
+          alt="Portfolio Page 20"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
   },
   {
     id: 21,
