@@ -48,17 +48,17 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       ? pageWidth / 2
       : 0
 
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(() => {
     bookRef.current?.pageFlip()?.flipNext()
-  }
+  }, [])
 
-  const handlePrevPage = () => {
+  const handlePrevPage = useCallback(() => {
     bookRef.current?.pageFlip()?.flipPrev()
-  }
+  }, [])
 
-  const goToPage = (page: number) => {
+  const goToPage = useCallback((page: number) => {
     bookRef.current?.pageFlip()?.flip(page - 1)
-  }
+  }, [])
 
   const zoomAtPoint = useCallback(
     (point: DOMPoint, targetScale: number) => {
@@ -164,13 +164,14 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
+      if (scale > OPEN_SCALE) return
       if (e.key === "ArrowRight") handleNextPage()
       if (e.key === "ArrowLeft") handlePrevPage()
     }
 
     window.addEventListener("keydown", handleKeyPress)
     return () => window.removeEventListener("keydown", handleKeyPress)
-  }, [])
+  }, [scale, handleNextPage, handlePrevPage])
 
   // Handle mouse wheel for zooming
   useEffect(() => {
@@ -199,6 +200,15 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY)
 
     const handleTouchStart = (e: TouchEvent) => {
+      if (scale > OPEN_SCALE) {
+        if (e.touches.length === 2) {
+          e.preventDefault()
+          isPinching = true
+          startDistance = getDistance(e.touches[0], e.touches[1])
+          initialScale = scale
+        }
+        return
+      }
       if (e.touches.length === 1) {
         startX = e.touches[0].clientX
         startY = e.touches[0].clientY
@@ -230,6 +240,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         isPinching = false
         return
       }
+
+      if (scale > OPEN_SCALE) return
 
       const endX = e.changedTouches[0].clientX
       const endY = e.changedTouches[0].clientY
@@ -279,7 +291,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         flippingTime={FLIP_DURATION}
         showPageCorners
         disableFlipByClick
-        swipeDistance={30}
+        swipeDistance={scale <= OPEN_SCALE ? 30 : 0}
         className="shadow-md flipbook"
         ref={bookRef}
         onFlip={handleFlip}
