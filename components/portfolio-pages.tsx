@@ -2,6 +2,7 @@ import Image, { type ImageProps } from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { VideoModal } from "@/components/video-modal"
+import { PlayIcon } from "lucide-react"
 import fs from "fs"
 import path from "path"
 
@@ -320,17 +321,19 @@ export const portfolioPages = [
           className="object-cover"
           unoptimized
         />
-          <VideoModal
-            trigger={
-              <button
-                aria-label="Play video"
-                className="absolute left-[11%] bottom-[6.7%] w-[39.9%] h-[42.5%] cursor-pointer bg-transparent"
-              />
-            }
-          />
-        </div>
-      ),
-    },
+        <VideoModal
+          trigger={
+            <button
+              className="absolute left-[11%] bottom-[6.7%] w-[39.9%] h-[42.5%] flex items-center justify-center bg-transparent"
+              aria-label="Play video"
+            >
+              <PlayIcon className="w-12 h-12 text-white" />
+            </button>
+          }
+        />
+      </div>
+    ),
+  },
   { id: 22, content: <div className="w-full h-full bg-white" /> },
   { id: 23, content: <div className="w-full h-full bg-white" /> },
   { id: 24, content: <div className="w-full h-full bg-white" /> },
