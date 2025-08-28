@@ -67,15 +67,15 @@ const bjornChapterPages = [
         />
         <Link
           href="https://www.figma.com/proto/NITAGZXbWhIXvS86y4oytS/Site-Web-MBAT?page-id=0%3A1&node-id=176-9725&viewport=777%2C-291%2C0.31&t=QTx62eY5jD6B6o68-8&scaling=scale-down-width&content-scaling=fixed&hide-ui=1"
-          target="_blank"
-          rel="noopener noreferrer"
+          passHref
         >
           <Button
+            asChild
             variant="outline"
             highlight
             className="absolute bottom-30 left-[51%] z-10 -translate-x-1/2 rounded-none border border-[#1C1C1C] bg-white px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
           >
-            visiter le site
+            <a target="_blank" rel="noopener noreferrer">visiter le site</a>
           </Button>
         </Link>
       </div>
