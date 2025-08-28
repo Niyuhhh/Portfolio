@@ -231,11 +231,6 @@
   transition: background-color 0.2s, filter 0.2s;
 }
 
-.book-clickable:hover,
-.book-clickable:active {
-  animation: none;
-}
-
 .book-clickable:hover {
   background: black;
   color: white;
