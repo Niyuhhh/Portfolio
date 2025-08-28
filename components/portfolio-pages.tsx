@@ -2,7 +2,6 @@ import Image, { type ImageProps } from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { VideoModal } from "@/components/video-modal"
-import { PlayIcon } from "lucide-react"
 import fs from "fs"
 import path from "path"
 
@@ -327,7 +326,12 @@ export const portfolioPages = [
               className="absolute left-[11%] bottom-[6.7%] w-[39.9%] h-[42.5%] flex items-center justify-center bg-transparent hover:bg-black/20 transition-colors"
               aria-label="Play video"
             >
-              <PlayIcon className="w-12 h-12 text-white" />
+              <svg
+                viewBox="0 0 24 24"
+                className="w-12 h-12 text-white"
+              >
+                <polygon points="0,0 24,12 0,24" fill="currentColor" />
+              </svg>
             </button>
           }
         />
