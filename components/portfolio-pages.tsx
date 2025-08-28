@@ -1,6 +1,7 @@
 import Image, { type ImageProps } from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { VideoModal } from "@/components/video-modal"
 import fs from "fs"
 import path from "path"
 
@@ -319,9 +320,17 @@ export const portfolioPages = [
           className="object-cover"
           unoptimized
         />
-      </div>
-    ),
-  },
+          <VideoModal
+            trigger={
+              <button
+                aria-label="Play video"
+                className="absolute left-[11%] bottom-[6.7%] w-[39.9%] h-[42.5%] cursor-pointer bg-transparent"
+              />
+            }
+          />
+        </div>
+      ),
+    },
   { id: 22, content: <div className="w-full h-full bg-white" /> },
   { id: 23, content: <div className="w-full h-full bg-white" /> },
   { id: 24, content: <div className="w-full h-full bg-white" /> },
