@@ -212,19 +212,19 @@
   transition-delay: 0.1s;
 }
 
-/* Blue pulse animation for clickable book buttons */
-@keyframes blue-pulse {
+/* Orange pulse animation for clickable book buttons */
+@keyframes orange-pulse {
   0%,
   100% {
     background-color: white;
   }
   50% {
-    background-color: rgba(59,130,246,0.4);
+    background-color: rgba(255,165,0,0.3);
   }
 }
 
 .book-clickable {
-  animation: blue-pulse 2s ease-in-out 2;
+  animation: orange-pulse 2s ease-in-out 2;
   background: white;
   color: black;
   border: 1px solid black;
