@@ -23,6 +23,10 @@ const page12 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230036/PORTFOLIO_PAGE_12_yre8mu.png"
 const page13 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230035/PORTFOLIO_PAGE_13_ddicyv.png"
+const page14 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230036/PORTFOLIO_PAGE_14_jh7zws.png"
+const page15 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230040/PORTFOLIO_PAGE_15_tairwx.png"
 const page16 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230040/PORTFOLIO_PAGE_16_nodtmh.png"
 const page17 =
@@ -98,8 +102,34 @@ const bjornChapterPages = [
       </div>
     ),
   },
-  { id: 14, content: <div className="w-full h-full bg-white" /> },
-  { id: 15, content: <div className="w-full h-full bg-white" /> },
+  {
+    id: 14,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page14}
+          alt="Portfolio Page 14"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
+  {
+    id: 15,
+    content: (
+      <div className="relative w-full h-full">
+        <PreloadImage
+          src={page15}
+          alt="Portfolio Page 15"
+          fill
+          className="object-cover"
+          unoptimized
+        />
+      </div>
+    ),
+  },
   {
     id: 16,
     content: (
