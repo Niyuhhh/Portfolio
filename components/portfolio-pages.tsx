@@ -357,3 +357,23 @@ export const portfolioPages = [
   { id: 29, content: <div className="w-full h-full bg-white" /> },
   { id: 30, content: <div className="w-full h-full bg-white" /> },
 ]
+
+export const portfolioImageUrls = [
+  portfolioCover,
+  page6,
+  page7,
+  page8,
+  page9,
+  page10,
+  page11,
+  page12,
+  page13,
+  page14,
+  page15,
+  page16,
+  page17,
+  page18,
+  page19,
+  page20,
+  page21,
+]
