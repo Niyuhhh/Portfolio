@@ -304,7 +304,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         showPageCorners
         disableFlipByClick
         swipeDistance={30}
-        className="shadow-md flipbook"
+        className="shadow-md flipbook my-8"
         ref={bookRef}
         onFlip={handleFlip}
         style={{
