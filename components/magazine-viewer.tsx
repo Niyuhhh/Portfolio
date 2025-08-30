@@ -36,17 +36,26 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 500
-  const PAGE_HEIGHT = 710
-  const pageWidth = PAGE_WIDTH * scale
-  const pageHeight = PAGE_HEIGHT * scale
-  const bookEdge = pageWidth / 2
+  const [baseWidth, setBaseWidth] = useState(500)
+  const [baseHeight, setBaseHeight] = useState(710)
+  const pageWidth = baseWidth * scale
+  const pageHeight = baseHeight * scale
   const offsetX =
     currentPage === 0
       ? -pageWidth / 2
       : currentPage === totalPages - 1
       ? pageWidth / 2
       : 0
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      setBaseWidth(Math.min(window.innerWidth * 0.9, 900))
+      setBaseHeight(Math.min(window.innerHeight * 0.9, 1280))
+    }
+    updateDimensions()
+    window.addEventListener("resize", updateDimensions)
+    return () => window.removeEventListener("resize", updateDimensions)
+  }, [])
 
   const handleNextPage = () => {
     bookRef.current?.pageFlip()?.flipNext()
@@ -75,7 +84,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         .scale(scale)
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
-      const newPageWidth = PAGE_WIDTH * newScale
+      const newPageWidth = baseWidth * newScale
       const offsetXNew =
         currentPage === 0
           ? -newPageWidth / 2
@@ -89,7 +98,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate]
+    [currentPage, totalPages, offsetX, scale, translate, baseWidth]
   )
 
   const zoom = (delta: number) => {
@@ -287,6 +296,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
           transition: isDragging ? "none" : "transform 0.3s ease",
           transformOrigin: "0 0",
+          maxWidth: "100%",
+          height: "auto",
           ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
         }}
       >
