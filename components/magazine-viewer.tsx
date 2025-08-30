@@ -48,6 +48,34 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       ? pageWidth / 2
       : 0
 
+  const getBoundedTranslate = useCallback(
+    (
+      x: number,
+      y: number,
+      scaleValue: number = scale,
+      offsetXValue: number = offsetX,
+    ) => {
+      const container = containerRef.current
+      if (!container) return { x, y }
+
+      const containerWidth = container.clientWidth
+      const containerHeight = container.clientHeight
+      const scaledPageWidth = PAGE_WIDTH * scaleValue
+      const scaledPageHeight = PAGE_HEIGHT * scaleValue
+
+      const minX = containerWidth - scaledPageWidth - offsetXValue
+      const maxX = -offsetXValue
+      const minY = containerHeight - scaledPageHeight
+      const maxY = 0
+
+      return {
+        x: Math.min(Math.max(x, minX), maxX),
+        y: Math.min(Math.max(y, minY), maxY),
+      }
+    },
+    [scale, offsetX],
+  )
+
   const handleNextPage = () => {
     bookRef.current?.pageFlip()?.flipNext()
   }
@@ -86,10 +114,16 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       const newTranslateX = point.x - offsetXNew - bookPoint.x * newScale
       const newTranslateY = point.y - bookPoint.y * newScale
 
-      setTranslate({ x: newTranslateX, y: newTranslateY })
+      const bounded = getBoundedTranslate(
+        newTranslateX,
+        newTranslateY,
+        newScale,
+        offsetXNew,
+      )
+      setTranslate(bounded)
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate]
+    [currentPage, totalPages, offsetX, scale, translate, getBoundedTranslate]
   )
 
   const zoom = (delta: number) => {
@@ -144,7 +178,9 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     if (!isDragging) return
     const dx = e.clientX - lastPointer.current.x
     const dy = e.clientY - lastPointer.current.y
-    setTranslate((prev) => ({ x: prev.x + dx, y: prev.y + dy }))
+    setTranslate((prev) =>
+      getBoundedTranslate(prev.x + dx, prev.y + dy),
+    )
     lastPointer.current = { x: e.clientX, y: e.clientY }
   }
 
@@ -153,7 +189,9 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     const touch = e.touches[0]
     const dx = touch.clientX - lastPointer.current.x
     const dy = touch.clientY - lastPointer.current.y
-    setTranslate((prev) => ({ x: prev.x + dx, y: prev.y + dy }))
+    setTranslate((prev) =>
+      getBoundedTranslate(prev.x + dx, prev.y + dy),
+    )
     lastPointer.current = { x: touch.clientX, y: touch.clientY }
   }
 
