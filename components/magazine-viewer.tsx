@@ -15,6 +15,9 @@ const CLOSED_SCALE = 1
 const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
+// Default page dimensions in pixels
+const PAGE_WIDTH = 500
+const PAGE_HEIGHT = 710
 
 interface Page {
   id: number
@@ -24,9 +27,23 @@ interface Page {
 
 interface MagazineViewerProps {
   pages: Page[]
+  /**
+   * Intrinsic width of a single page in pixels. When omitted, the component
+   * attempts to infer the value from the first page's content.
+   */
+  pageWidth?: number
+  /**
+   * Intrinsic height of a single page in pixels. When omitted, the component
+   * attempts to infer the value from the first page's content.
+   */
+  pageHeight?: number
 }
 
-export function MagazineViewer({ pages }: MagazineViewerProps) {
+export function MagazineViewer({
+  pages,
+  pageWidth,
+  pageHeight,
+}: MagazineViewerProps) {
   const bookRef = useRef<FlipBook | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [currentPage, setCurrentPage] = useState(0)
@@ -36,15 +53,25 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_RATIO = 500 / 710
-  const [{ width, height }, setPageSize] = useState({ width: 500, height: 710 })
-  const pageWidth = width * scale
-  const pageHeight = height * scale
+  // PAGE_WIDTH and PAGE_HEIGHT define the default size of a single page. The
+  // component uses these values to maintain the aspect ratio unless explicit
+  // dimensions are provided or inferred from the page content.
+  const firstPage = pages[0]?.content as any
+  const inferredWidth =
+    typeof firstPage?.props?.width === "number" ? firstPage.props.width : undefined
+  const inferredHeight =
+    typeof firstPage?.props?.height === "number" ? firstPage.props.height : undefined
+  const baseWidth = pageWidth ?? inferredWidth ?? PAGE_WIDTH
+  const baseHeight = pageHeight ?? inferredHeight ?? PAGE_HEIGHT
+  const PAGE_RATIO = baseWidth / baseHeight // aspect ratio of a single page
+  const [{ width, height }, setPageSize] = useState({ width: baseWidth, height: baseHeight })
+  const scaledPageWidth = width * scale
+  const scaledPageHeight = height * scale
   const offsetX =
     currentPage === 0
-      ? -pageWidth / 2
+      ? -scaledPageWidth / 2
       : currentPage === totalPages - 1
-      ? pageWidth / 2
+      ? scaledPageWidth / 2
       : 0
 
   useEffect(() => {
@@ -118,8 +145,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
   const zoom = (delta: number) => {
     const bookCenter = new DOMPoint(
-      offsetX + translate.x + pageWidth / 2,
-      translate.y + pageHeight / 2
+      offsetX + translate.x + scaledPageWidth / 2,
+      translate.y + scaledPageHeight / 2
     )
     zoomAtPoint(bookCenter, scale + delta)
   }
@@ -295,8 +322,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       onTouchEnd={endDragging}
     >
       <HTMLFlipBook
-        width={pageWidth}
-        height={pageHeight}
+        width={scaledPageWidth}
+        height={scaledPageHeight}
         showCover
         maxShadowOpacity={0.2}
         drawShadow
