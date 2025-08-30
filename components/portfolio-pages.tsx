@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { VideoModal } from "@/components/video-modal"
 import fs from "fs"
 import path from "path"
+import { cn } from "@/lib/utils"
 
 const readDataUri = (file: string) =>
   fs.readFileSync(path.join(process.cwd(), "public/images", file), "utf8")
@@ -40,6 +41,34 @@ const page20 =
 const page21 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756396488/PORTFOLIO_PAGE_21_r9mzqz.png"
 
+const buildSrc = (baseUrl: string, width: number) =>
+  baseUrl.replace("/upload/", `/upload/w_${width}/`)
+
+interface CloudinaryImageProps
+  extends React.ImgHTMLAttributes<HTMLImageElement> {
+  src: string
+}
+
+const CloudinaryImage = ({ src, alt, className, ...props }: CloudinaryImageProps) => {
+  const src1600 = buildSrc(src, 1600)
+  const srcset = [
+    `${buildSrc(src, 800)} 800w`,
+    `${src1600} 1600w`,
+    `${buildSrc(src, 2400)} 2400w`,
+  ].join(", ")
+
+  return (
+    <img
+      src={src1600}
+      srcSet={srcset}
+      sizes="(max-width: 768px) 100vw, (max-width: 1920px) 50vw, 1200px"
+      alt={alt}
+      className={cn("absolute inset-0 h-full w-full object-cover", className)}
+      {...props}
+    />
+  )
+}
+
 interface PreloadImageProps extends Omit<ImageProps, "src"> {
   src: string
 }
@@ -53,13 +82,7 @@ const bjornChapterPages = [
     id: 10,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page10}
-          alt="Portfolio Page 10"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page10} alt="Portfolio Page 10" />
       </div>
     ),
   },
@@ -67,13 +90,7 @@ const bjornChapterPages = [
     id: 11,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page11}
-          alt="Portfolio Page 11"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page11} alt="Portfolio Page 11" />
       </div>
     ),
   },
@@ -81,13 +98,7 @@ const bjornChapterPages = [
     id: 12,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page12}
-          alt="Portfolio Page 12"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page12} alt="Portfolio Page 12" />
       </div>
     ),
   },
@@ -95,13 +106,7 @@ const bjornChapterPages = [
     id: 13,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page13}
-          alt="Portfolio Page 13"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page13} alt="Portfolio Page 13" />
       </div>
     ),
   },
@@ -109,13 +114,7 @@ const bjornChapterPages = [
     id: 14,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page14}
-          alt="Portfolio Page 14"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page14} alt="Portfolio Page 14" />
       </div>
     ),
   },
@@ -123,13 +122,7 @@ const bjornChapterPages = [
     id: 15,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page15}
-          alt="Portfolio Page 15"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page15} alt="Portfolio Page 15" />
       </div>
     ),
   },
@@ -137,13 +130,7 @@ const bjornChapterPages = [
     id: 16,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page16}
-          alt="Portfolio Page 16"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page16} alt="Portfolio Page 16" />
       </div>
     ),
   },
@@ -151,13 +138,7 @@ const bjornChapterPages = [
     id: 17,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page17}
-          alt="Portfolio Page 17"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page17} alt="Portfolio Page 17" />
         <Link
           href="https://www.figma.com/proto/NITAGZXbWhIXvS86y4oytS/Site-Web-MBAT?page-id=0%3A1&node-id=176-9725&viewport=777%2C-291%2C0.31&t=QTx62eY5jD6B6o68-8&scaling=scale-down-width&content-scaling=fixed&hide-ui=1"
           target="_blank"
@@ -178,13 +159,7 @@ const bjornChapterPages = [
     id: 18,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page18}
-          alt="Portfolio Page 18"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page18} alt="Portfolio Page 18" />
       </div>
     ),
   },
@@ -192,13 +167,7 @@ const bjornChapterPages = [
     id: 19,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page19}
-          alt="Portfolio Page 19"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page19} alt="Portfolio Page 19" />
       </div>
     ),
   },
@@ -278,7 +247,7 @@ export const portfolioPages = [
     id: 8,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage src={page8} alt="Page 8" fill className="object-cover" priority />
+        <CloudinaryImage src={page8} alt="Page 8" loading="eager" />
       </div>
     ),
   },
@@ -287,7 +256,7 @@ export const portfolioPages = [
     id: 9,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage src={page9} alt="Page 9" fill className="object-cover" priority />
+        <CloudinaryImage src={page9} alt="Page 9" loading="eager" />
       </div>
     ),
   },
@@ -299,13 +268,7 @@ export const portfolioPages = [
     id: 20,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page20}
-          alt="Portfolio Page 20"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page20} alt="Portfolio Page 20" />
       </div>
     ),
   },
@@ -313,13 +276,7 @@ export const portfolioPages = [
     id: 21,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page21}
-          alt="Portfolio Page 21"
-          fill
-          className="object-cover"
-
-        />
+        <CloudinaryImage src={page21} alt="Portfolio Page 21" />
         <VideoModal
           trigger={
             <button
