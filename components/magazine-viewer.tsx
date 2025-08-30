@@ -36,8 +36,21 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 500
-  const PAGE_HEIGHT = 710
+  const RATIO = 500 / 710
+  const [bookHeight, setBookHeight] = useState(0)
+
+  useEffect(() => {
+    const resize = () => setBookHeight(window.innerHeight * 0.85)
+    resize()
+    window.addEventListener("resize", resize)
+    return () => window.removeEventListener("resize", resize)
+  }, [])
+
+  const PAGE_HEIGHT = Math.min(
+    Math.max(bookHeight, window.innerHeight * 0.8),
+    window.innerHeight * 0.9,
+  )
+  const PAGE_WIDTH = PAGE_HEIGHT * RATIO
   const pageWidth = PAGE_WIDTH * scale
   const pageHeight = PAGE_HEIGHT * scale
   const bookEdge = pageWidth / 2
@@ -260,7 +273,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center p-4"
+      className="flex items-center justify-center h-screen relative w-full overflow-hidden p-4"
       style={{ backgroundColor: "#0E0E0E" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -271,8 +284,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       onTouchEnd={endDragging}
     >
       <HTMLFlipBook
-        width={pageWidth}
-        height={pageHeight}
+        width={PAGE_WIDTH}
+        height={PAGE_HEIGHT}
         showCover
         maxShadowOpacity={0.2}
         drawShadow
