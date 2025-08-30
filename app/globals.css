@@ -243,3 +243,16 @@
 .book-clickable:hover:active {
   filter: brightness(1.15);
 }
+
+.book-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.book {
+  max-height: 80vh;
+  max-width: 90vw;
+  object-fit: contain;
+}

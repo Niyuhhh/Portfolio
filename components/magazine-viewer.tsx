@@ -33,6 +33,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const [scale, setScale] = useState(CLOSED_SCALE)
   const [translate, setTranslate] = useState(INITIAL_POS)
   const [isDragging, setIsDragging] = useState(false)
+  const [maxDims, setMaxDims] = useState({ maxWidth: 0, maxHeight: 0 })
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
@@ -257,10 +258,22 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     }
   }, [scale, zoomAtPoint])
 
+  useEffect(() => {
+    const updateSizes = () => {
+      setMaxDims({
+        maxWidth: window.innerWidth * 0.9,
+        maxHeight: window.innerHeight * 0.8,
+      })
+    }
+    updateSizes()
+    window.addEventListener("resize", updateSizes)
+    return () => window.removeEventListener("resize", updateSizes)
+  }, [])
+
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center p-4"
+      className="book-container relative w-full h-screen overflow-hidden flex items-center justify-center p-4"
       style={{ backgroundColor: "#0E0E0E" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -280,7 +293,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         showPageCorners
         disableFlipByClick
         swipeDistance={30}
-        className="shadow-md flipbook"
+        className="book shadow-md flipbook"
         ref={bookRef}
         onFlip={handleFlip}
         style={{
@@ -288,6 +301,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           transition: isDragging ? "none" : "transform 0.3s ease",
           transformOrigin: "0 0",
           ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
+          ...(maxDims.maxWidth && { maxWidth: `${maxDims.maxWidth}px` }),
+          ...(maxDims.maxHeight && { maxHeight: `${maxDims.maxHeight}px` }),
         }}
       >
         {pages.map((page, index) => {
