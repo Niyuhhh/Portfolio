@@ -37,6 +37,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
   const INITIAL_DIMENSIONS = { width: 500, height: 710 }
   const PAGE_RATIO = INITIAL_DIMENSIONS.width / INITIAL_DIMENSIONS.height
+  const EDGE_MARGIN = 32 // total vertical margin (top + bottom)
   const [pageSize, setPageSize] = useState(INITIAL_DIMENSIONS)
 
   const totalPages = pages.length
@@ -68,10 +69,11 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
     const updateSize = () => {
       const availableWidth = Math.min(container.clientWidth, window.innerWidth)
+      const maxHeight = Math.min(container.clientHeight, window.innerHeight) - EDGE_MARGIN
       let width = availableWidth
       let height = width / PAGE_RATIO
-      if (height > window.innerHeight) {
-        height = window.innerHeight
+      if (height > maxHeight) {
+        height = maxHeight
         width = height * PAGE_RATIO
       }
       setPageSize({ width, height })
