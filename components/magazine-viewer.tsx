@@ -36,17 +36,41 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 500
-  const PAGE_HEIGHT = 710
-  const pageWidth = PAGE_WIDTH * scale
-  const pageHeight = PAGE_HEIGHT * scale
-  const bookEdge = pageWidth / 2
+  const PAGE_RATIO = 500 / 710
+  const [{ width, height }, setPageSize] = useState({ width: 500, height: 710 })
+  const pageWidth = width * scale
+  const pageHeight = height * scale
   const offsetX =
     currentPage === 0
       ? -pageWidth / 2
       : currentPage === totalPages - 1
       ? pageWidth / 2
       : 0
+
+  useEffect(() => {
+    const updateSize = () => {
+      const { innerWidth, innerHeight } = window
+      let newWidth = innerWidth
+      let newHeight = newWidth / PAGE_RATIO
+      if (newHeight > innerHeight) {
+        newHeight = innerHeight
+        newWidth = newHeight * PAGE_RATIO
+      }
+      setPageSize({ width: newWidth, height: newHeight })
+    }
+
+    updateSize()
+
+    const container = containerRef.current
+    const resizeObserver = new ResizeObserver(updateSize)
+    if (container) resizeObserver.observe(container)
+    window.addEventListener("resize", updateSize)
+
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener("resize", updateSize)
+    }
+  }, [])
 
   const handleNextPage = () => {
     bookRef.current?.pageFlip()?.flipNext()
@@ -75,7 +99,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         .scale(scale)
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
-      const newPageWidth = PAGE_WIDTH * newScale
+      const newPageWidth = width * newScale
       const offsetXNew =
         currentPage === 0
           ? -newPageWidth / 2
@@ -89,7 +113,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate]
+    [currentPage, totalPages, offsetX, scale, translate, width]
   )
 
   const zoom = (delta: number) => {
