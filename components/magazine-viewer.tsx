@@ -35,11 +35,13 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const [isDragging, setIsDragging] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
 
+  const INITIAL_DIMENSIONS = { width: 500, height: 710 }
+  const PAGE_RATIO = INITIAL_DIMENSIONS.width / INITIAL_DIMENSIONS.height
+  const [pageSize, setPageSize] = useState(INITIAL_DIMENSIONS)
+
   const totalPages = pages.length
-  const PAGE_WIDTH = 500
-  const PAGE_HEIGHT = 710
-  const pageWidth = PAGE_WIDTH * scale
-  const pageHeight = PAGE_HEIGHT * scale
+  const pageWidth = pageSize.width * scale
+  const pageHeight = pageSize.height * scale
   const bookEdge = pageWidth / 2
   const offsetX =
     currentPage === 0
@@ -60,6 +62,32 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     bookRef.current?.pageFlip()?.flip(page - 1)
   }
 
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const updateSize = () => {
+      const availableWidth = Math.min(container.clientWidth, window.innerWidth)
+      let width = availableWidth
+      let height = width / PAGE_RATIO
+      if (height > window.innerHeight) {
+        height = window.innerHeight
+        width = height * PAGE_RATIO
+      }
+      setPageSize({ width, height })
+    }
+
+    updateSize()
+    const observer = new ResizeObserver(updateSize)
+    observer.observe(container)
+    window.addEventListener("resize", updateSize)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener("resize", updateSize)
+    }
+  }, [])
+
   const zoomAtPoint = useCallback(
     (point: DOMPoint, targetScale: number) => {
       let newScale = Math.min(Math.max(targetScale, OPEN_SCALE), 2)
@@ -75,7 +103,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         .scale(scale)
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
-      const newPageWidth = PAGE_WIDTH * newScale
+      const newPageWidth = pageSize.width * newScale
       const offsetXNew =
         currentPage === 0
           ? -newPageWidth / 2
@@ -89,7 +117,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate]
+    [currentPage, totalPages, offsetX, scale, translate, pageSize.width]
   )
 
   const zoom = (delta: number) => {
