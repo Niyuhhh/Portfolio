@@ -284,7 +284,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center p-4"
+      className="relative w-full min-h-screen flex justify-center py-8 px-4 overflow-auto"
       style={{ backgroundColor: "#0E0E0E" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
