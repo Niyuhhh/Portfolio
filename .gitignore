@@ -1,0 +1,9 @@
+node_modules/
+playwright-report/
+playwright-report
+report/
+test-results/
+**/test-results/
+**/playwright-report/
+
+.next/
