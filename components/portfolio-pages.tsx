@@ -2,15 +2,11 @@ import Image, { type ImageProps } from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { VideoModal } from "@/components/video-modal"
-import fs from "fs"
-import path from "path"
 
-const readDataUri = (file: string) =>
-  fs.readFileSync(path.join(process.cwd(), "public/images", file), "utf8")
-
-const portfolioCover = readDataUri("portfolio-cover.txt")
-const page6 = readDataUri("page-6.txt")
-const page7 = readDataUri("page-7.txt")
+const portfolioCover =
+  "https://res.cloudinary.com/demo/image/upload/w_1920/sample.jpg"
+const page6 = "/images/page-6.png"
+const page7 = "/images/page-7.png"
 const page8 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123459/PAGE_8_kvkts2.png"
 const page9 =
@@ -44,8 +40,20 @@ interface PreloadImageProps extends Omit<ImageProps, "src"> {
   src: string
 }
 
+const withCloudinary = (url: string) => {
+  if (!url.includes("res.cloudinary.com")) return url
+  const [base, rest] = url.split("/upload/")
+  if (!rest) return url
+  return `${base}/upload/f_auto,q_auto:best,dpr_auto/${rest}`
+}
+
 const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
-  <Image src={src} {...props} quality={90} sizes="100vw" />
+  <Image
+    src={withCloudinary(src)}
+    {...props}
+    quality={100}
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 1920px"
+  />
 )
 
 const bjornChapterPages = [
