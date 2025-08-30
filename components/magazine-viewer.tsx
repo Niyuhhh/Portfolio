@@ -39,28 +39,34 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
   const totalPages = pages.length
 
+  const getBookSize = () => {
+    const innerHeight = window.innerHeight
+    const innerWidth = window.innerWidth
+
+    let height = Math.min(
+      Math.max(0.85 * innerHeight, 0.8 * innerHeight),
+      0.9 * innerHeight,
+    )
+    let width = height * PAGE_RATIO
+
+    const maxPageWidth = (innerWidth * 0.9) / 2
+    if (width > maxPageWidth) {
+      width = maxPageWidth
+      height = width / PAGE_RATIO
+    }
+
+    return { width, height }
+  }
+
   const [bookSize, setBookSize] = useState(() => {
     if (typeof window !== "undefined") {
-      const innerHeight = window.innerHeight
-      const height = Math.min(
-        Math.max(0.85 * innerHeight, 0.8 * innerHeight),
-        0.9 * innerHeight,
-      )
-      return { height, width: height * PAGE_RATIO }
+      return getBookSize()
     }
     return { width: 500, height: 710 }
   })
 
   useEffect(() => {
-    const updateSize = () => {
-      const innerHeight = window.innerHeight
-      const height = Math.min(
-        Math.max(0.85 * innerHeight, 0.8 * innerHeight),
-        0.9 * innerHeight,
-      )
-      const width = height * PAGE_RATIO
-      setBookSize({ width, height })
-    }
+    const updateSize = () => setBookSize(getBookSize())
     updateSize()
     window.addEventListener("resize", updateSize)
     return () => window.removeEventListener("resize", updateSize)
@@ -69,12 +75,15 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const { width: bookWidth, height: bookHeight } = bookSize
   const scaledPageWidth = bookWidth * scale
   const scaledPageHeight = bookHeight * scale
-  const offsetX =
-    currentPage === 0
-      ? -bookWidth / 2
-      : currentPage === totalPages - 1
-      ? bookWidth / 2
-      : 0
+  const singlePage =
+    typeof window !== "undefined" && bookWidth * 2 > window.innerWidth
+  const offsetX = singlePage
+    ? 0
+    : currentPage === 0
+    ? -bookWidth / 2
+    : currentPage === totalPages - 1
+    ? bookWidth / 2
+    : 0
 
   const handleNextPage = () => {
     bookRef.current?.pageFlip()?.flipNext()
@@ -103,12 +112,13 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         .scale(scale)
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
-      const offsetXNew =
-        currentPage === 0
-          ? -bookWidth / 2
-          : currentPage === totalPages - 1
-          ? bookWidth / 2
-          : 0
+      const offsetXNew = singlePage
+        ? 0
+        : currentPage === 0
+        ? -bookWidth / 2
+        : currentPage === totalPages - 1
+        ? bookWidth / 2
+        : 0
 
       const newTranslateX = point.x - offsetXNew - bookPoint.x * newScale
       const newTranslateY = point.y - bookPoint.y * newScale
@@ -116,7 +126,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate, bookWidth]
+    [currentPage, totalPages, offsetX, scale, translate, bookWidth, singlePage]
   )
 
   const zoom = (delta: number) => {
