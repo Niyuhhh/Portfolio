@@ -11,7 +11,6 @@ import type { default as FlipBook } from "react-pageflip"
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
 
-const CLOSED_SCALE = 1
 const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
@@ -30,7 +29,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const bookRef = useRef<FlipBook | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [currentPage, setCurrentPage] = useState(0)
-  const [scale, setScale] = useState(CLOSED_SCALE)
+  const [scale, setScale] = useState(OPEN_SCALE)
   const [translate, setTranslate] = useState(INITIAL_POS)
   const [isDragging, setIsDragging] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
@@ -47,6 +46,18 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       : currentPage === totalPages - 1
       ? pageWidth / 2
       : 0
+
+  useEffect(() => {
+    const updateScale = () => {
+      const scaleFromHeight = (window.innerHeight * 0.9) / PAGE_HEIGHT
+      const scaleFromWidth = (window.innerWidth * 0.8) / (PAGE_WIDTH * 2)
+      setScale(Math.min(scaleFromHeight, scaleFromWidth))
+    }
+
+    updateScale()
+    window.addEventListener("resize", updateScale)
+    return () => window.removeEventListener("resize", updateScale)
+  }, [])
 
   const handleNextPage = () => {
     bookRef.current?.pageFlip()?.flipNext()
@@ -258,38 +269,39 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   }, [scale, zoomAtPoint])
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center p-4"
-      style={{ backgroundColor: "#0E0E0E" }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={endDragging}
-      onMouseLeave={endDragging}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={endDragging}
-    >
-      <HTMLFlipBook
-        width={pageWidth}
-        height={pageHeight}
-        showCover
-        maxShadowOpacity={0.2}
-        drawShadow
-        flippingTime={FLIP_DURATION}
-        showPageCorners
-        disableFlipByClick
-        swipeDistance={30}
-        className="shadow-md flipbook"
-        ref={bookRef}
-        onFlip={handleFlip}
-        style={{
-          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-          transition: isDragging ? "none" : "transform 0.3s ease",
-          transformOrigin: "0 0",
-          ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
-        }}
+    <div className="book-container">
+      <div
+        ref={containerRef}
+        className="relative overflow-hidden p-4"
+        style={{ backgroundColor: "#0E0E0E" }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={endDragging}
+        onMouseLeave={endDragging}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={endDragging}
       >
+        <HTMLFlipBook
+          width={pageWidth}
+          height={pageHeight}
+          showCover
+          maxShadowOpacity={0.2}
+          drawShadow
+          flippingTime={FLIP_DURATION}
+          showPageCorners
+          disableFlipByClick
+          swipeDistance={30}
+          className="book shadow-md flipbook"
+          ref={bookRef}
+          onFlip={handleFlip}
+          style={{
+            transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+            transition: isDragging ? "none" : "transform 0.3s ease",
+            transformOrigin: "0 0",
+            ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
+          }}
+        >
         {pages.map((page, index) => {
           const isFirst = index === 0
           const isLast = index === totalPages - 1
@@ -309,51 +321,52 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
             </div>
           )
         })}
-      </HTMLFlipBook>
+        </HTMLFlipBook>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={handlePrevPage}
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
-      >
-        <ChevronLeft className="h-8 w-8" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={handleNextPage}
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
-      >
-        <ChevronRight className="h-8 w-8" />
-      </Button>
-
-      <div className="absolute bottom-4 left-4">
-        <Pagination
-          totalPages={totalPages}
-          currentPage={currentPage + 1}
-          goToPage={goToPage}
-        />
-      </div>
-
-      <div className="absolute bottom-4 right-4 flex flex-col gap-2 items-end">
-        <FullScreenButton />
         <Button
           variant="ghost"
           size="icon"
-          onClick={zoomIn}
-          className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+          onClick={handlePrevPage}
+          className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
         >
-          <Plus className="h-8 w-8" />
+          <ChevronLeft className="h-8 w-8" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          onClick={zoomOut}
-          className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+          onClick={handleNextPage}
+          className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
         >
-          <Minus className="h-8 w-8" />
+          <ChevronRight className="h-8 w-8" />
         </Button>
+
+        <div className="absolute bottom-4 left-4">
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage + 1}
+            goToPage={goToPage}
+          />
+        </div>
+
+        <div className="absolute bottom-4 right-4 flex flex-col gap-2 items-end">
+          <FullScreenButton />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={zoomIn}
+            className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+          >
+            <Plus className="h-8 w-8" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={zoomOut}
+            className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+          >
+            <Minus className="h-8 w-8" />
+          </Button>
+        </div>
       </div>
     </div>
   )
