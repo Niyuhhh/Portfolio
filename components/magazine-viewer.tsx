@@ -24,13 +24,14 @@ interface Page {
 
 interface MagazineViewerProps {
   pages: Page[]
+  scale: number
 }
 
-export function MagazineViewer({ pages }: MagazineViewerProps) {
+export function MagazineViewer({ pages, scale }: MagazineViewerProps) {
   const bookRef = useRef<FlipBook | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [currentPage, setCurrentPage] = useState(0)
-  const [scale, setScale] = useState(CLOSED_SCALE)
+  const [zoom, setZoom] = useState(CLOSED_SCALE)
   const [translate, setTranslate] = useState(INITIAL_POS)
   const [isDragging, setIsDragging] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
@@ -38,8 +39,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const totalPages = pages.length
   const PAGE_WIDTH = 500
   const PAGE_HEIGHT = 710
-  const pageWidth = PAGE_WIDTH * scale
-  const pageHeight = PAGE_HEIGHT * scale
+  const pageWidth = PAGE_WIDTH * zoom
+  const pageHeight = PAGE_HEIGHT * zoom
   const bookEdge = pageWidth / 2
   const offsetX =
     currentPage === 0
@@ -66,13 +67,13 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
       if (newScale <= OPEN_SCALE) {
         setTranslate(INITIAL_POS)
-        setScale(newScale)
+        setZoom(newScale)
         return
       }
 
       const currentMatrix = new DOMMatrix()
         .translate(offsetX + translate.x, translate.y)
-        .scale(scale)
+        .scale(zoom)
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
       const newPageWidth = PAGE_WIDTH * newScale
@@ -87,22 +88,22 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       const newTranslateY = point.y - bookPoint.y * newScale
 
       setTranslate({ x: newTranslateX, y: newTranslateY })
-      setScale(newScale)
+      setZoom(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate]
+    [currentPage, totalPages, offsetX, zoom, translate]
   )
 
-  const zoom = (delta: number) => {
+  const updateZoom = (delta: number) => {
     const bookCenter = new DOMPoint(
       offsetX + translate.x + pageWidth / 2,
       translate.y + pageHeight / 2
     )
-    zoomAtPoint(bookCenter, scale + delta)
+    zoomAtPoint(bookCenter, zoom + delta)
   }
 
-  const zoomIn = () => zoom(0.1)
+  const zoomIn = () => updateZoom(0.1)
 
-  const zoomOut = () => zoom(-0.1)
+  const zoomOut = () => updateZoom(-0.1)
 
   const handleWheel = useCallback(
     (e: WheelEvent) => {
@@ -113,10 +114,10 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       const rect = container.getBoundingClientRect()
       const cursor = new DOMPoint(e.clientX - rect.left, e.clientY - rect.top)
       const zoomIntensity = 0.001
-      const newScale = scale * Math.exp(-e.deltaY * zoomIntensity)
+      const newScale = zoom * Math.exp(-e.deltaY * zoomIntensity)
       zoomAtPoint(cursor, newScale)
     },
-    [scale, zoomAtPoint]
+    [zoom, zoomAtPoint]
   )
 
   const handleFlip = (e: any) => {
@@ -130,12 +131,12 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   }
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (scale <= OPEN_SCALE) return
+    if (zoom <= OPEN_SCALE) return
     startDragging(e.clientX, e.clientY)
   }
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (scale <= OPEN_SCALE) return
+    if (zoom <= OPEN_SCALE) return
     const touch = e.touches[0]
     startDragging(touch.clientX, touch.clientY)
   }
@@ -192,7 +193,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     let startX = 0
     let startY = 0
     let startDistance = 0
-    let initialScale = scale
+    let initialScale = zoom
     let isPinching = false
 
     const getDistance = (t1: Touch, t2: Touch) =>
@@ -207,7 +208,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         e.preventDefault()
         isPinching = true
         startDistance = getDistance(e.touches[0], e.touches[1])
-        initialScale = scale
+        initialScale = zoom
       }
     }
 
@@ -255,13 +256,13 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       container.removeEventListener("touchmove", handleTouchMove)
       container.removeEventListener("touchend", handleTouchEnd)
     }
-  }, [scale, zoomAtPoint])
+  }, [zoom, zoomAtPoint])
 
   return (
     <div
       ref={containerRef}
       className="relative w-full h-screen overflow-hidden flex items-center justify-center p-4"
-      style={{ backgroundColor: "#0E0E0E" }}
+      style={{ backgroundColor: "#0E0E0E", transform: `scale(${scale})` }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={endDragging}
@@ -284,7 +285,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         ref={bookRef}
         onFlip={handleFlip}
         style={{
-          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${zoom})`,
           transition: isDragging ? "none" : "transform 0.3s ease",
           transformOrigin: "0 0",
           ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
@@ -333,6 +334,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           totalPages={totalPages}
           currentPage={currentPage + 1}
           goToPage={goToPage}
+          scale={scale}
         />
       </div>
 

@@ -15,6 +15,7 @@ interface PaginationProps extends React.ComponentProps<"div"> {
   totalPages: number
   currentPage: number
   goToPage: (page: number) => void
+  scale?: number
 }
 
 function Pagination({
@@ -22,6 +23,7 @@ function Pagination({
   currentPage,
   goToPage,
   className,
+  scale = 1,
   ...props
 }: PaginationProps) {
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
@@ -30,6 +32,7 @@ function Pagination({
     <div
       data-slot="pagination"
       className={cn("mx-auto flex w-full justify-center", className)}
+      style={{ transform: `scale(${scale})` }}
       {...props}
     >
       <Select
