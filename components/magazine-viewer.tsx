@@ -15,6 +15,7 @@ const CLOSED_SCALE = 1
 const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
+const ASPECT_RATIO = 710 / 500
 
 interface Page {
   id: number
@@ -36,10 +37,10 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 500
-  const PAGE_HEIGHT = 710
-  const pageWidth = PAGE_WIDTH * scale
-  const pageHeight = PAGE_HEIGHT * scale
+  const [basePageWidth, setBasePageWidth] = useState(500)
+  const [basePageHeight, setBasePageHeight] = useState(710)
+  const pageWidth = basePageWidth * scale
+  const pageHeight = basePageHeight * scale
   const bookEdge = pageWidth / 2
   const offsetX =
     currentPage === 0
@@ -47,6 +48,23 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       : currentPage === totalPages - 1
       ? pageWidth / 2
       : 0
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      const width = Math.min(
+        800,
+        window.innerWidth * 0.45,
+        (window.innerHeight * 0.9) / ASPECT_RATIO
+      )
+      const height = width * ASPECT_RATIO
+      setBasePageWidth(width)
+      setBasePageHeight(height)
+    }
+
+    updateDimensions()
+    window.addEventListener("resize", updateDimensions)
+    return () => window.removeEventListener("resize", updateDimensions)
+  }, [])
 
   const handleNextPage = () => {
     bookRef.current?.pageFlip()?.flipNext()
@@ -75,7 +93,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         .scale(scale)
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
-      const newPageWidth = PAGE_WIDTH * newScale
+      const newPageWidth = basePageWidth * newScale
       const offsetXNew =
         currentPage === 0
           ? -newPageWidth / 2
