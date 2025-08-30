@@ -61,9 +61,12 @@ const CloudinaryImage = ({ src, alt, className, ...props }: CloudinaryImageProps
     <img
       src={src1600}
       srcSet={srcset}
-      sizes="(max-width: 768px) 100vw, (max-width: 1920px) 50vw, 1200px"
+      sizes="(max-width: 768px) 100vw, 50vw"
       alt={alt}
-      className={cn("absolute inset-0 h-full w-full object-cover", className)}
+      className={cn(
+        "absolute inset-0 w-full max-w-full h-auto object-cover",
+        className,
+      )}
       {...props}
     />
   )
