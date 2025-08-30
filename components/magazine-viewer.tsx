@@ -24,9 +24,10 @@ interface Page {
 
 interface MagazineViewerProps {
   pages: Page[]
+  viewportScale: number
 }
 
-export function MagazineViewer({ pages }: MagazineViewerProps) {
+export function MagazineViewer({ pages, viewportScale }: MagazineViewerProps) {
   const bookRef = useRef<FlipBook | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [currentPage, setCurrentPage] = useState(0)
@@ -284,7 +285,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         ref={bookRef}
         onFlip={handleFlip}
         style={{
-          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale * viewportScale})`,
           transition: isDragging ? "none" : "transform 0.3s ease",
           transformOrigin: "0 0",
           ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
@@ -333,6 +334,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           totalPages={totalPages}
           currentPage={currentPage + 1}
           goToPage={goToPage}
+          scale={viewportScale}
         />
       </div>
 
