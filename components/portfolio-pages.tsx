@@ -44,9 +44,32 @@ interface PreloadImageProps extends Omit<ImageProps, "src"> {
   src: string
 }
 
-const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
-  <Image src={src} {...props} quality={90} sizes="100vw" />
-)
+const PreloadImage = ({ src, priority, ...props }: PreloadImageProps) => {
+  const isCloudinary = src.includes("res.cloudinary.com")
+  const hasParams = src.includes("/upload/f_auto,q_auto/")
+  const transformedSrc = isCloudinary && !hasParams
+    ? src.replace("/upload/", "/upload/f_auto,q_auto/")
+    : src
+  const blurDataURL = isCloudinary
+    ? transformedSrc.replace(
+        "/upload/f_auto,q_auto/",
+        "/upload/f_auto,q_auto,w_10/",
+      )
+    : undefined
+
+  return (
+    <Image
+      src={transformedSrc}
+      {...props}
+      quality={90}
+      sizes="100vw"
+      loading={priority ? "eager" : "lazy"}
+      placeholder={blurDataURL ? "blur" : undefined}
+      blurDataURL={blurDataURL}
+      priority={priority}
+    />
+  )
+}
 
 const bjornChapterPages = [
   {

@@ -39,12 +39,12 @@ export default function RootLayout({
         <link
           rel="preload"
           as="image"
-          href="https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230026/PORTFOLIO_PAGE_10_fzdgem.png"
+          href="https://res.cloudinary.com/dakxjcdyp/image/upload/f_auto,q_auto/v1756230026/PORTFOLIO_PAGE_10_fzdgem.png"
         />
         <link
           rel="preload"
           as="image"
-          href="https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230030/PORTFOLIO_PAGE_11_hrn5b0.png"
+          href="https://res.cloudinary.com/dakxjcdyp/image/upload/f_auto,q_auto/v1756230030/PORTFOLIO_PAGE_11_hrn5b0.png"
         />
       </head>
       <body className="font-sans">{children}</body>
