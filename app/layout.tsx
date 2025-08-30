@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Montserrat } from "next/font/google"
 import { Open_Sans } from "next/font/google"
 import { Sora } from "next/font/google"
+import { cloudinaryUrl } from "@/lib/cloudinary"
 import "./globals.css"
 
 const montserrat = Montserrat({
@@ -33,19 +34,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const preloadImages = [
+    cloudinaryUrl("v1756230026/PORTFOLIO_PAGE_10_fzdgem.png"),
+    cloudinaryUrl("v1756230030/PORTFOLIO_PAGE_11_hrn5b0.png"),
+  ]
   return (
     <html lang="en" className={`${montserrat.variable} ${openSans.variable} ${sora.variable} antialiased`}>
       <head>
-        <link
-          rel="preload"
-          as="image"
-          href="https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230026/PORTFOLIO_PAGE_10_fzdgem.png"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230030/PORTFOLIO_PAGE_11_hrn5b0.png"
-        />
+        {preloadImages.map((img, i) => (
+          <link
+            key={i}
+            rel="preload"
+            as="image"
+            href={img.src}
+            imageSrcSet={img.srcSet}
+            imageSizes="100vw"
+          />
+        ))}
       </head>
       <body className="font-sans">{children}</body>
     </html>

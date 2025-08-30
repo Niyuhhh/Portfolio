@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { VideoModal } from "@/components/video-modal"
 import fs from "fs"
 import path from "path"
+import { cloudinaryUrl } from "@/lib/cloudinary"
 
 const readDataUri = (file: string) =>
   fs.readFileSync(path.join(process.cwd(), "public/images", file), "utf8")
@@ -11,41 +12,29 @@ const readDataUri = (file: string) =>
 const portfolioCover = readDataUri("portfolio-cover.txt")
 const page6 = readDataUri("page-6.txt")
 const page7 = readDataUri("page-7.txt")
-const page8 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123459/PAGE_8_kvkts2.png"
-const page9 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123454/PAGE_9_ywcjcm.png"
-const page10 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230026/PORTFOLIO_PAGE_10_fzdgem.png"
-const page11 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230030/PORTFOLIO_PAGE_11_hrn5b0.png"
-const page12 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230036/PORTFOLIO_PAGE_12_yre8mu.png"
-const page13 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230035/PORTFOLIO_PAGE_13_ddicyv.png"
-const page14 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230036/PORTFOLIO_PAGE_14_jh7zws.png"
-const page15 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230040/PORTFOLIO_PAGE_15_tairwx.png"
-const page16 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230040/PORTFOLIO_PAGE_16_nodtmh.png"
-const page17 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230034/PORTFOLIO_PAGE_17_tedncj.png"
-const page18 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756396329/PORTFOLIO_PAGE_18_upooms.png"
-const page19 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756396488/PORTFOLIO_PAGE_19_jjlnpi.png"
-const page20 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756396332/PORTFOLIO_PAGE_20_sxhnkd.png"
-const page21 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756396488/PORTFOLIO_PAGE_21_r9mzqz.png"
+const page8 = cloudinaryUrl("v1756123459/PAGE_8_kvkts2.png")
+const page9 = cloudinaryUrl("v1756123454/PAGE_9_ywcjcm.png")
+const page10 = cloudinaryUrl("v1756230026/PORTFOLIO_PAGE_10_fzdgem.png")
+const page11 = cloudinaryUrl("v1756230030/PORTFOLIO_PAGE_11_hrn5b0.png")
+const page12 = cloudinaryUrl("v1756230036/PORTFOLIO_PAGE_12_yre8mu.png")
+const page13 = cloudinaryUrl("v1756230035/PORTFOLIO_PAGE_13_ddicyv.png")
+const page14 = cloudinaryUrl("v1756230036/PORTFOLIO_PAGE_14_jh7zws.png")
+const page15 = cloudinaryUrl("v1756230040/PORTFOLIO_PAGE_15_tairwx.png")
+const page16 = cloudinaryUrl("v1756230040/PORTFOLIO_PAGE_16_nodtmh.png")
+const page17 = cloudinaryUrl("v1756230034/PORTFOLIO_PAGE_17_tedncj.png")
+const page18 = cloudinaryUrl("v1756396329/PORTFOLIO_PAGE_18_upooms.png")
+const page19 = cloudinaryUrl("v1756396488/PORTFOLIO_PAGE_19_jjlnpi.png")
+const page20 = cloudinaryUrl("v1756396332/PORTFOLIO_PAGE_20_sxhnkd.png")
+const page21 = cloudinaryUrl("v1756396488/PORTFOLIO_PAGE_21_r9mzqz.png")
 
 interface PreloadImageProps extends Omit<ImageProps, "src"> {
   src: string
+  srcSet?: string
+  sizes?: string
 }
 
-const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
-  <Image src={src} {...props} quality={90} sizes="100vw" />
+const PreloadImage = ({ src, srcSet, sizes = "100vw", ...props }: PreloadImageProps) => (
+  <Image src={src} srcSet={srcSet} sizes={sizes} {...props} />
 )
 
 const bjornChapterPages = [
@@ -54,7 +43,7 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page10}
+          {...page10}
           alt="Portfolio Page 10"
           fill
           className="object-cover"
@@ -68,7 +57,7 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page11}
+          {...page11}
           alt="Portfolio Page 11"
           fill
           className="object-cover"
@@ -82,7 +71,7 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page12}
+          {...page12}
           alt="Portfolio Page 12"
           fill
           className="object-cover"
@@ -96,7 +85,7 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page13}
+          {...page13}
           alt="Portfolio Page 13"
           fill
           className="object-cover"
@@ -110,7 +99,7 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page14}
+          {...page14}
           alt="Portfolio Page 14"
           fill
           className="object-cover"
@@ -124,7 +113,7 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page15}
+          {...page15}
           alt="Portfolio Page 15"
           fill
           className="object-cover"
@@ -138,7 +127,7 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page16}
+          {...page16}
           alt="Portfolio Page 16"
           fill
           className="object-cover"
@@ -152,7 +141,7 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page17}
+          {...page17}
           alt="Portfolio Page 17"
           fill
           className="object-cover"
@@ -179,7 +168,7 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page18}
+          {...page18}
           alt="Portfolio Page 18"
           fill
           className="object-cover"
@@ -193,7 +182,7 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page19}
+          {...page19}
           alt="Portfolio Page 19"
           fill
           className="object-cover"
@@ -278,7 +267,7 @@ export const portfolioPages = [
     id: 8,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage src={page8} alt="Page 8" fill className="object-cover" priority />
+        <PreloadImage {...page8} alt="Page 8" fill className="object-cover" priority />
       </div>
     ),
   },
@@ -287,7 +276,7 @@ export const portfolioPages = [
     id: 9,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage src={page9} alt="Page 9" fill className="object-cover" priority />
+        <PreloadImage {...page9} alt="Page 9" fill className="object-cover" priority />
       </div>
     ),
   },
@@ -300,7 +289,7 @@ export const portfolioPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page20}
+          {...page20}
           alt="Portfolio Page 20"
           fill
           className="object-cover"
@@ -314,7 +303,7 @@ export const portfolioPages = [
     content: (
       <div className="relative w-full h-full">
         <PreloadImage
-          src={page21}
+          {...page21}
           alt="Portfolio Page 21"
           fill
           className="object-cover"
