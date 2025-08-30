@@ -147,7 +147,7 @@ const bjornChapterPages = [
           <Button
             variant="outline"
             highlight
-            className="absolute bottom-30 left-[51%] z-10 -translate-x-1/2 rounded-none border border-[#1C1C1C] bg-white px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
+            className="absolute left-1/2 z-10 -translate-x-1/2 bottom-[clamp(2rem,10vh,7.5rem)] rounded-none border border-[#1C1C1C] bg-white px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
           >
             visiter le site
           </Button>
@@ -280,7 +280,7 @@ export const portfolioPages = [
         <VideoModal
           trigger={
             <button
-              className="absolute left-[11%] bottom-[6.7%] w-[39.9%] h-[42.5%] flex items-center justify-center bg-transparent hover:bg-black/20 transition-colors"
+              className="absolute left-[clamp(5%,11%,15%)] bottom-[clamp(5%,6.7%,10%)] w-[clamp(30%,39.9%,50%)] h-[clamp(30%,42.5%,50%)] flex items-center justify-center bg-transparent hover:bg-black/20 transition-colors"
               aria-label="Play video"
             >
               <svg
