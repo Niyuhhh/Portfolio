@@ -45,7 +45,7 @@ interface PreloadImageProps extends Omit<ImageProps, "src"> {
 }
 
 const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
-  <Image src={src} {...props} />
+  <Image src={src} {...props} quality={90} sizes="100vw" />
 )
 
 const bjornChapterPages = [
@@ -58,7 +58,7 @@ const bjornChapterPages = [
           alt="Portfolio Page 10"
           fill
           className="object-cover"
-          unoptimized
+
         />
       </div>
     ),
@@ -72,7 +72,7 @@ const bjornChapterPages = [
           alt="Portfolio Page 11"
           fill
           className="object-cover"
-          unoptimized
+
         />
       </div>
     ),
@@ -86,7 +86,7 @@ const bjornChapterPages = [
           alt="Portfolio Page 12"
           fill
           className="object-cover"
-          unoptimized
+
         />
       </div>
     ),
@@ -100,7 +100,7 @@ const bjornChapterPages = [
           alt="Portfolio Page 13"
           fill
           className="object-cover"
-          unoptimized
+
         />
       </div>
     ),
@@ -114,7 +114,7 @@ const bjornChapterPages = [
           alt="Portfolio Page 14"
           fill
           className="object-cover"
-          unoptimized
+
         />
       </div>
     ),
@@ -128,7 +128,7 @@ const bjornChapterPages = [
           alt="Portfolio Page 15"
           fill
           className="object-cover"
-          unoptimized
+
         />
       </div>
     ),
@@ -142,7 +142,7 @@ const bjornChapterPages = [
           alt="Portfolio Page 16"
           fill
           className="object-cover"
-          unoptimized
+
         />
       </div>
     ),
@@ -156,7 +156,7 @@ const bjornChapterPages = [
           alt="Portfolio Page 17"
           fill
           className="object-cover"
-          unoptimized
+
         />
         <Link
           href="https://www.figma.com/proto/NITAGZXbWhIXvS86y4oytS/Site-Web-MBAT?page-id=0%3A1&node-id=176-9725&viewport=777%2C-291%2C0.31&t=QTx62eY5jD6B6o68-8&scaling=scale-down-width&content-scaling=fixed&hide-ui=1"
@@ -183,7 +183,7 @@ const bjornChapterPages = [
           alt="Portfolio Page 18"
           fill
           className="object-cover"
-          unoptimized
+
         />
       </div>
     ),
@@ -197,7 +197,7 @@ const bjornChapterPages = [
           alt="Portfolio Page 19"
           fill
           className="object-cover"
-          unoptimized
+
         />
       </div>
     ),
@@ -216,7 +216,7 @@ export const portfolioPages = [
           fill
           className="object-cover"
           priority
-          unoptimized
+
         />
       </div>
     ),
@@ -251,7 +251,7 @@ export const portfolioPages = [
           alt="BJÖRN Project - Page 6"
           fill
           className="object-cover"
-          unoptimized
+
           priority
         />
       </div>
@@ -267,7 +267,7 @@ export const portfolioPages = [
           alt="BJÖRN Ice Cream Packaging - Page 7"
           fill
           className="object-cover"
-          unoptimized
+
           priority
         />
       </div>
@@ -278,7 +278,7 @@ export const portfolioPages = [
     id: 8,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage src={page8} alt="Page 8" fill className="object-cover" unoptimized priority />
+        <PreloadImage src={page8} alt="Page 8" fill className="object-cover" priority />
       </div>
     ),
   },
@@ -287,7 +287,7 @@ export const portfolioPages = [
     id: 9,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage src={page9} alt="Page 9" fill className="object-cover" unoptimized priority />
+        <PreloadImage src={page9} alt="Page 9" fill className="object-cover" priority />
       </div>
     ),
   },
@@ -304,7 +304,7 @@ export const portfolioPages = [
           alt="Portfolio Page 20"
           fill
           className="object-cover"
-          unoptimized
+
         />
       </div>
     ),
@@ -318,7 +318,7 @@ export const portfolioPages = [
           alt="Portfolio Page 21"
           fill
           className="object-cover"
-          unoptimized
+
         />
         <VideoModal
           trigger={
