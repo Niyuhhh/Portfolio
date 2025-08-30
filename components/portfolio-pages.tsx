@@ -42,10 +42,11 @@ const page21 =
 
 interface PreloadImageProps extends Omit<ImageProps, "src"> {
   src: string
+  quality?: number
 }
 
-const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
-  <Image src={src} {...props} />
+const PreloadImage = ({ src, quality = 100, ...props }: PreloadImageProps) => (
+  <Image src={src} quality={quality} {...props} />
 )
 
 const bjornChapterPages = [
