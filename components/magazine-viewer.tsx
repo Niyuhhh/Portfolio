@@ -16,6 +16,8 @@ const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
 
+const PAGE_RATIO = 500 / 710
+
 interface Page {
   id: number
   content: React.ReactNode
@@ -36,16 +38,42 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 500
-  const PAGE_HEIGHT = 710
-  const pageWidth = PAGE_WIDTH * scale
-  const pageHeight = PAGE_HEIGHT * scale
-  const bookEdge = pageWidth / 2
+
+  const [bookSize, setBookSize] = useState(() => {
+    if (typeof window !== "undefined") {
+      const innerHeight = window.innerHeight
+      const height = Math.min(
+        Math.max(0.85 * innerHeight, 0.8 * innerHeight),
+        0.9 * innerHeight,
+      )
+      return { height, width: height * PAGE_RATIO }
+    }
+    return { width: 500, height: 710 }
+  })
+
+  useEffect(() => {
+    const updateSize = () => {
+      const innerHeight = window.innerHeight
+      const height = Math.min(
+        Math.max(0.85 * innerHeight, 0.8 * innerHeight),
+        0.9 * innerHeight,
+      )
+      const width = height * PAGE_RATIO
+      setBookSize({ width, height })
+    }
+    updateSize()
+    window.addEventListener("resize", updateSize)
+    return () => window.removeEventListener("resize", updateSize)
+  }, [])
+
+  const { width: bookWidth, height: bookHeight } = bookSize
+  const scaledPageWidth = bookWidth * scale
+  const scaledPageHeight = bookHeight * scale
   const offsetX =
     currentPage === 0
-      ? -pageWidth / 2
+      ? -bookWidth / 2
       : currentPage === totalPages - 1
-      ? pageWidth / 2
+      ? bookWidth / 2
       : 0
 
   const handleNextPage = () => {
@@ -75,12 +103,11 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         .scale(scale)
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
-      const newPageWidth = PAGE_WIDTH * newScale
       const offsetXNew =
         currentPage === 0
-          ? -newPageWidth / 2
+          ? -bookWidth / 2
           : currentPage === totalPages - 1
-          ? newPageWidth / 2
+          ? bookWidth / 2
           : 0
 
       const newTranslateX = point.x - offsetXNew - bookPoint.x * newScale
@@ -89,13 +116,13 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate]
+    [currentPage, totalPages, offsetX, scale, translate, bookWidth]
   )
 
   const zoom = (delta: number) => {
     const bookCenter = new DOMPoint(
-      offsetX + translate.x + pageWidth / 2,
-      translate.y + pageHeight / 2
+      (offsetX + translate.x) * scale + scaledPageWidth / 2,
+      translate.y * scale + scaledPageHeight / 2
     )
     zoomAtPoint(bookCenter, scale + delta)
   }
@@ -271,8 +298,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       onTouchEnd={endDragging}
     >
       <HTMLFlipBook
-        width={pageWidth}
-        height={pageHeight}
+        width={bookWidth}
+        height={bookHeight}
         showCover
         maxShadowOpacity={0.2}
         drawShadow
