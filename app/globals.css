@@ -243,3 +243,38 @@
 .book-clickable:hover:active {
   filter: brightness(1.15);
 }
+
+/* Responsive typography and spacing */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    padding: 0 1rem;
+    text-align: left;
+  }
+  p {
+    font-size: 14px;
+    margin-bottom: 1rem;
+  }
+  h1,
+  h2,
+  h3 {
+    text-align: center;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  body {
+    font-size: 16px;
+    padding: 0 2rem;
+    text-align: justify;
+  }
+  p {
+    font-size: 16px;
+    margin-bottom: 1.25rem;
+  }
+  h1,
+  h2,
+  h3 {
+    text-align: left;
+  }
+}
