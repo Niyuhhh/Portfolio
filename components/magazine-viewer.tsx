@@ -15,6 +15,8 @@ const CLOSED_SCALE = 1
 const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
+const PAGE_WIDTH = 500
+const PAGE_HEIGHT = 710
 
 interface Page {
   id: number
@@ -31,13 +33,24 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [currentPage, setCurrentPage] = useState(0)
   const [scale, setScale] = useState(CLOSED_SCALE)
+
+  useEffect(() => {
+    const updateScale = () => {
+      const heightScale = (window.innerHeight * 0.9) / PAGE_HEIGHT
+      const widthScale = (window.innerWidth * 0.9) / PAGE_WIDTH
+      setScale(Math.min(heightScale, widthScale))
+    }
+
+    updateScale()
+    window.addEventListener("resize", updateScale)
+    return () => window.removeEventListener("resize", updateScale)
+  }, [])
+
   const [translate, setTranslate] = useState(INITIAL_POS)
   const [isDragging, setIsDragging] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
-  const PAGE_WIDTH = 500
-  const PAGE_HEIGHT = 710
   const pageWidth = PAGE_WIDTH * scale
   const pageHeight = PAGE_HEIGHT * scale
   const bookEdge = pageWidth / 2
@@ -287,6 +300,9 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
           transition: isDragging ? "none" : "transform 0.3s ease",
           transformOrigin: "0 0",
+          maxHeight: "90vh",
+          width: "auto",
+          objectFit: "contain",
           ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
         }}
       >
