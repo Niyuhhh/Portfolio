@@ -42,7 +42,10 @@ const page21 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756396488/PORTFOLIO_PAGE_21_r9mzqz.png"
 
 const buildSrc = (baseUrl: string, width: number) =>
-  baseUrl.replace("/upload/", `/upload/w_${width}/`)
+  baseUrl.replace(
+    "/upload/",
+    `/upload/f_auto,q_auto,dpr_auto,w_${width}/`
+  )
 
 interface CloudinaryImageProps
   extends React.ImgHTMLAttributes<HTMLImageElement> {
@@ -55,13 +58,15 @@ const CloudinaryImage = ({ src, alt, className, ...props }: CloudinaryImageProps
     `${buildSrc(src, 800)} 800w`,
     `${src1600} 1600w`,
     `${buildSrc(src, 2400)} 2400w`,
+    `${buildSrc(src, 3200)} 3200w`,
+    `${buildSrc(src, 4800)} 4800w`,
   ].join(", ")
 
   return (
     <img
       src={src1600}
       srcSet={srcset}
-      sizes="(max-width: 768px) 100vw, (max-width: 1920px) 50vw, 1200px"
+      sizes="100vw"
       alt={alt}
       className={cn("absolute inset-0 h-full w-full object-cover", className)}
       {...props}
