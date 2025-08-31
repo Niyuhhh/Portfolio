@@ -15,7 +15,6 @@ const CLOSED_SCALE = 1
 const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
-const V_MARGIN = 40
 
 interface Page {
   id: number
@@ -51,13 +50,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   useEffect(() => {
     const updateSize = () => {
       const { innerWidth, innerHeight } = window
-      const availableHeight = innerHeight - V_MARGIN * 2
-      let newWidth = innerWidth
-      let newHeight = newWidth / PAGE_RATIO
-      if (newHeight > availableHeight) {
-        newHeight = availableHeight
-        newWidth = newHeight * PAGE_RATIO
-      }
+      const newWidth = Math.min(innerWidth / 2, innerHeight * PAGE_RATIO)
+      const newHeight = newWidth / PAGE_RATIO
       setPageSize({ width: newWidth, height: newHeight })
     }
 
@@ -286,7 +280,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center px-4 py-10"
+      className="relative flex items-center justify-center w-screen h-screen overflow-hidden"
       style={{ backgroundColor: "#0E0E0E" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -306,6 +300,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         showPageCorners
         disableFlipByClick
         swipeDistance={30}
+        usePortrait={false}
         className="shadow-md flipbook"
         ref={bookRef}
         onFlip={handleFlip}
@@ -341,7 +336,9 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         variant="ghost"
         size="icon"
         onClick={handlePrevPage}
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-12 h-12 md:w-16 md:h-16 transition-all duration-300"
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        className="absolute z-10 top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-12 h-12 md:w-16 md:h-16 transition-all duration-300"
       >
         <ChevronLeft className="h-8 w-8" />
       </Button>
@@ -349,25 +346,36 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         variant="ghost"
         size="icon"
         onClick={handleNextPage}
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-12 h-12 md:w-16 md:h-16 transition-all duration-300"
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        className="absolute z-10 top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-12 h-12 md:w-16 md:h-16 transition-all duration-300"
       >
         <ChevronRight className="h-8 w-8" />
       </Button>
 
-      <div className="absolute bottom-4 left-4">
+      <div
+        className="absolute z-10 bottom-4 left-4"
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+      >
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage + 1}
           goToPage={goToPage}
         />
       </div>
-
-      <div className="absolute bottom-4 right-4 flex flex-col gap-2 items-end">
+      <div
+        className="absolute z-10 bottom-4 right-4 flex flex-col gap-2 items-end"
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+      >
         <FullScreenButton />
         <Button
           variant="ghost"
           size="icon"
           onClick={zoomIn}
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
           className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-12 h-12 md:w-16 md:h-16 transition-all duration-300"
         >
           <Plus className="h-8 w-8" />
@@ -376,6 +384,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           variant="ghost"
           size="icon"
           onClick={zoomOut}
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
           className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-12 h-12 md:w-16 md:h-16 transition-all duration-300"
         >
           <Minus className="h-8 w-8" />
