@@ -39,8 +39,10 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const totalPages = pages.length
   const PAGE_RATIO = 500 / 710
   const [{ width, height }, setPageSize] = useState({ width: 500, height: 710 })
-  const pageWidth = width * scale
-  const pageHeight = height * scale
+  const scaledWidth = width * scale
+  const scaledHeight = height * scale
+  const pageWidth = scaledWidth
+  const pageHeight = scaledHeight
   const offsetX =
     currentPage === 0
       ? -pageWidth / 2
@@ -96,10 +98,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         return
       }
 
-      const currentMatrix = new DOMMatrix()
-        .translate(offsetX + translate.x, translate.y)
-        .scale(scale)
-      const bookPoint = point.matrixTransform(currentMatrix.inverse())
+      const bookPointX = (point.x - offsetX - translate.x) / scale
+      const bookPointY = (point.y - translate.y) / scale
 
       const newPageWidth = width * newScale
       const offsetXNew =
@@ -109,8 +109,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           ? newPageWidth / 2
           : 0
 
-      const newTranslateX = point.x - offsetXNew - bookPoint.x * newScale
-      const newTranslateY = point.y - bookPoint.y * newScale
+      const newTranslateX = point.x - offsetXNew - bookPointX * newScale
+      const newTranslateY = point.y - bookPointY * newScale
 
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
@@ -297,8 +297,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       onTouchEnd={endDragging}
     >
       <HTMLFlipBook
-        width={pageWidth}
-        height={pageHeight}
+        width={scaledWidth}
+        height={scaledHeight}
         showCover
         maxShadowOpacity={0.2}
         drawShadow
@@ -310,7 +310,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         ref={bookRef}
         onFlip={handleFlip}
         style={{
-          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+          transform: `translate(${offsetX + translate.x}px, ${translate.y}px)`,
           transition: isDragging ? "none" : "transform 0.3s ease",
           transformOrigin: "0 0",
           ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
