@@ -15,7 +15,7 @@ const CLOSED_SCALE = 1
 const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
-const V_MARGIN = 40
+const VIEWPORT_SCALE = 0.85
 
 interface Page {
   id: number
@@ -51,27 +51,21 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   useEffect(() => {
     const updateSize = () => {
       const { innerWidth, innerHeight } = window
-      const availableHeight = innerHeight - V_MARGIN * 2
-      let newWidth = innerWidth
-      let newHeight = newWidth / PAGE_RATIO
-      if (newHeight > availableHeight) {
-        newHeight = availableHeight
-        newWidth = newHeight * PAGE_RATIO
+      const maxBookWidth = innerWidth * VIEWPORT_SCALE
+      const maxBookHeight = innerHeight * VIEWPORT_SCALE
+      let pageHeight = maxBookHeight
+      let pageWidth = pageHeight * PAGE_RATIO
+      if (pageWidth * 2 > maxBookWidth) {
+        pageWidth = maxBookWidth / 2
+        pageHeight = pageWidth / PAGE_RATIO
       }
-      setPageSize({ width: newWidth, height: newHeight })
+      setPageSize({ width: pageWidth, height: pageHeight })
     }
 
     updateSize()
 
-    const container = containerRef.current
-    const resizeObserver = new ResizeObserver(updateSize)
-    if (container) resizeObserver.observe(container)
     window.addEventListener("resize", updateSize)
-
-    return () => {
-      resizeObserver.disconnect()
-      window.removeEventListener("resize", updateSize)
-    }
+    return () => window.removeEventListener("resize", updateSize)
   }, [])
 
   const handleNextPage = () => {
@@ -286,7 +280,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center px-4 py-10"
+      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
       style={{ backgroundColor: "#0E0E0E" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -306,6 +300,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         showPageCorners
         disableFlipByClick
         swipeDistance={30}
+        usePortrait={false}
         className="shadow-md flipbook"
         ref={bookRef}
         onFlip={handleFlip}
