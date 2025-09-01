@@ -61,16 +61,21 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       setPageSize({ width: newWidth, height: newHeight })
     }
 
+    const handleResize = () => {
+      updateSize()
+      setScale(CLOSED_SCALE)
+      setTranslate(INITIAL_POS)
+    }
     updateSize()
 
     const container = containerRef.current
     const resizeObserver = new ResizeObserver(updateSize)
     if (container) resizeObserver.observe(container)
-    window.addEventListener("resize", updateSize)
+    window.addEventListener("resize", handleResize)
 
     return () => {
       resizeObserver.disconnect()
-      window.removeEventListener("resize", updateSize)
+      window.removeEventListener("resize", handleResize)
     }
   }, [])
 
