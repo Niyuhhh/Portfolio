@@ -49,7 +49,7 @@ export default function ResponsiveFlipBook({ pages }: ResponsiveFlipBookProps) {
   const scaledHeight = BOOK_HEIGHT * scale
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div className="relative w-screen h-screen bg-black overflow-hidden">
       <div
         style={{
           width: BOOK_WIDTH,
@@ -62,7 +62,7 @@ export default function ResponsiveFlipBook({ pages }: ResponsiveFlipBookProps) {
         }}
       >
         <HTMLFlipBook
-          width={BOOK_WIDTH}
+          width={BOOK_WIDTH / 2}
           height={BOOK_HEIGHT}
           showCover
           ref={bookRef}
@@ -75,13 +75,13 @@ export default function ResponsiveFlipBook({ pages }: ResponsiveFlipBookProps) {
         </HTMLFlipBook>
         <button
           onClick={flipPrev}
-          className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-black/10 text-black p-2 rounded"
+          className="absolute top-1/2 left-4 -translate-y-1/2 z-10 text-white bg-black/40 hover:bg-black/60 p-2 rounded"
         >
           <ChevronLeft />
         </button>
         <button
           onClick={flipNext}
-          className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-black/10 text-black p-2 rounded"
+          className="absolute top-1/2 right-4 -translate-y-1/2 z-10 text-white bg-black/40 hover:bg-black/60 p-2 rounded"
         >
           <ChevronRight />
         </button>

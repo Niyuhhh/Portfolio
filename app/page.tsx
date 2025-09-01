@@ -4,7 +4,7 @@ import { ErrorBoundary } from "@/components/error-boundary"
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="h-screen bg-black">
       <ErrorBoundary>
         <ResponsiveFlipBook pages={portfolioPages} />
       </ErrorBoundary>
