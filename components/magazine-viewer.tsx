@@ -7,6 +7,7 @@ import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { Pagination } from "@/components/ui/pagination"
 import { FullScreenButton } from "@/components/fullscreen-button"
+import { useIsMobile } from "@/components/ui/use-mobile"
 import type { default as FlipBook } from "react-pageflip"
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
@@ -30,6 +31,7 @@ interface MagazineViewerProps {
 export function MagazineViewer({ pages }: MagazineViewerProps) {
   const bookRef = useRef<FlipBook | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
   const [currentPage, setCurrentPage] = useState(0)
   const [scale, setScale] = useState(CLOSED_SCALE)
   const [translate, setTranslate] = useState(INITIAL_POS)
@@ -53,6 +55,9 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       const { innerWidth, innerHeight } = window
       const availableHeight = innerHeight - V_MARGIN * 2
       let newWidth = innerWidth
+      if (isMobile) {
+        newWidth = innerWidth / 2
+      }
       let newHeight = newWidth / PAGE_RATIO
       if (newHeight > availableHeight) {
         newHeight = availableHeight
@@ -72,7 +77,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       resizeObserver.disconnect()
       window.removeEventListener("resize", updateSize)
     }
-  }, [])
+  }, [isMobile])
 
   const handleNextPage = () => {
     bookRef.current?.pageFlip()?.flipNext()
@@ -306,6 +311,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         showPageCorners
         disableFlipByClick
         swipeDistance={30}
+        usePortrait={isMobile}
         className="shadow-md flipbook"
         ref={bookRef}
         onFlip={handleFlip}
