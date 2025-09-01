@@ -1,35 +1,91 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import type React from "react"
+import { useEffect, useRef, useState } from "react"
 import dynamic from "next/dynamic"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
-function ResponsiveBook() {
-  const [screenHeight, setScreenHeight] = useState(0)
-  const [screenWidth, setScreenWidth] = useState(0)
+const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
+
+interface Page {
+  id: number
+  content: React.ReactNode
+}
+
+interface ResponsiveFlipBookProps {
+  pages: Page[]
+}
+
+const BOOK_WIDTH = 1000
+const BOOK_HEIGHT = 710
+
+export default function ResponsiveFlipBook({ pages }: ResponsiveFlipBookProps) {
+  const bookRef = useRef<any>(null)
+  const [scale, setScale] = useState(1)
 
   useEffect(() => {
-    const updateSize = () => {
-      setScreenHeight(window.innerHeight)
-      setScreenWidth(window.innerWidth)
+    const updateScale = () => {
+      const { innerWidth, innerHeight } = window
+      const newScale = Math.min(
+        innerWidth / BOOK_WIDTH,
+        innerHeight / BOOK_HEIGHT
+      )
+      setScale(newScale)
     }
-
-    updateSize()
-    window.addEventListener("resize", updateSize)
-    return () => window.removeEventListener("resize", updateSize)
+    updateScale()
+    window.addEventListener("resize", updateScale)
+    return () => window.removeEventListener("resize", updateScale)
   }, [])
 
+  const flipPrev = () => {
+    bookRef.current?.pageFlip()?.flipPrev()
+  }
+
+  const flipNext = () => {
+    bookRef.current?.pageFlip()?.flipNext()
+  }
+
+  const scaledWidth = BOOK_WIDTH * scale
+  const scaledHeight = BOOK_HEIGHT * scale
+
   return (
-    <div
-      style={{
-        height: screenHeight * 0.85,
-        width: screenWidth * 0.85,
-        margin: "0 auto",
-        backgroundColor: "#f0f0f0",
-      }}
-    >
-      {/* Book content goes here */}
+    <div className="relative w-screen h-screen overflow-hidden">
+      <div
+        style={{
+          width: BOOK_WIDTH,
+          height: BOOK_HEIGHT,
+          position: "absolute",
+          top: `calc(50% - ${scaledHeight / 2}px)`,
+          left: `calc(50% - ${scaledWidth / 2}px)`,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+        }}
+      >
+        <HTMLFlipBook
+          width={BOOK_WIDTH}
+          height={BOOK_HEIGHT}
+          showCover
+          ref={bookRef}
+        >
+          {pages.map((page) => (
+            <div key={page.id} className="w-full h-full overflow-hidden">
+              {page.content}
+            </div>
+          ))}
+        </HTMLFlipBook>
+        <button
+          onClick={flipPrev}
+          className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-black/10 text-black p-2 rounded"
+        >
+          <ChevronLeft />
+        </button>
+        <button
+          onClick={flipNext}
+          className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-black/10 text-black p-2 rounded"
+        >
+          <ChevronRight />
+        </button>
+      </div>
     </div>
   )
 }
-
-export default dynamic(() => Promise.resolve(ResponsiveBook), { ssr: false })
