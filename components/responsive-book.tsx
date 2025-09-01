@@ -1,22 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
+import { useViewport } from "@/hooks/useViewport"
 
 function ResponsiveBook() {
-  const [screenHeight, setScreenHeight] = useState(0)
-  const [screenWidth, setScreenWidth] = useState(0)
-
-  useEffect(() => {
-    const updateSize = () => {
-      setScreenHeight(window.innerHeight)
-      setScreenWidth(window.innerWidth)
-    }
-
-    updateSize()
-    window.addEventListener("resize", updateSize)
-    return () => window.removeEventListener("resize", updateSize)
-  }, [])
+  const { width: screenWidth, height: screenHeight } = useViewport()
 
   return (
     <div

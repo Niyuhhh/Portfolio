@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState, useRef, useEffect, useCallback } from "react"
+import { useViewport } from "@/hooks/useViewport"
 import { Plus, Minus, ChevronLeft, ChevronRight } from "lucide-react"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
@@ -39,6 +40,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const totalPages = pages.length
   const PAGE_RATIO = 500 / 710
   const [{ width, height }, setPageSize] = useState({ width: 500, height: 710 })
+  const { width: viewportWidth, height: viewportHeight } = useViewport()
   const pageWidth = width * scale
   const pageHeight = height * scale
   const offsetX =
@@ -49,10 +51,10 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       : 0
 
   useEffect(() => {
+    if (!viewportWidth || !viewportHeight) return
     const updateSize = () => {
-      const { innerWidth, innerHeight } = window
-      const availableHeight = innerHeight - V_MARGIN * 2
-      let newWidth = innerWidth
+      const availableHeight = viewportHeight - V_MARGIN * 2
+      let newWidth = viewportWidth
       let newHeight = newWidth / PAGE_RATIO
       if (newHeight > availableHeight) {
         newHeight = availableHeight
@@ -66,13 +68,11 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     const container = containerRef.current
     const resizeObserver = new ResizeObserver(updateSize)
     if (container) resizeObserver.observe(container)
-    window.addEventListener("resize", updateSize)
 
     return () => {
       resizeObserver.disconnect()
-      window.removeEventListener("resize", updateSize)
     }
-  }, [])
+  }, [viewportWidth, viewportHeight])
 
   const handleNextPage = () => {
     bookRef.current?.pageFlip()?.flipNext()
