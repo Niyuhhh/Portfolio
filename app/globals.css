@@ -225,6 +225,7 @@
 
 .book-clickable {
   animation: blue-pulse 2s ease-in-out 2;
+  animation-fill-mode: forwards;
   background: white;
   color: black;
   border: 1px solid black;
