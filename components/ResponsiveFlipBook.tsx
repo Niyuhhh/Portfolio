@@ -1,90 +1,155 @@
-"use client";
+"use client"
 
-import { useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
+import type { ReactNode } from "react"
+import { useEffect, useRef, useState } from "react"
+import dynamic from "next/dynamic"
+import type { default as FlipBook } from "react-pageflip"
 
-// react-pageflip doit être chargé uniquement côté client
-const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false });
+const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
 
 export interface ResponsiveFlipBookProps {
-  pages: string[];
-  ratio?: number; // ratio largeur/hauteur d'une page
+  pages: ReactNode[]
+  pageAspectRatio?: number
+  marginLeftRatio?: number
+  marginRightRatio?: number
+  marginTopRatio?: number
+  marginBottomRatio?: number
+  maxBookWidth?: number
+  maxBookHeight?: number
+  className?: string
 }
 
-export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveFlipBookProps) {
-  const bookRef = useRef<any>(null);
-  const [size, setSize] = useState({
+export function ResponsiveFlipBook({
+  pages,
+  pageAspectRatio = 1.414,
+  marginLeftRatio = 0,
+  marginRightRatio = 0,
+  marginTopRatio = 0,
+  marginBottomRatio = 0,
+  maxBookWidth,
+  maxBookHeight,
+  className,
+}: ResponsiveFlipBookProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const bookRef = useRef<FlipBook | null>(null)
+  const [{ pageWidth, pageHeight, left, top }, setLayout] = useState({
     pageWidth: 0,
     pageHeight: 0,
-  });
+    left: 0,
+    top: 0,
+  })
 
-  // calcul dynamique du responsive
-  useEffect(() => {
-    const updateSize = () => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+  const updateLayout = () => {
+    const container = containerRef.current
+    if (!container) return
+    const cw = container.clientWidth
+    const ch = container.clientHeight
 
-      // hauteur max : 90% viewport, largeur max : 95% viewport
-      let pageHeight = vh * 0.9;
-      let pageWidth = pageHeight * ratio;
+    const marginLeft = cw * marginLeftRatio
+    const marginRight = cw * marginRightRatio
+    const marginTop = ch * marginTopRatio
+    const marginBottom = ch * marginBottomRatio
 
-      if (pageWidth * 2 > vw * 0.95) {
-        pageWidth = (vw * 0.95) / 2;
-        pageHeight = pageWidth / ratio;
+    let frameWidth = cw - marginLeft - marginRight
+    let frameHeight = ch - marginTop - marginBottom
+
+    if (maxBookWidth !== undefined) frameWidth = Math.min(frameWidth, maxBookWidth)
+    if (maxBookHeight !== undefined) frameHeight = Math.min(frameHeight, maxBookHeight)
+
+    frameWidth = Math.max(frameWidth, 0)
+    frameHeight = Math.max(frameHeight, 0)
+
+    let newPageWidth = frameWidth / 2
+    let newPageHeight = newPageWidth * pageAspectRatio
+
+    if (newPageHeight > frameHeight) {
+      newPageHeight = frameHeight
+      newPageWidth = newPageHeight / pageAspectRatio
+    }
+
+    const bookWidth = newPageWidth * 2
+    const bookHeight = newPageHeight
+
+    const newLeft = marginLeft + (frameWidth - bookWidth) / 2
+    const newTop = marginTop + (frameHeight - bookHeight) / 2
+
+    setLayout(prev => {
+      if (
+        prev.pageWidth === newPageWidth &&
+        prev.pageHeight === newPageHeight &&
+        prev.left === newLeft &&
+        prev.top === newTop
+      ) {
+        return prev
       }
+      return {
+        pageWidth: newPageWidth,
+        pageHeight: newPageHeight,
+        left: newLeft,
+        top: newTop,
+      }
+    })
+  }
 
-      setSize({ pageWidth, pageHeight });
-    };
+  useEffect(() => {
+    updateLayout()
+    const container = containerRef.current
+    let resizeObserver: ResizeObserver | null = null
+    if (container && typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(updateLayout)
+      resizeObserver.observe(container)
+    } else {
+      window.addEventListener("resize", updateLayout)
+    }
+    return () => {
+      if (resizeObserver && container) {
+        resizeObserver.unobserve(container)
+        resizeObserver.disconnect()
+      } else {
+        window.removeEventListener("resize", updateLayout)
+      }
+    }
+  }, [
+    pageAspectRatio,
+    marginLeftRatio,
+    marginRightRatio,
+    marginTopRatio,
+    marginBottomRatio,
+    maxBookWidth,
+    maxBookHeight,
+  ])
 
-    updateSize();
-    window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
-  }, [ratio]);
-
-  if (!size.pageWidth) return null;
+  useEffect(() => {
+    if (bookRef.current) {
+      bookRef.current.pageFlip().update()
+    }
+  }, [pageWidth, pageHeight])
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black">
-      <HTMLFlipBook
-        ref={bookRef}
-        key={`${size.pageWidth}x${size.pageHeight}`} // force re-render au resize
-        width={size.pageWidth}
-        height={size.pageHeight}
-        size="fixed"
-        minWidth={200}
-        maxWidth={3000}
-        minHeight={200}
-        maxHeight={4000}
-        showCover={true}
-        usePortrait={false} // 🚀 force toujours double page
-        className="shadow-2xl"
-      >
-        {pages.map((src, index) => (
-          <div key={index} className="w-full h-full">
-            <img
-              src={src}
-              alt={`page-${index + 1}`}
-              className="w-full h-full object-cover"
-              draggable={false}
-            />
-          </div>
-        ))}
-      </HTMLFlipBook>
-
-      {/* Boutons navigation */}
-      <button
-        onClick={() => bookRef.current?.pageFlip().flipPrev()}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-1 rounded"
-      >
-        ◀
-      </button>
-      <button
-        onClick={() => bookRef.current?.pageFlip().flipNext()}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-1 rounded"
-      >
-        ▶
-      </button>
+    <div
+      ref={containerRef}
+      className={className}
+      style={{ position: "relative", width: "100%", height: "100%" }}
+    >
+      {pageWidth > 0 && pageHeight > 0 && (
+        <HTMLFlipBook
+          ref={bookRef}
+          width={pageWidth}
+          height={pageHeight}
+          usePortrait={false}
+          autoSize={false}
+          style={{ position: "absolute", left, top }}
+        >
+          {pages.map((page, index) => (
+            <div key={index} className="w-full h-full">
+              {page}
+            </div>
+          ))}
+        </HTMLFlipBook>
+      )}
     </div>
-  );
+  )
 }
+
+export default ResponsiveFlipBook
 
