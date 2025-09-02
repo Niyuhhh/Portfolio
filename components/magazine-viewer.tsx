@@ -50,14 +50,24 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
   useEffect(() => {
     const updateSize = () => {
-      const { innerWidth, innerHeight } = window
-      const availableHeight = innerHeight - V_MARGIN * 2
-      let newWidth = innerWidth
+      const container = containerRef.current
+      const viewportWidth = window.innerWidth * 0.95
+      const viewportHeight = window.innerHeight * 0.95
+      const maxWidth = container
+        ? Math.min(container.clientWidth, viewportWidth)
+        : viewportWidth
+      const maxHeight = container
+        ? Math.min(container.clientHeight, viewportHeight)
+        : viewportHeight
+
+      let newWidth = maxWidth
       let newHeight = newWidth / PAGE_RATIO
-      if (newHeight > availableHeight) {
-        newHeight = availableHeight
+
+      if (newHeight > maxHeight) {
+        newHeight = maxHeight
         newWidth = newHeight * PAGE_RATIO
       }
+
       setPageSize({ width: newWidth, height: newHeight })
     }
 
