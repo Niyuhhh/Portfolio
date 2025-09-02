@@ -34,6 +34,10 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
       }
 
       setSize({ pageWidth, pageHeight });
+
+      // Resize the flipbook immediately without requiring a full re-render
+      const pageFlip = bookRef.current?.pageFlip();
+      pageFlip?.update({ width: pageWidth, height: pageHeight });
     };
 
     updateSize();
@@ -47,7 +51,6 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
     <div className="fixed inset-0 flex items-center justify-center bg-black">
       <HTMLFlipBook
         ref={bookRef}
-        key={`${size.pageWidth}x${size.pageHeight}`} // force re-render au resize
         width={size.pageWidth}
         height={size.pageHeight}
         size="fixed"
