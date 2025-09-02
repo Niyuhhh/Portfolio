@@ -1,9 +1,9 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import dynamic from "next/dynamic"
-import type { default as FlipBook } from "react-pageflip"
+import type HTMLFlipBookType from "react-pageflip"
 
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false })
 
@@ -31,7 +31,7 @@ export function ResponsiveFlipBook({
   className,
 }: ResponsiveFlipBookProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const bookRef = useRef<FlipBook | null>(null)
+  const bookRef = useRef<HTMLFlipBookType | null>(null)
   const [{ pageWidth, pageHeight, left, top }, setLayout] = useState({
     pageWidth: 0,
     pageHeight: 0,
@@ -39,7 +39,7 @@ export function ResponsiveFlipBook({
     top: 0,
   })
 
-  const updateLayout = () => {
+  const updateLayout = useCallback(() => {
     const container = containerRef.current
     if (!container) return
     const cw = container.clientWidth
@@ -89,7 +89,15 @@ export function ResponsiveFlipBook({
         top: newTop,
       }
     })
-  }
+  }, [
+    marginLeftRatio,
+    marginRightRatio,
+    marginTopRatio,
+    marginBottomRatio,
+    pageAspectRatio,
+    maxBookWidth,
+    maxBookHeight,
+  ])
 
   useEffect(() => {
     updateLayout()
@@ -109,15 +117,7 @@ export function ResponsiveFlipBook({
         window.removeEventListener("resize", updateLayout)
       }
     }
-  }, [
-    pageAspectRatio,
-    marginLeftRatio,
-    marginRightRatio,
-    marginTopRatio,
-    marginBottomRatio,
-    maxBookWidth,
-    maxBookHeight,
-  ])
+  }, [updateLayout])
 
   useEffect(() => {
     if (bookRef.current) {
