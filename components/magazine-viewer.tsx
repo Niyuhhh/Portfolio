@@ -50,9 +50,11 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
   useEffect(() => {
     const updateSize = () => {
-      const { innerWidth, innerHeight } = window
-      const availableHeight = innerHeight - V_MARGIN * 2
-      let newWidth = innerWidth
+      const container = containerRef.current
+      if (!container) return
+
+      const availableHeight = container.clientHeight - V_MARGIN * 2
+      let newWidth = container.clientWidth
       let newHeight = newWidth / PAGE_RATIO
       if (newHeight > availableHeight) {
         newHeight = availableHeight
@@ -66,11 +68,9 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     const container = containerRef.current
     const resizeObserver = new ResizeObserver(updateSize)
     if (container) resizeObserver.observe(container)
-    window.addEventListener("resize", updateSize)
 
     return () => {
       resizeObserver.disconnect()
-      window.removeEventListener("resize", updateSize)
     }
   }, [])
 
