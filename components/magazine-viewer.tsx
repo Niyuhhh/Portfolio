@@ -150,19 +150,27 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     setCurrentPage(page)
   }
 
+  const isInteractiveElement = (target: EventTarget | null) => {
+    return (
+      target instanceof HTMLElement &&
+      target.closest("button, a, .book-clickable") !== null
+    )
+  }
+
   const startDragging = (clientX: number, clientY: number) => {
     setIsDragging(true)
     lastPointer.current = { x: clientX, y: clientY }
   }
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (scale <= OPEN_SCALE) return
+    if (scale <= OPEN_SCALE || isInteractiveElement(e.target)) return
     startDragging(e.clientX, e.clientY)
   }
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     if (scale <= OPEN_SCALE) return
     const touch = e.touches[0]
+    if (isInteractiveElement(touch.target)) return
     startDragging(touch.clientX, touch.clientY)
   }
 

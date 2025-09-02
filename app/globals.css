@@ -212,6 +212,13 @@
   transition-delay: 0.1s;
 }
 
+/* Ensure interactive elements remain clickable when zoomed */
+.flipbook button,
+.flipbook a,
+.flipbook .book-clickable {
+  pointer-events: auto;
+}
+
 /* Blue pulse animation for clickable book buttons */
 @keyframes blue-pulse {
   0%,
