@@ -32,6 +32,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [currentPage, setCurrentPage] = useState(0)
   const [scale, setScale] = useState(CLOSED_SCALE)
+  const [minScale, setMinScale] = useState(CLOSED_SCALE)
   const [translate, setTranslate] = useState(INITIAL_POS)
   const [isDragging, setIsDragging] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
@@ -74,6 +75,20 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     }
   }, [])
 
+  useEffect(() => {
+    const container = containerRef.current
+    if (container) {
+      const minScaleX = container.clientWidth / width
+      const minScaleY = container.clientHeight / height
+      const newMinScale = Math.min(minScaleX, minScaleY, CLOSED_SCALE)
+      setMinScale(newMinScale)
+    } else {
+      setMinScale(CLOSED_SCALE)
+    }
+    setScale(CLOSED_SCALE)
+    setTranslate(INITIAL_POS)
+  }, [width, height])
+
   const handleNextPage = () => {
     bookRef.current?.pageFlip()?.flipNext()
   }
@@ -88,7 +103,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
   const zoomAtPoint = useCallback(
     (point: DOMPoint, targetScale: number) => {
-      let newScale = Math.min(Math.max(targetScale, OPEN_SCALE), 2)
+      let newScale = Math.min(Math.max(targetScale, minScale), 2)
 
       if (newScale <= OPEN_SCALE) {
         setTranslate(INITIAL_POS)
@@ -115,7 +130,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate, width]
+    [currentPage, totalPages, offsetX, scale, translate, width, minScale]
   )
 
   const zoom = (delta: number) => {
