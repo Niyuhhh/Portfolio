@@ -284,38 +284,39 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   }, [scale, zoomAtPoint])
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center px-4 py-10"
-      style={{ backgroundColor: "#0E0E0E" }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={endDragging}
-      onMouseLeave={endDragging}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={endDragging}
-    >
-      <HTMLFlipBook
-        width={pageWidth}
-        height={pageHeight}
-        showCover
-        maxShadowOpacity={0.2}
-        drawShadow
-        flippingTime={FLIP_DURATION}
-        showPageCorners
-        disableFlipByClick
-        swipeDistance={30}
-        className="shadow-md flipbook"
-        ref={bookRef}
-        onFlip={handleFlip}
-        style={{
-          transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-          transition: isDragging ? "none" : "transform 0.3s ease",
-          transformOrigin: "0 0",
-          ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
-        }}
+    <div className="w-full h-full" style={{ maxWidth: "100%", maxHeight: "100%" }}>
+      <div
+        ref={containerRef}
+        className="relative w-full h-full overflow-hidden flex items-center justify-center px-4 py-10"
+        style={{ backgroundColor: "#0E0E0E", maxWidth: "100%", maxHeight: "100%" }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={endDragging}
+        onMouseLeave={endDragging}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={endDragging}
       >
+        <HTMLFlipBook
+          showCover
+          maxShadowOpacity={0.2}
+          drawShadow
+          flippingTime={FLIP_DURATION}
+          showPageCorners
+          disableFlipByClick
+          swipeDistance={30}
+          className="shadow-md flipbook w-full h-full"
+          ref={bookRef}
+          onFlip={handleFlip}
+          style={{
+            width: "100%",
+            height: "100%",
+            transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
+            transition: isDragging ? "none" : "transform 0.3s ease",
+            transformOrigin: "0 0",
+            ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
+          }}
+        >
         {pages.map((page, index) => {
           const isFirst = index === 0
           const isLast = index === totalPages - 1
@@ -382,5 +383,6 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         </Button>
       </div>
     </div>
+  </div>
   )
 }
