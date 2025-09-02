@@ -21,15 +21,15 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
   // calcul dynamique du responsive
   useEffect(() => {
     const updateSize = () => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      const marginRatio = 0.05;
+      const availableWidth = window.innerWidth * (1 - marginRatio * 2);
+      const availableHeight = window.innerHeight * (1 - marginRatio * 2);
 
-      // hauteur max : 90% viewport, largeur max : 95% viewport
-      let pageHeight = vh * 0.9;
+      let pageHeight = availableHeight;
       let pageWidth = pageHeight * ratio;
 
-      if (pageWidth * 2 > vw * 0.95) {
-        pageWidth = (vw * 0.95) / 2;
+      if (pageWidth * 2 > availableWidth) {
+        pageWidth = availableWidth / 2;
         pageHeight = pageWidth / ratio;
       }
 
