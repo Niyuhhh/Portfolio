@@ -299,6 +299,9 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       <HTMLFlipBook
         width={pageWidth}
         height={pageHeight}
+        minWidth={0}
+        minHeight={0}
+        usePortrait={false}
         showCover
         maxShadowOpacity={0.2}
         drawShadow
