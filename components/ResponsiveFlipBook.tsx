@@ -13,6 +13,7 @@ export interface ResponsiveFlipBookProps {
   marginBottomPercent?: number;
   fullscreenMarginTopPercent?: number;
   fullscreenMarginBottomPercent?: number;
+  fullscreenScale?: number;
   className?: string;
 }
 
@@ -30,6 +31,7 @@ export default function ResponsiveFlipBook({
   marginBottomPercent = 6,
   fullscreenMarginTopPercent = 5,
   fullscreenMarginBottomPercent = 5,
+  fullscreenScale = 1.1,
   className,
 }: ResponsiveFlipBookProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -121,21 +123,29 @@ export default function ResponsiveFlipBook({
       style={{ paddingTop: size.marginTop, paddingBottom: size.marginBottom }}
     >
       {size.pageWidth > 0 && (
-        <HTMLFlipBook
-          ref={bookRef}
-          width={size.pageWidth}
-          height={size.pageHeight}
-          size="fixed"
-          autoSize={false}
-          usePortrait={false}
-          className="shadow-2xl"
+        <div
+          style={{
+            transform: isFullscreen ? `scale(${fullscreenScale})` : "scale(1)",
+            transformOrigin: "top center",
+            transition: "transform 0.2s",
+          }}
         >
-          {pages.map((page, idx) => (
-            <div key={idx} className="w-full h-full">
-              {page}
-            </div>
-          ))}
-        </HTMLFlipBook>
+          <HTMLFlipBook
+            ref={bookRef}
+            width={size.pageWidth}
+            height={size.pageHeight}
+            size="fixed"
+            autoSize={false}
+            usePortrait={false}
+            className="shadow-2xl"
+          >
+            {pages.map((page, idx) => (
+              <div key={idx} className="w-full h-full">
+                {page}
+              </div>
+            ))}
+          </HTMLFlipBook>
+        </div>
       )}
     </div>
   );
