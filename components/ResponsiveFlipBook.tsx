@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 
 // react-pageflip doit être chargé uniquement côté client
@@ -13,11 +13,6 @@ export interface ResponsiveFlipBookProps {
 
 export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveFlipBookProps) {
   const bookRef = useRef<any>(null);
-  const [size, setSize] = useState({
-    pageWidth: 0,
-    pageHeight: 0,
-  });
-
   // calcul dynamique du responsive
   useEffect(() => {
     const updateSize = () => {
@@ -33,7 +28,7 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
         pageHeight = pageWidth / ratio;
       }
 
-      setSize({ pageWidth, pageHeight });
+      bookRef.current?.pageFlip().update({ width: pageWidth, height: pageHeight });
     };
 
     updateSize();
@@ -41,15 +36,12 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
     return () => window.removeEventListener("resize", updateSize);
   }, [ratio]);
 
-  if (!size.pageWidth) return null;
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black">
       <HTMLFlipBook
         ref={bookRef}
-        key={`${size.pageWidth}x${size.pageHeight}`} // force re-render au resize
-        width={size.pageWidth}
-        height={size.pageHeight}
+        width={1}
+        height={1}
         size="fixed"
         minWidth={200}
         maxWidth={3000}
