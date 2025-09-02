@@ -15,7 +15,7 @@ const CLOSED_SCALE = 1
 const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
-const V_MARGIN = 40
+const marginRatio = 0.05
 
 interface Page {
   id: number
@@ -51,13 +51,17 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   useEffect(() => {
     const updateSize = () => {
       const { innerWidth, innerHeight } = window
-      const availableHeight = innerHeight - V_MARGIN * 2
-      let newWidth = innerWidth
+      const availableWidth = innerWidth * (1 - marginRatio * 2)
+      const availableHeight = innerHeight * (1 - marginRatio * 2)
+
+      let newWidth = availableWidth
       let newHeight = newWidth / PAGE_RATIO
+
       if (newHeight > availableHeight) {
         newHeight = availableHeight
         newWidth = newHeight * PAGE_RATIO
       }
+
       setPageSize({ width: newWidth, height: newHeight })
     }
 
@@ -286,7 +290,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center px-4 py-10"
+      className="relative w-full h-screen overflow-hidden flex items-center justify-center"
       style={{ backgroundColor: "#0E0E0E" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
