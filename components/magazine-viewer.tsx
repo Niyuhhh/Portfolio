@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useRef, useEffect, useCallback } from "react"
+import { useState, useRef, useEffect, useCallback, useMemo } from "react"
 import { Plus, Minus, ChevronLeft, ChevronRight } from "lucide-react"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
@@ -47,6 +47,15 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       : currentPage === totalPages - 1
       ? pageWidth / 2
       : 0
+
+  const { showPageCorners, drawShadow, maxShadowOpacity } = useMemo(() => {
+    const enabled = scale <= OPEN_SCALE
+    return {
+      showPageCorners: enabled,
+      drawShadow: enabled,
+      maxShadowOpacity: enabled ? 0.2 : 0,
+    }
+  }, [scale])
 
   useEffect(() => {
     const updateSize = () => {
@@ -303,10 +312,10 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         minHeight={0}
         usePortrait={false}
         showCover
-        maxShadowOpacity={0.2}
-        drawShadow
+        showPageCorners={showPageCorners}
+        drawShadow={drawShadow}
+        maxShadowOpacity={maxShadowOpacity}
         flippingTime={FLIP_DURATION}
-        showPageCorners
         disableFlipByClick
         swipeDistance={30}
         className="shadow-md flipbook"
