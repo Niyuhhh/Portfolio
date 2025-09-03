@@ -18,18 +18,19 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
     pageHeight: 0,
   });
 
+  const margin = 40; // marge constante autour du flipbook
+
   // calcul dynamique du responsive
   useEffect(() => {
     const updateSize = () => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      const availableWidth = window.innerWidth - margin * 2;
+      const availableHeight = window.innerHeight - margin * 2;
 
-      // hauteur max : 90% viewport, largeur max : 95% viewport
-      let pageHeight = vh * 0.9;
+      let pageHeight = availableHeight;
       let pageWidth = pageHeight * ratio;
 
-      if (pageWidth * 2 > vw * 0.95) {
-        pageWidth = (vw * 0.95) / 2;
+      if (pageWidth * 2 > availableWidth) {
+        pageWidth = availableWidth / 2;
         pageHeight = pageWidth / ratio;
       }
 
@@ -39,37 +40,39 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
     updateSize();
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
-  }, [ratio]);
+  }, [ratio, margin]);
 
   if (!size.pageWidth) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black">
-      <HTMLFlipBook
-        ref={bookRef}
-        key={`${size.pageWidth}x${size.pageHeight}`} // force re-render au resize
-        width={size.pageWidth}
-        height={size.pageHeight}
-        size="fixed"
-        minWidth={200}
-        maxWidth={3000}
-        minHeight={200}
-        maxHeight={4000}
-        showCover={true}
-        usePortrait={false} // 🚀 force toujours double page
-        className="shadow-2xl"
-      >
-        {pages.map((src, index) => (
-          <div key={index} className="w-full h-full">
-            <img
-              src={src}
-              alt={`page-${index + 1}`}
-              className="w-full h-full object-cover"
-              draggable={false}
-            />
-          </div>
-        ))}
-      </HTMLFlipBook>
+      <div style={{ padding: margin }}>
+        <HTMLFlipBook
+          ref={bookRef}
+          key={`${size.pageWidth}x${size.pageHeight}`} // force re-render au resize
+          width={size.pageWidth}
+          height={size.pageHeight}
+          size="fixed"
+          minWidth={200}
+          maxWidth={3000}
+          minHeight={200}
+          maxHeight={4000}
+          showCover={true}
+          usePortrait={false} // 🚀 force toujours double page
+          className="shadow-2xl"
+        >
+          {pages.map((src, index) => (
+            <div key={index} className="w-full h-full">
+              <img
+                src={src}
+                alt={`page-${index + 1}`}
+                className="w-full h-full object-cover"
+                draggable={false}
+              />
+            </div>
+          ))}
+        </HTMLFlipBook>
+      </div>
 
       {/* Boutons navigation */}
       <button
