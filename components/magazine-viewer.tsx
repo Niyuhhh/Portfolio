@@ -48,14 +48,16 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       ? pageWidth / 2
       : 0
 
-  const { showPageCorners, drawShadow, maxShadowOpacity } = useMemo(() => {
-    const enabled = scale <= OPEN_SCALE
-    return {
-      showPageCorners: enabled,
-      drawShadow: enabled,
-      maxShadowOpacity: enabled ? 0.2 : 0,
-    }
-  }, [scale])
+  const { showPageCorners, drawShadow, maxShadowOpacity, useMouseEvents } =
+    useMemo(() => {
+      const enabled = scale <= OPEN_SCALE
+      return {
+        showPageCorners: enabled,
+        drawShadow: enabled,
+        maxShadowOpacity: enabled ? 0.2 : 0,
+        useMouseEvents: enabled,
+      }
+    }, [scale])
 
   useEffect(() => {
     const updateSize = () => {
@@ -84,14 +86,17 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   }, [])
 
   const handleNextPage = () => {
+    if (scale > OPEN_SCALE) return
     bookRef.current?.pageFlip()?.flipNext()
   }
 
   const handlePrevPage = () => {
+    if (scale > OPEN_SCALE) return
     bookRef.current?.pageFlip()?.flipPrev()
   }
 
   const goToPage = (page: number) => {
+    if (scale > OPEN_SCALE) return
     bookRef.current?.pageFlip()?.flip(page - 1)
   }
 
@@ -317,6 +322,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         maxShadowOpacity={maxShadowOpacity}
         flippingTime={FLIP_DURATION}
         disableFlipByClick
+        useMouseEvents={useMouseEvents}
         swipeDistance={30}
         className="shadow-md flipbook"
         ref={bookRef}
