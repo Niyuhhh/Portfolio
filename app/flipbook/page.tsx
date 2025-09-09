@@ -1,12 +1,31 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResponsiveFlipBook from "@/components/ResponsiveFlipBook";
 import LandscapeGuard from "@/components/landscape-guard";
+import Loader from "@/components/loader";
 
 export default function FlipbookPage() {
   const fullscreenRef = useRef<HTMLDivElement>(null);
   const pages = ["/images/PAGE 6.png", "/images/PAGE 7.png"];
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadImages = async () => {
+      const promises = pages.map(
+        (src) =>
+          new Promise<void>((resolve) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+          })
+      );
+      await Promise.all(promises);
+      setIsLoading(false);
+    };
+    loadImages();
+  }, [pages]);
 
   const requestFullscreenAndLockLandscape = async () => {
     const el = fullscreenRef.current;
@@ -24,22 +43,25 @@ export default function FlipbookPage() {
   return (
     <div className="w-full h-[100dvh]" ref={fullscreenRef}>
       <LandscapeGuard enableOnMobile fullscreenTargetRef={fullscreenRef}>
-        <ResponsiveFlipBook pages={pages} />
+        {!isLoading && <ResponsiveFlipBook pages={pages} />}
       </LandscapeGuard>
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-        <button
-          onClick={requestFullscreenAndLockLandscape}
-          className="px-3 py-1 bg-white/20 text-white rounded"
-        >
-          Enter fullscreen
-        </button>
-        <button
-          onClick={() => document.exitFullscreen()}
-          className="px-3 py-1 bg-white/20 text-white rounded"
-        >
-          Exit fullscreen
-        </button>
-      </div>
+      {!isLoading && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+          <button
+            onClick={requestFullscreenAndLockLandscape}
+            className="px-3 py-1 bg-white/20 text-white rounded"
+          >
+            Enter fullscreen
+          </button>
+          <button
+            onClick={() => document.exitFullscreen()}
+            className="px-3 py-1 bg-white/20 text-white rounded"
+          >
+            Exit fullscreen
+          </button>
+        </div>
+      )}
+      {isLoading && <Loader />}
     </div>
   );
 }
