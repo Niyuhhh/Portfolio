@@ -11,20 +11,34 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-interface PaginationProps extends React.ComponentProps<"div"> {
-  totalPages: number
+interface SectionSelectorProps extends React.ComponentProps<"div"> {
+  sections: { label: string; page: number }[]
   currentPage: number
   goToPage: (page: number) => void
 }
 
-function Pagination({
-  totalPages,
+function SectionSelector({
+  sections,
   currentPage,
   goToPage,
   className,
   ...props
-}: PaginationProps) {
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
+}: SectionSelectorProps) {
+  const activeSection = React.useMemo(() => {
+    return sections.reduce<{
+      label: string
+      page: number
+    } | undefined>((matched, section) => {
+      if (section.page <= currentPage) {
+        if (!matched || section.page >= matched.page) {
+          return section
+        }
+      }
+      return matched
+    }, undefined)
+  }, [sections, currentPage])
+
+  const value = activeSection ? String(activeSection.page) : undefined
 
   return (
     <div
@@ -32,21 +46,18 @@ function Pagination({
       className={cn("mx-auto flex w-full justify-center", className)}
       {...props}
     >
-      <Select
-        value={String(currentPage)}
-        onValueChange={(value) => goToPage(Number(value))}
-      >
-        <SelectTrigger className="h-9 w-24 bg-white/10 text-white border-none">
-          <SelectValue placeholder={`Page ${currentPage}`} />
+      <Select value={value} onValueChange={(next) => goToPage(Number(next))}>
+        <SelectTrigger className="h-9 min-w-[12rem] border-none bg-white/10 text-white">
+          <SelectValue placeholder="Sélectionner une section" />
         </SelectTrigger>
-        <SelectContent className="bg-white/10 backdrop-blur-sm text-white border-none">
-          {pages.map((page) => (
+        <SelectContent className="border-none bg-white/10 text-white backdrop-blur-sm">
+          {sections.map((section) => (
             <SelectItem
-              key={page}
-              value={String(page)}
+              key={section.page}
+              value={String(section.page)}
               className="text-white focus:bg-white/20"
             >
-              {page}
+              {section.label}
             </SelectItem>
           ))}
         </SelectContent>
@@ -55,5 +66,5 @@ function Pagination({
   )
 }
 
-export { Pagination }
+export { SectionSelector }
 

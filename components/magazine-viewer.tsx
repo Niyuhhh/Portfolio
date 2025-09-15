@@ -5,7 +5,7 @@ import { useState, useRef, useEffect, useCallback } from "react"
 import { Plus, Minus, ChevronLeft, ChevronRight } from "lucide-react"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
-import { Pagination } from "@/components/ui/pagination"
+import { SectionSelector } from "@/components/ui/pagination"
 import { FullScreenButton } from "@/components/fullscreen-button"
 import type { default as FlipBook } from "react-pageflip"
 
@@ -16,6 +16,15 @@ const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
 const V_MARGIN = 40
+
+const sections = [
+  { label: "Couverture", page: 1 },
+  { label: "Projet BJÖRN", page: 6 },
+  { label: "Processus de conception", page: 10 },
+  { label: "Site web MBAT", page: 17 },
+  { label: "Contact", page: 20 },
+  { label: "Vidéo", page: 21 },
+]
 
 interface Page {
   id: number
@@ -366,8 +375,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       </Button>
 
       <div className="absolute bottom-4 left-4">
-        <Pagination
-          totalPages={totalPages}
+        <SectionSelector
+          sections={sections}
           currentPage={currentPage + 1}
           goToPage={goToPage}
         />
