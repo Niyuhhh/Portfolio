@@ -26,6 +26,36 @@ export const metadata: Metadata = {
   description:
     "Interactive digital magazine portfolio showcasing branding, packaging, illustration, and web & motion design work.",
   generator: "v0.app",
+  icons: {
+    icon: [
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        url: "https://res.cloudinary.com/dakxjcdyp/image/upload/c_fill,w_16,h_16/v1757931408/Nouvelle-pp-bon_qqdkrb.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        url: "https://res.cloudinary.com/dakxjcdyp/image/upload/c_fill,w_32,h_32/v1757931408/Nouvelle-pp-bon_qqdkrb.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "512x512",
+        url: "https://res.cloudinary.com/dakxjcdyp/image/upload/c_fill,w_512,h_512/v1757931408/Nouvelle-pp-bon_qqdkrb.png",
+      },
+    ],
+    apple: [
+      {
+        rel: "apple-touch-icon",
+        type: "image/png",
+        sizes: "180x180",
+        url: "https://res.cloudinary.com/dakxjcdyp/image/upload/c_fill,w_180,h_180/v1757931408/Nouvelle-pp-bon_qqdkrb.png",
+      },
+    ],
+  },
 }
 
 export default function RootLayout({
