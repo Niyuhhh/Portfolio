@@ -5,7 +5,13 @@ import { useState, useRef, useEffect, useCallback } from "react"
 import { Plus, Minus, ChevronLeft, ChevronRight } from "lucide-react"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
-import { Pagination } from "@/components/ui/pagination"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { FullScreenButton } from "@/components/fullscreen-button"
 import type { default as FlipBook } from "react-pageflip"
 
@@ -16,6 +22,54 @@ const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
 const V_MARGIN = 40
+
+const sections = [
+  { page: 1, label: "01- Accueil" },
+  { page: 4, label: "04- Sommaire" },
+  { page: 6, label: "06- Björn" },
+  { page: 10, label: "10- MBAT" },
+  { page: 18, label: "18- Daily energy" },
+  { page: 22, label: "22- Frau Wurst" },
+  { page: 26, label: "26- Trajectoire" },
+  { page: 30, label: "30- Biennale Milan" },
+]
+
+interface SectionSelectorProps {
+  currentPage: number
+  goToPage: (page: number) => void
+}
+
+function SectionSelector({ currentPage, goToPage }: SectionSelectorProps) {
+  const currentSection =
+    sections
+      .slice()
+      .reverse()
+      .find((section) => currentPage >= section.page) ?? sections[0]
+
+  return (
+    <div className="mx-auto flex w-full justify-center">
+      <Select
+        value={String(currentSection.page)}
+        onValueChange={(value) => goToPage(Number(value))}
+      >
+        <SelectTrigger className="h-9 w-48 bg-white/10 text-white border-none">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="bg-white/10 backdrop-blur-sm text-white border-none">
+          {sections.map((section) => (
+            <SelectItem
+              key={section.page}
+              value={String(section.page)}
+              className="text-white focus:bg-white/20"
+            >
+              {section.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  )
+}
 
 interface Page {
   id: number
@@ -366,8 +420,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       </Button>
 
       <div className="absolute bottom-4 left-4">
-        <Pagination
-          totalPages={totalPages}
+        <SectionSelector
           currentPage={currentPage + 1}
           goToPage={goToPage}
         />
