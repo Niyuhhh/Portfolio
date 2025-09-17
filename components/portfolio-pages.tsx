@@ -309,7 +309,20 @@ export const portfolioPages = [
   { id: 24, content: <div className="w-full h-full bg-white" /> },
   { id: 25, content: <div className="w-full h-full bg-white" /> },
   { id: 26, content: <div className="w-full h-full bg-white" /> },
-  { id: 27, content: <div className="w-full h-full bg-white" /> },
+  {
+    id: 27,
+    content: (
+      <div className="relative w-full h-full bg-black">
+        <iframe
+          src="https://www.youtube.com/embed/-C9GxSxPXzQ"
+          title="Portfolio flipbook video"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+          className="absolute inset-0 w-full h-full"
+        />
+      </div>
+    ),
+  },
   { id: 28, content: <div className="w-full h-full bg-white" /> },
   { id: 29, content: <div className="w-full h-full bg-white" /> },
   { id: 30, content: <div className="w-full h-full bg-white" /> },
