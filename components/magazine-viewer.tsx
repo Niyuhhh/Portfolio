@@ -88,6 +88,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const [scale, setScale] = useState(CLOSED_SCALE)
   const [translate, setTranslate] = useState(INITIAL_POS)
   const [isDragging, setIsDragging] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
@@ -125,6 +126,19 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     return () => {
       resizeObserver.disconnect()
       window.removeEventListener("resize", updateSize)
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement))
+    }
+
+    handleFullscreenChange()
+    document.addEventListener("fullscreenchange", handleFullscreenChange)
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange)
     }
   }, [])
 
@@ -348,8 +362,11 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden flex items-center justify-center px-4 py-10"
-      style={{ backgroundColor: "#0E0E0E" }}
+      className="relative w-full overflow-hidden flex items-center justify-center px-4 py-10"
+      style={{
+        backgroundColor: "#0E0E0E",
+        height: isFullscreen ? "100dvh" : "80vh",
+      }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={endDragging}
