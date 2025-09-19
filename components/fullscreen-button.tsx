@@ -10,17 +10,50 @@ export function FullScreenButton() {
   const [errorMessage, setErrorMessage] = useState("")
 
   useEffect(() => {
-    const handleChange = () => setIsFullscreen(Boolean(document.fullscreenElement))
+    const doc = document as Document & {
+      webkitFullscreenElement?: Element | null
+    }
+
+    const handleChange = () => {
+      const fullscreenElement = doc.fullscreenElement ?? doc.webkitFullscreenElement
+      setIsFullscreen(Boolean(fullscreenElement))
+    }
+
     document.addEventListener("fullscreenchange", handleChange)
-    return () => document.removeEventListener("fullscreenchange", handleChange)
+    document.addEventListener("webkitfullscreenchange", handleChange)
+
+    handleChange()
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleChange)
+      document.removeEventListener("webkitfullscreenchange", handleChange)
+    }
   }, [])
 
   const toggleFullscreen = async () => {
     try {
-      if (!document.fullscreenElement) {
-        await document.documentElement.requestFullscreen()
+      const doc = document as Document & {
+        webkitFullscreenElement?: Element | null
+        webkitExitFullscreen?: () => Promise<void>
+      }
+      const element = document.documentElement as HTMLElement & {
+        webkitRequestFullscreen?: () => Promise<void>
+      }
+
+      const fullscreenElement = doc.fullscreenElement ?? doc.webkitFullscreenElement
+
+      if (!fullscreenElement) {
+        if (element.requestFullscreen) {
+          await element.requestFullscreen()
+        } else if (element.webkitRequestFullscreen) {
+          await element.webkitRequestFullscreen()
+        }
       } else {
-        await document.exitFullscreen()
+        if (document.exitFullscreen) {
+          await document.exitFullscreen()
+        } else if (doc.webkitExitFullscreen) {
+          await doc.webkitExitFullscreen()
+        }
       }
       setErrorMessage("")
     } catch (error) {
