@@ -103,6 +103,14 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       : 0
 
   useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      bookRef.current?.pageFlip()?.update()
+    })
+
+    return () => cancelAnimationFrame(frame)
+  }, [width, height])
+
+  useEffect(() => {
     const updateSize = () => {
       const { innerWidth, innerHeight } = window
       const availableHeight = innerHeight - V_MARGIN * 2
