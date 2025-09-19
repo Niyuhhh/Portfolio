@@ -21,7 +21,6 @@ const CLOSED_SCALE = 1
 const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
-const V_MARGIN = 40
 
 const sections = [
   { page: 1, label: "01- Accueil" },
@@ -88,6 +87,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const [scale, setScale] = useState(CLOSED_SCALE)
   const [translate, setTranslate] = useState(INITIAL_POS)
   const [isDragging, setIsDragging] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
 
   const totalPages = pages.length
@@ -102,31 +102,78 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       ? pageWidth / 2
       : 0
 
-  useEffect(() => {
-    const updateSize = () => {
-      const { innerWidth, innerHeight } = window
-      const availableHeight = innerHeight - V_MARGIN * 2
-      let newWidth = innerWidth
-      let newHeight = newWidth / PAGE_RATIO
-      if (newHeight > availableHeight) {
-        newHeight = availableHeight
-        newWidth = newHeight * PAGE_RATIO
+  const calculateSize = useCallback(
+    (fullscreen: boolean) => {
+      const container = containerRef.current
+      if (!container) return
+
+      const containerWidth = container.clientWidth
+      const containerHeight = container.clientHeight
+      if (containerWidth === 0 || containerHeight === 0) return
+
+      const verticalMarginRatio = fullscreen ? 0.045 : 0.06
+      const usableHeight = containerHeight * (1 - verticalMarginRatio * 2)
+      if (usableHeight <= 0) return
+
+      const availableWidth = containerWidth
+
+      let pageWidth = availableWidth / 2
+      let pageHeight = pageWidth / PAGE_RATIO
+
+      if (pageHeight > usableHeight) {
+        pageHeight = usableHeight
+        pageWidth = pageHeight * PAGE_RATIO
       }
-      setPageSize({ width: newWidth, height: newHeight })
-    }
 
+      setPageSize({ width: pageWidth, height: pageHeight })
+    },
+    [PAGE_RATIO]
+  )
+
+  const updateSize = useCallback(() => {
+    calculateSize(isFullscreen)
+  }, [calculateSize, isFullscreen])
+
+  useEffect(() => {
     updateSize()
+  }, [updateSize])
 
+  useEffect(() => {
     const container = containerRef.current
-    const resizeObserver = new ResizeObserver(updateSize)
-    if (container) resizeObserver.observe(container)
+    if (!container) return
+
+    const resizeObserver = new ResizeObserver(() => updateSize())
+    resizeObserver.observe(container)
     window.addEventListener("resize", updateSize)
 
     return () => {
       resizeObserver.disconnect()
       window.removeEventListener("resize", updateSize)
     }
-  }, [])
+  }, [updateSize])
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const fullscreenElement =
+        document.fullscreenElement ||
+        (document as Document & { webkitFullscreenElement?: Element | null })
+          .webkitFullscreenElement ||
+        null
+      const fullscreen = Boolean(fullscreenElement)
+      setIsFullscreen(fullscreen)
+      calculateSize(fullscreen)
+    }
+
+    handleFullscreenChange()
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange)
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange)
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange)
+      document.removeEventListener("webkitfullscreenchange", handleFullscreenChange)
+    }
+  }, [calculateSize])
 
   const handleNextPage = () => {
     bookRef.current?.pageFlip()?.flipNext()
