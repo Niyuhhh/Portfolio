@@ -22,7 +22,7 @@ const openSans = Open_Sans({
 const sora = Sora({ subsets: ["latin"], weight: ["400"], variable: "--font-sora" })
 
 export const metadata: Metadata = {
-  title: "COFFRE Elliott - Portfolio 2025",
+  title: "COFFRE Eliott - Portfolio 2025",
   description:
     "Interactive digital magazine portfolio showcasing branding, packaging, illustration, and web & motion design work.",
   generator: "v0.app",
