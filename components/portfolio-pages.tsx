@@ -39,11 +39,17 @@ const page17 =
 const page18 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121117/PORTFOLIO_ELIOTT_PAGE18_gkwhqa.jpg"
 const page19 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762119807/PORTFOLIO_ELIOTT_PAGE19_ajbhd6.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762455001/PORTFOLIO_ELIOTT_PAGE19_wqoy8e.jpg"
 const page20 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114213/PORTFOLIO_ELIOTT_PAGE20_gtebwz.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762455002/PORTFOLIO_ELIOTT_PAGE20_oxc2iu.jpg"
 const page21 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756396488/PORTFOLIO_PAGE_21_r9mzqz.png"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762455003/PORTFOLIO_ELIOTT_PAGE21_gldkyo.jpg"
+const page22 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762455004/PORTFOLIO_ELIOTT_PAGE22_b5p3th.jpg"
+const page23 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762455005/PORTFOLIO_ELIOTT_PAGE23_ykq6md.jpg"
+const page24 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762455006/PORTFOLIO_ELIOTT_PAGE24_mwcqzf.jpg"
 
 const buildSrc = (baseUrl: string, width: number) =>
   baseUrl.replace("/upload/", `/upload/w_${width}/`)
@@ -303,9 +309,30 @@ export const portfolioPages = [
       </div>
     ),
   },
-  { id: 22, content: <div className="w-full h-full bg-white" /> },
-  { id: 23, content: <div className="w-full h-full bg-white" /> },
-  { id: 24, content: <div className="w-full h-full bg-white" /> },
+  {
+    id: 22,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page22} alt="Portfolio Page 22" />
+      </div>
+    ),
+  },
+  {
+    id: 23,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page23} alt="Portfolio Page 23" />
+      </div>
+    ),
+  },
+  {
+    id: 24,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page24} alt="Portfolio Page 24" />
+      </div>
+    ),
+  },
   { id: 25, content: <div className="w-full h-full bg-white" /> },
   { id: 26, content: <div className="w-full h-full bg-white" /> },
   { id: 27, content: <div className="w-full h-full bg-white" /> },
