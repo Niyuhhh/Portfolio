@@ -6,7 +6,12 @@ import LandscapeGuard from "@/components/landscape-guard";
 
 export default function FlipbookPage() {
   const fullscreenRef = useRef<HTMLDivElement>(null);
-  const pages = ["/images/PAGE 6.png", "/images/PAGE 7.png"];
+  const pages = [
+    "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE5_iknqcd.jpg",
+    "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE6_t9v6hd.jpg",
+    "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE7_e4hqts.jpg",
+    "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE8_f8pikg.jpg",
+  ];
 
   const requestFullscreenAndLockLandscape = async () => {
     const el = fullscreenRef.current;

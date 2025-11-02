@@ -1,16 +1,13 @@
-import Image, { type ImageProps } from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { VideoModal } from "@/components/video-modal"
-import fs from "fs"
-import path from "path"
 import { cn } from "@/lib/utils"
-
-const readDataUri = (file: string) =>
-  fs.readFileSync(path.join(process.cwd(), "public/images", file), "utf8")
-
-const page6 = readDataUri("page-6.txt")
-const page7 = readDataUri("page-7.txt")
+const page5 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE5_iknqcd.jpg"
+const page6 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE6_t9v6hd.jpg"
+const page7 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE7_e4hqts.jpg"
 const page1 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE1_jfwhuh.jpg"
 const page2 =
@@ -20,7 +17,7 @@ const page3 =
 const page4 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE4_tirycd.jpg"
 const page8 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123459/PAGE_8_kvkts2.png"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE8_f8pikg.jpg"
 const page9 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123454/PAGE_9_ywcjcm.png"
 const page10 =
@@ -75,14 +72,6 @@ const CloudinaryImage = ({ src, alt, className, ...props }: CloudinaryImageProps
     />
   )
 }
-
-interface PreloadImageProps extends Omit<ImageProps, "src"> {
-  src: string
-}
-
-const PreloadImage = ({ src, ...props }: PreloadImageProps) => (
-  <Image src={src} {...props} quality={90} sizes="100vw" />
-)
 
 const bjornChapterPages = [
   {
@@ -228,21 +217,18 @@ export const portfolioPages = [
 
   {
     id: 5,
-    content: <div className="w-full h-full bg-white">{/* Empty page */}</div>,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page5} alt="Portfolio Page 5" loading="eager" />
+      </div>
+    ),
   },
 
   {
     id: 6,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page6}
-          alt="BJÖRN Project - Page 6"
-          fill
-          className="object-cover"
-
-          priority
-        />
+        <CloudinaryImage src={page6} alt="Portfolio Page 6" loading="eager" />
       </div>
     ),
   },
@@ -251,14 +237,7 @@ export const portfolioPages = [
     id: 7,
     content: (
       <div className="relative w-full h-full">
-        <PreloadImage
-          src={page7}
-          alt="BJÖRN Ice Cream Packaging - Page 7"
-          fill
-          className="object-cover"
-
-          priority
-        />
+        <CloudinaryImage src={page7} alt="Portfolio Page 7" loading="eager" />
       </div>
     ),
   },
