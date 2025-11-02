@@ -62,6 +62,18 @@ const page29 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121121/PORTFOLIO_ELIOTT_PAGE29_k8lrok.jpg"
 const page30 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121121/PORTFOLIO_ELIOTT_PAGE30_egq01k.jpg"
+const page31 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121121/PORTFOLIO_ELIOTT_PAGE31_vmnhqo.jpg"
+const page32 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121121/PORTFOLIO_ELIOTT_PAGE32_acapqd.jpg"
+const page33 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121122/PORTFOLIO_ELIOTT_PAGE33_nk9wry.jpg"
+const page34 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121122/PORTFOLIO_ELIOTT_PAGE34_czowab.jpg"
+const page35 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121125/PORTFOLIO_ELIOTT_PAGE35_r5p6hc.jpg"
+const page36 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121125/PORTFOLIO_ELIOTT_PAGE36_snmora.jpg"
 
 const buildSrc = (baseUrl: string, width: number) =>
   baseUrl.replace("/upload/", `/upload/w_${width}/`)
@@ -389,12 +401,54 @@ export const portfolioPages = [
       </div>
     ),
   },
-  { id: 31, content: <div className="w-full h-full bg-white" /> },
-  { id: 32, content: <div className="w-full h-full bg-white" /> },
-  { id: 33, content: <div className="w-full h-full bg-white" /> },
-  { id: 34, content: <div className="w-full h-full bg-white" /> },
-  { id: 35, content: <div className="w-full h-full bg-white" /> },
-  { id: 36, content: <div className="w-full h-full bg-white" /> },
+  {
+    id: 31,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page31} alt="Portfolio Page 31" />
+      </div>
+    ),
+  },
+  {
+    id: 32,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page32} alt="Portfolio Page 32" />
+      </div>
+    ),
+  },
+  {
+    id: 33,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page33} alt="Portfolio Page 33" />
+      </div>
+    ),
+  },
+  {
+    id: 34,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page34} alt="Portfolio Page 34" />
+      </div>
+    ),
+  },
+  {
+    id: 35,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page35} alt="Portfolio Page 35" />
+      </div>
+    ),
+  },
+  {
+    id: 36,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page36} alt="Portfolio Page 36" />
+      </div>
+    ),
+  },
   { id: 37, content: <div className="w-full h-full bg-white" /> },
   { id: 38, content: <div className="w-full h-full bg-white" /> },
   { id: 39, content: <div className="w-full h-full bg-white" /> },
