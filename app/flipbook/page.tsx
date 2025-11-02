@@ -9,8 +9,8 @@ export default function FlipbookPage() {
   const pages = [
     "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE5_iknqcd.jpg",
     "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE6_t9v6hd.jpg",
-    "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE7_e4hqts.jpg",
-    "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE8_f8pikg.jpg",
+    "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121117/PORTFOLIO_ELIOTT_PAGE7_doaio9.jpg",
+    "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE8_lcmzov.jpg",
   ];
 
   const requestFullscreenAndLockLandscape = async () => {

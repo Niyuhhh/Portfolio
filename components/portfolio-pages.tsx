@@ -7,7 +7,7 @@ const page5 =
 const page6 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121114/PORTFOLIO_ELIOTT_PAGE6_glyfju.jpg"
 const page7 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE7_e4hqts.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121117/PORTFOLIO_ELIOTT_PAGE7_doaio9.jpg"
 const page1 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121113/PORTFOLIO_ELIOTT_PAGE_orgdtc.jpg"
 const page2 =
@@ -17,15 +17,15 @@ const page3 =
 const page4 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE4_cmtqjo.jpg"
 const page8 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE8_f8pikg.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE8_lcmzov.jpg"
 const page9 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE9_r0oqwk.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE9_qpox4s.jpg"
 const page10 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE10_ppi2me.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE10_sety7l.jpg"
 const page11 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE11_kzedq8.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE11_zdaq27.jpg"
 const page12 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE12_h7bhug.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE12_cf0jaz.jpg"
 const page13 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE13_job7zl.jpg"
 const page14 =
