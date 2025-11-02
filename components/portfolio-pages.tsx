@@ -27,13 +27,13 @@ const page11 =
 const page12 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE12_h7bhug.jpg"
 const page13 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230035/PORTFOLIO_PAGE_13_ddicyv.png"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE13_job7zl.jpg"
 const page14 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230036/PORTFOLIO_PAGE_14_jh7zws.png"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114212/PORTFOLIO_ELIOTT_PAGE14_a2cqaf.jpg"
 const page15 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230040/PORTFOLIO_PAGE_15_tairwx.png"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114212/PORTFOLIO_ELIOTT_PAGE15_qntvfr.jpg"
 const page16 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230040/PORTFOLIO_PAGE_16_nodtmh.png"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114212/PORTFOLIO_ELIOTT_PAGE16_ke3suz.jpg"
 const page17 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756230034/PORTFOLIO_PAGE_17_tedncj.png"
 const page18 =
