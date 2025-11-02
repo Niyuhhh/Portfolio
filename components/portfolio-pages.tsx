@@ -3,19 +3,19 @@ import { Button } from "@/components/ui/button"
 import { VideoModal } from "@/components/video-modal"
 import { cn } from "@/lib/utils"
 const page5 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE5_iknqcd.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121114/PORTFOLIO_ELIOTT_PAGE5_hpcppj.jpg"
 const page6 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE6_t9v6hd.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121114/PORTFOLIO_ELIOTT_PAGE6_glyfju.jpg"
 const page7 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE7_e4hqts.jpg"
 const page1 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE1_jfwhuh.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121113/PORTFOLIO_ELIOTT_PAGE_orgdtc.jpg"
 const page2 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE2_d6xams.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121113/PORTFOLIO_ELIOTT_PAGE2_m0epcf.jpg"
 const page3 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE3_wemejk.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121114/PORTFOLIO_ELIOTT_PAGE3_fllnvf.jpg"
 const page4 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE4_tirycd.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE4_cmtqjo.jpg"
 const page8 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114211/PORTFOLIO_ELIOTT_PAGE8_f8pikg.jpg"
 const page9 =
