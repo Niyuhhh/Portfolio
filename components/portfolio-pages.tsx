@@ -9,9 +9,16 @@ import { cn } from "@/lib/utils"
 const readDataUri = (file: string) =>
   fs.readFileSync(path.join(process.cwd(), "public/images", file), "utf8")
 
-const portfolioCover = readDataUri("portfolio-cover.txt")
 const page6 = readDataUri("page-6.txt")
 const page7 = readDataUri("page-7.txt")
+const page1 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE1_jfwhuh.jpg"
+const page2 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE2_d6xams.jpg"
+const page3 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE3_wemejk.jpg"
+const page4 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762114210/PORTFOLIO_ELIOTT_PAGE4_tirycd.jpg"
 const page8 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1756123459/PAGE_8_kvkts2.png"
 const page9 =
@@ -179,13 +186,10 @@ export const portfolioPages = [
     id: 1,
     content: (
       <div className="relative w-full h-full opacity-100">
-        <PreloadImage
-          src={portfolioCover}
+        <CloudinaryImage
+          src={page1}
           alt="Portfolio Cover - COFFRE Elliott 2025"
-          fill
-          className="object-cover"
-          priority
-
+          loading="eager"
         />
       </div>
     ),
@@ -193,17 +197,33 @@ export const portfolioPages = [
 
   {
     id: 2,
-    content: <div className="w-full h-full bg-white" />,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage
+          src={page2}
+          alt="Portfolio Page 2"
+          loading="eager"
+        />
+      </div>
+    ),
   },
 
   {
     id: 3,
-    content: <div className="w-full h-full bg-white">{/* Empty page */}</div>,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page3} alt="Portfolio Page 3" loading="eager" />
+      </div>
+    ),
   },
 
   {
     id: 4,
-    content: <div className="w-full h-full bg-white">{/* Empty page */}</div>,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page4} alt="Portfolio Page 4" loading="eager" />
+      </div>
+    ),
   },
 
   {
