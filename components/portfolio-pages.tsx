@@ -135,19 +135,6 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page17} alt="Portfolio Page 17" />
-        <Link
-          href="https://www.figma.com/proto/NITAGZXbWhIXvS86y4oytS/Site-Web-MBAT?page-id=0%3A1&node-id=176-9725&viewport=777%2C-291%2C0.31&t=QTx62eY5jD6B6o68-8&scaling=scale-down-width&content-scaling=fixed&hide-ui=1"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Button
-            variant="outline"
-            highlight
-            className="absolute left-[37%] bottom-[17%] z-10 rounded-none border border-[#1C1C1C] bg-white px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
-          >
-            visiter le site
-          </Button>
-        </Link>
       </div>
     ),
   },
@@ -164,6 +151,19 @@ const bjornChapterPages = [
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page19} alt="Portfolio Page 19" />
+        <Link
+          href="https://www.figma.com/proto/NITAGZXbWhIXvS86y4oytS/Site-Web-MBAT?page-id=0%3A1&node-id=176-9725&viewport=777%2C-291%2C0.31&t=QTx62eY5jD6B6o68-8&scaling=scale-down-width&content-scaling=fixed&hide-ui=1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button
+            variant="outline"
+            highlight
+            className="absolute left-[37%] bottom-[17%] z-10 rounded-none border border-[#1C1C1C] bg-white px-8 py-3 font-sora text-xs text-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white"
+          >
+            visiter le site
+          </Button>
+        </Link>
       </div>
     ),
   },
