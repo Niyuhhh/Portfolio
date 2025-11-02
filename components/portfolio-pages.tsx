@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { VideoModal } from "@/components/video-modal"
 import { cn } from "@/lib/utils"
 const page5 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121114/PORTFOLIO_ELIOTT_PAGE5_hpcppj.jpg"
@@ -297,25 +298,26 @@ export const portfolioPages = [
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page23} alt="Portfolio Page 23" />
-        <Link
-          href="https://www.youtube.com/watch?v=WOCJAxqM7uU"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Watch the video on YouTube"
-          className="absolute left-[11%] bottom-[6.7%] w-[39.9%] h-[42.5%] flex items-center justify-center bg-transparent hover:bg-black/20 transition-colors"
-        >
-          <svg viewBox="0 0 24 24" className="w-12 h-12 text-white" aria-hidden="true">
-            <circle
-              cx="12"
-              cy="12"
-              r="11"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            />
-            <polygon points="10,8 16,12 10,16" fill="currentColor" />
-          </svg>
-        </Link>
+        <VideoModal
+          trigger={
+            <button
+              className="absolute left-[11%] bottom-[6.7%] w-[39.9%] h-[42.5%] flex items-center justify-center bg-transparent hover:bg-black/20 transition-colors"
+              aria-label="Play video"
+            >
+              <svg viewBox="0 0 24 24" className="w-12 h-12 text-white" aria-hidden="true">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="11"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <polygon points="10,8 16,12 10,16" fill="currentColor" />
+              </svg>
+            </button>
+          }
+        />
       </div>
     ),
   },
