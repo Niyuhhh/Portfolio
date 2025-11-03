@@ -94,6 +94,9 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const [{ width, height }, setPageSize] = useState({ width: 500, height: 710 })
   const pageWidth = width * scale
   const pageHeight = height * scale
+  const visiblePageCount =
+    currentPage === 0 || currentPage === totalPages - 1 ? 1 : 2
+  const bookWidth = pageWidth * visiblePageCount
   const offsetX =
     currentPage === 0
       ? -pageWidth / 2
@@ -155,6 +158,9 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       const bookPoint = point.matrixTransform(currentMatrix.inverse())
 
       const newPageWidth = width * newScale
+      const newVisiblePageCount =
+        currentPage === 0 || currentPage === totalPages - 1 ? 1 : 2
+      const newBookWidth = newPageWidth * newVisiblePageCount
       const offsetXNew =
         currentPage === 0
           ? -newPageWidth / 2
@@ -162,18 +168,29 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           ? newPageWidth / 2
           : 0
 
-      const newTranslateX = point.x - offsetXNew - bookPoint.x * newScale
+      const adjustedPointX =
+        point.x + (bookWidth - newBookWidth) / 2
+      const newTranslateX =
+        adjustedPointX - offsetXNew - bookPoint.x * newScale
       const newTranslateY = point.y - bookPoint.y * newScale
 
       setTranslate({ x: newTranslateX, y: newTranslateY })
       setScale(newScale)
     },
-    [currentPage, totalPages, offsetX, scale, translate, width]
+    [
+      bookWidth,
+      currentPage,
+      totalPages,
+      offsetX,
+      scale,
+      translate,
+      width,
+    ]
   )
 
   const zoom = (delta: number) => {
     const bookCenter = new DOMPoint(
-      offsetX + translate.x + pageWidth / 2,
+      offsetX + translate.x + bookWidth / 2,
       translate.y + pageHeight / 2
     )
     zoomAtPoint(bookCenter, scale + delta)
