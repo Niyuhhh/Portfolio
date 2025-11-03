@@ -489,11 +489,24 @@ export const portfolioPages = [
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page35} alt="Portfolio Page 35" />
-        <img
-          src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDN6ZXp1OXZtaW5sMXg1eTRzMXdkc242NHVobmh6Z2ljNmtkdjJkYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L6J78MhsbfUmPdRl3N/giphy.gif"
-          alt="Animation de démonstration"
+        <video
           className="absolute left-[268px] bottom-[840px] w-[2050px] h-[1170px] object-cover"
-        />
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-label="Animation de démonstration"
+        >
+          <source
+            src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDN6ZXp1OXZtaW5sMXg1eTRzMXdkc242NHVobmh6Z2ljNmtkdjJkYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L6J78MhsbfUmPdRl3N/giphy.mp4"
+            type="video/mp4"
+          />
+          <img
+            src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDN6ZXp1OXZtaW5sMXg1eTRzMXdkc242NHVobmh6Z2ljNmtkdjJkYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L6J78MhsbfUmPdRl3N/giphy.gif"
+            alt="Animation de démonstration"
+            className="w-full h-full object-cover"
+          />
+        </video>
       </div>
     ),
   },
