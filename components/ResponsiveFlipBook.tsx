@@ -41,13 +41,22 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
     return () => window.removeEventListener("resize", updateSize);
   }, [ratio]);
 
+  useEffect(() => {
+    if (!size.pageWidth || !bookRef.current?.pageFlip) return;
+
+    const instance = bookRef.current.pageFlip();
+    instance.update({
+      width: size.pageWidth,
+      height: size.pageHeight,
+    });
+  }, [size.pageWidth, size.pageHeight]);
+
   if (!size.pageWidth) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black">
       <HTMLFlipBook
         ref={bookRef}
-        key={`${size.pageWidth}x${size.pageHeight}`} // force re-render au resize
         width={size.pageWidth}
         height={size.pageHeight}
         size="fixed"
@@ -59,16 +68,37 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
         usePortrait={false} // 🚀 force toujours double page
         className="shadow-2xl"
       >
-        {pages.map((src, index) => (
-          <div key={index} className="w-full h-full">
-            <img
-              src={src}
-              alt={`page-${index + 1}`}
-              className="w-full h-full object-cover"
-              draggable={false}
-            />
-          </div>
-        ))}
+        {pages.map((src, index) => {
+          if (index === 34) {
+            return (
+              <div key={index} className="relative w-full h-full">
+                <img
+                  src={src}
+                  alt={`page-${index + 1}`}
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+                <img
+                  src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDN6ZXp1OXZtaW5sMXg1eTRzMXdkc242NHVobmh6Z2ljNmtkdjJkYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L6J78MhsbfUmPdRl3N/giphy.gif"
+                  alt="gif-overlay-page-35"
+                  className="absolute left-[268px] bottom-[840px] w-[2050px] h-[1170px] object-cover z-[5] pointer-events-none"
+                  draggable={false}
+                />
+              </div>
+            );
+          }
+
+          return (
+            <div key={index} className="w-full h-full">
+              <img
+                src={src}
+                alt={`page-${index + 1}`}
+                className="w-full h-full object-cover"
+                draggable={false}
+              />
+            </div>
+          );
+        })}
       </HTMLFlipBook>
 
       {/* Boutons navigation */}
