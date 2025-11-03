@@ -129,11 +129,26 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
   const handleNextPage = () => {
     const flip = bookRef.current?.pageFlip?.()
-    if (!flip || totalPages === 0) return
+    if (!flip || totalPages <= 1) return
 
     const currentIndex = flip.getCurrentPageIndex?.() ?? currentPage
     if (currentIndex >= totalPages - 1) {
-      flip.flip?.(0)
+      const anyFlip = flip as any
+      const controller = anyFlip?.getFlipController?.()
+      const collection = anyFlip?.getPageCollection?.()
+
+      if (
+        controller &&
+        collection &&
+        typeof collection.currentSpreadIndex === "number" &&
+        typeof collection.currentPageIndex === "number"
+      ) {
+        collection.currentSpreadIndex = -1
+        collection.currentPageIndex = -1
+        controller.flipNext?.("top")
+      } else {
+        flip.flip?.(0)
+      }
     } else {
       flip.flipNext?.()
     }
@@ -141,11 +156,39 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
 
   const handlePrevPage = () => {
     const flip = bookRef.current?.pageFlip?.()
-    if (!flip || totalPages === 0) return
+    if (!flip || totalPages <= 1) return
 
     const currentIndex = flip.getCurrentPageIndex?.() ?? currentPage
     if (currentIndex <= 0) {
-      flip.flip?.(totalPages - 1)
+      const anyFlip = flip as any
+      const controller = anyFlip?.getFlipController?.()
+      const collection = anyFlip?.getPageCollection?.()
+      const lastPageIndex = totalPages - 1
+      const lastSpreadIndex = collection?.getSpreadIndexByPage?.(lastPageIndex)
+
+      if (
+        controller &&
+        collection &&
+        typeof collection.currentSpreadIndex === "number" &&
+        typeof collection.currentPageIndex === "number"
+      ) {
+        const wrapIndex =
+          typeof lastSpreadIndex === "number"
+            ? lastSpreadIndex + 1
+            : collection.currentSpreadIndex + 1
+
+        const normalizedWrapIndex = Math.floor(wrapIndex)
+
+        if (Number.isFinite(normalizedWrapIndex)) {
+          collection.currentSpreadIndex = normalizedWrapIndex
+          collection.currentPageIndex = Math.max(lastPageIndex + 1, 1)
+          controller.flipPrev?.("top")
+        } else {
+          flip.flip?.(lastPageIndex)
+        }
+      } else {
+        flip.flip?.(lastPageIndex)
+      }
     } else {
       flip.flipPrev?.()
     }
