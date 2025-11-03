@@ -74,6 +74,18 @@ const page35 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121125/PORTFOLIO_ELIOTT_PAGE35_r5p6hc.jpg"
 const page36 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121125/PORTFOLIO_ELIOTT_PAGE36_snmora.jpg"
+const page37 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121126/PORTFOLIO_ELIOTT_PAGE37_d0dps7.jpg"
+const page38 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121127/PORTFOLIO_ELIOTT_PAGE38_ct44ct.jpg"
+const page39 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121127/PORTFOLIO_ELIOTT_PAGE39_tnwldk.jpg"
+const page40 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121127/PORTFOLIO_ELIOTT_PAGE40_ekxqig.jpg"
+const page41 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121128/PORTFOLIO_ELIOTT_PAGE41_n75rq3.jpg"
+const page42 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121127/PORTFOLIO_ELIOTT_PAGE42_aevjhy.jpg"
 
 const buildSrc = (baseUrl: string, width: number) =>
   baseUrl.replace("/upload/", `/upload/w_${width}/`)
@@ -449,10 +461,52 @@ export const portfolioPages = [
       </div>
     ),
   },
-  { id: 37, content: <div className="w-full h-full bg-white" /> },
-  { id: 38, content: <div className="w-full h-full bg-white" /> },
-  { id: 39, content: <div className="w-full h-full bg-white" /> },
-  { id: 40, content: <div className="w-full h-full bg-white" /> },
-  { id: 41, content: <div className="w-full h-full bg-white" /> },
-  { id: 42, content: <div className="w-full h-full bg-white" /> },
+  {
+    id: 37,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page37} alt="Portfolio Page 37" />
+      </div>
+    ),
+  },
+  {
+    id: 38,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page38} alt="Portfolio Page 38" />
+      </div>
+    ),
+  },
+  {
+    id: 39,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page39} alt="Portfolio Page 39" />
+      </div>
+    ),
+  },
+  {
+    id: 40,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page40} alt="Portfolio Page 40" />
+      </div>
+    ),
+  },
+  {
+    id: 41,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page41} alt="Portfolio Page 41" />
+      </div>
+    ),
+  },
+  {
+    id: 42,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page42} alt="Portfolio Page 42" />
+      </div>
+    ),
+  },
 ]
