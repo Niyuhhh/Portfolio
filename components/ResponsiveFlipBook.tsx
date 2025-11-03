@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
+import Page35Overlay from "./Page35Overlay";
+
 // react-pageflip doit être chargé uniquement côté client
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false });
 
@@ -61,12 +63,24 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
       >
         {pages.map((src, index) => (
           <div key={index} className="w-full h-full">
-            <img
-              src={src}
-              alt={`page-${index + 1}`}
-              className="w-full h-full object-cover"
-              draggable={false}
-            />
+            {index === 34 ? (
+              <div className="relative w-full h-full">
+                <img
+                  src={src}
+                  alt={`page-${index + 1}`}
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+                <Page35Overlay isTargetPage />
+              </div>
+            ) : (
+              <img
+                src={src}
+                alt={`page-${index + 1}`}
+                className="w-full h-full object-cover"
+                draggable={false}
+              />
+            )}
           </div>
         ))}
       </HTMLFlipBook>
