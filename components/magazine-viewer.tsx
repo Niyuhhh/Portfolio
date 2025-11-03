@@ -135,6 +135,10 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     bookRef.current?.pageFlip()?.flipPrev()
   }
 
+  const handleGoToStart = () => {
+    bookRef.current?.pageFlip()?.flip(0)
+  }
+
   const goToPage = (page: number) => {
     bookRef.current?.pageFlip()?.flip(page - 1)
   }
@@ -426,6 +430,15 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       </div>
 
       <div className="absolute bottom-4 right-4 flex flex-col gap-2 items-end">
+        {currentPage === totalPages - 1 && (
+          <Button
+            variant="ghost"
+            onClick={handleGoToStart}
+            className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none px-4 py-2 md:px-6 md:py-3 transition-all duration-300"
+          >
+            Retour au début
+          </Button>
+        )}
         <FullScreenButton />
         <Button
           variant="ghost"
