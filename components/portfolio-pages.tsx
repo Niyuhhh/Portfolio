@@ -434,6 +434,27 @@ export const portfolioPages = [
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page33} alt="Portfolio Page 33" />
+        <VideoModal
+          videoUrl="https://youtu.be/-C9GxSxPXzQ"
+          trigger={
+            <button
+              className="absolute inset-0 flex items-center justify-center bg-transparent hover:bg-black/20 transition-colors"
+              aria-label="Play video"
+            >
+              <svg viewBox="0 0 24 24" className="w-12 h-12 text-white" aria-hidden="true">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="11"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <polygon points="10,8 16,12 10,16" fill="currentColor" />
+              </svg>
+            </button>
+          }
+        />
       </div>
     ),
   },
