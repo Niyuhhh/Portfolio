@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
 // react-pageflip doit être chargé uniquement côté client
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false });
+
+const DESIGN_PAGE_WIDTH = 2480;
 
 export interface ResponsiveFlipBookProps {
   pages: string[];
@@ -70,6 +72,15 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
       >
         {pages.map((src, index) => {
           if (index === 34) {
+            const overlayScale = size.pageWidth / DESIGN_PAGE_WIDTH;
+            const overlayStyle: CSSProperties = {
+              left: 268 * overlayScale,
+              bottom: 840 * overlayScale,
+              width: 2050 * overlayScale,
+              height: 1170 * overlayScale,
+              zIndex: 5,
+            };
+
             return (
               <div key={index} className="relative w-full h-full">
                 <img
@@ -81,7 +92,8 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
                 <img
                   src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDN6ZXp1OXZtaW5sMXg1eTRzMXdkc242NHVobmh6Z2ljNmtkdjJkYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L6J78MhsbfUmPdRl3N/giphy.gif"
                   alt="gif-overlay-page-35"
-                  className="absolute left-[268px] bottom-[840px] w-[2050px] h-[1170px] object-cover z-[5] pointer-events-none"
+                  className="absolute pointer-events-none object-cover"
+                  style={overlayStyle}
                   draggable={false}
                 />
               </div>
