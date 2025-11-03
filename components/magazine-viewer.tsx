@@ -405,7 +405,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         variant="ghost"
         size="icon"
         onClick={handlePrevPage}
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-12 h-12 md:w-16 md:h-16 transition-all duration-300"
+        className="absolute top-1/2 left-4 -translate-y-1/2 bg-slate-900/40 text-white hover:bg-slate-900/60 hover:text-white dark:bg-white/20 dark:hover:bg-white/30 dark:text-white w-12 h-12 md:w-16 md:h-16 transition-all duration-300 backdrop-blur-sm shadow-lg ring-1 ring-black/10 dark:ring-white/20"
       >
         <ChevronLeft className="h-8 w-8" />
       </Button>
@@ -413,7 +413,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
         variant="ghost"
         size="icon"
         onClick={handleNextPage}
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-12 h-12 md:w-16 md:h-16 transition-all duration-300"
+        className="absolute top-1/2 right-4 -translate-y-1/2 bg-slate-900/40 text-white hover:bg-slate-900/60 hover:text-white dark:bg-white/20 dark:hover:bg-white/30 dark:text-white w-12 h-12 md:w-16 md:h-16 transition-all duration-300 backdrop-blur-sm shadow-lg ring-1 ring-black/10 dark:ring-white/20"
       >
         <ChevronRight className="h-8 w-8" />
       </Button>
@@ -431,7 +431,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           variant="ghost"
           size="icon"
           onClick={zoomIn}
-          className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-12 h-12 md:w-16 md:h-16 transition-all duration-300"
+          className="bg-slate-900/40 text-white hover:bg-slate-900/60 hover:text-white dark:bg-white/20 dark:hover:bg-white/30 dark:text-white w-12 h-12 md:w-16 md:h-16 transition-all duration-300 backdrop-blur-sm shadow-lg ring-1 ring-black/10 dark:ring-white/20"
         >
           <Plus className="h-8 w-8" />
         </Button>
@@ -439,7 +439,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           variant="ghost"
           size="icon"
           onClick={zoomOut}
-          className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-12 h-12 md:w-16 md:h-16 transition-all duration-300"
+          className="bg-slate-900/40 text-white hover:bg-slate-900/60 hover:text-white dark:bg-white/20 dark:hover:bg-white/30 dark:text-white w-12 h-12 md:w-16 md:h-16 transition-all duration-300 backdrop-blur-sm shadow-lg ring-1 ring-black/10 dark:ring-white/20"
         >
           <Minus className="h-8 w-8" />
         </Button>

@@ -38,7 +38,7 @@ export function FullScreenButton() {
         variant="ghost"
         size="icon"
         onClick={toggleFullscreen}
-        className="bg-transparent hover:bg-white/10 text-white/70 hover:text-white border-none w-16 h-16 transition-all duration-300"
+        className="bg-slate-900/40 text-white hover:bg-slate-900/60 hover:text-white dark:bg-white/20 dark:hover:bg-white/30 dark:text-white w-16 h-16 transition-all duration-300 backdrop-blur-sm shadow-lg ring-1 ring-black/10 dark:ring-white/20"
       >
         {isFullscreen ? (
           <Minimize2 className="h-8 w-8" />
