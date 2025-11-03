@@ -128,11 +128,27 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   }, [])
 
   const handleNextPage = () => {
-    bookRef.current?.pageFlip()?.flipNext()
+    const flip = bookRef.current?.pageFlip?.()
+    if (!flip || totalPages === 0) return
+
+    const currentIndex = flip.getCurrentPageIndex?.() ?? currentPage
+    if (currentIndex >= totalPages - 1) {
+      flip.flip?.(0)
+    } else {
+      flip.flipNext?.()
+    }
   }
 
   const handlePrevPage = () => {
-    bookRef.current?.pageFlip()?.flipPrev()
+    const flip = bookRef.current?.pageFlip?.()
+    if (!flip || totalPages === 0) return
+
+    const currentIndex = flip.getCurrentPageIndex?.() ?? currentPage
+    if (currentIndex <= 0) {
+      flip.flip?.(totalPages - 1)
+    } else {
+      flip.flipPrev?.()
+    }
   }
 
   const goToPage = (page: number) => {

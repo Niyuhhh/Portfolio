@@ -13,6 +13,7 @@ export interface ResponsiveFlipBookProps {
 
 export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveFlipBookProps) {
   const bookRef = useRef<any>(null);
+  const totalPages = pages.length;
   const [size, setSize] = useState({
     pageWidth: 0,
     pageHeight: 0,
@@ -40,6 +41,30 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
   }, [ratio]);
+
+  const handleNextPage = () => {
+    const flip = bookRef.current?.pageFlip?.();
+    if (!flip || totalPages === 0) return;
+
+    const currentIndex = flip.getCurrentPageIndex?.() ?? 0;
+    if (currentIndex >= totalPages - 1) {
+      flip.flip?.(0);
+    } else {
+      flip.flipNext?.();
+    }
+  };
+
+  const handlePrevPage = () => {
+    const flip = bookRef.current?.pageFlip?.();
+    if (!flip || totalPages === 0) return;
+
+    const currentIndex = flip.getCurrentPageIndex?.() ?? 0;
+    if (currentIndex <= 0) {
+      flip.flip?.(totalPages - 1);
+    } else {
+      flip.flipPrev?.();
+    }
+  };
 
   if (!size.pageWidth) return null;
 
@@ -73,13 +98,13 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
 
       {/* Boutons navigation */}
       <button
-        onClick={() => bookRef.current?.pageFlip().flipPrev()}
+        onClick={handlePrevPage}
         className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-1 rounded"
       >
         ◀
       </button>
       <button
-        onClick={() => bookRef.current?.pageFlip().flipNext()}
+        onClick={handleNextPage}
         className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-1 rounded"
       >
         ▶
