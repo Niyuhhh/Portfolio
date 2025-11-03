@@ -491,7 +491,8 @@ export const portfolioPages = [
         <img
           src={page35Gif}
           alt="Portfolio Page 35 animation"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute object-cover"
+          style={{ width: 2050, height: 1170, bottom: 840, left: 268 }}
         />
       </div>
     ),
