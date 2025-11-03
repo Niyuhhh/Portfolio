@@ -6,6 +6,8 @@ import dynamic from "next/dynamic";
 // react-pageflip doit être chargé uniquement côté client
 const HTMLFlipBook = dynamic(() => import("react-pageflip"), { ssr: false });
 
+const WRAP_SPIN_DURATION = 600;
+
 export interface ResponsiveFlipBookProps {
   pages: string[];
   ratio?: number; // ratio largeur/hauteur d'une page
@@ -13,11 +15,14 @@ export interface ResponsiveFlipBookProps {
 
 export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveFlipBookProps) {
   const bookRef = useRef<any>(null);
+  const wrapTimeoutRef = useRef<number | null>(null);
   const totalPages = pages.length;
   const [size, setSize] = useState({
     pageWidth: 0,
     pageHeight: 0,
   });
+  const [wrapDirection, setWrapDirection] = useState<"forward" | "backward" | null>(null);
+  const isWrapping = wrapDirection !== null;
 
   // calcul dynamique du responsive
   useEffect(() => {
@@ -42,68 +47,58 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
     return () => window.removeEventListener("resize", updateSize);
   }, [ratio]);
 
+  useEffect(() => {
+    return () => {
+      if (wrapTimeoutRef.current != null) {
+        window.clearTimeout(wrapTimeoutRef.current);
+        wrapTimeoutRef.current = null;
+      }
+    };
+  }, []);
+
+  const triggerWrapRotation = (targetIndex: number, direction: "forward" | "backward") => {
+    const flip = bookRef.current?.pageFlip?.();
+    if (!flip) return;
+
+    setWrapDirection(direction);
+
+    requestAnimationFrame(() => {
+      flip.turnToPage?.(targetIndex);
+    });
+
+    if (wrapTimeoutRef.current != null) {
+      window.clearTimeout(wrapTimeoutRef.current);
+    }
+
+    wrapTimeoutRef.current = window.setTimeout(() => {
+      setWrapDirection(null);
+      wrapTimeoutRef.current = null;
+    }, WRAP_SPIN_DURATION);
+  };
+
   const handleNextPage = () => {
+    if (isWrapping) return;
+
     const flip = bookRef.current?.pageFlip?.();
     if (!flip || totalPages <= 1) return;
 
     const currentIndex = flip.getCurrentPageIndex?.() ?? 0;
     if (currentIndex >= totalPages - 1) {
-      const anyFlip = flip as any;
-      const controller = anyFlip?.getFlipController?.();
-      const collection = anyFlip?.getPageCollection?.();
-
-      if (
-        controller &&
-        collection &&
-        typeof collection.currentSpreadIndex === "number" &&
-        typeof collection.currentPageIndex === "number"
-      ) {
-        collection.currentSpreadIndex = -1;
-        collection.currentPageIndex = -1;
-        controller.flipNext?.("top");
-      } else {
-        flip.flip?.(0);
-      }
+      triggerWrapRotation(0, "forward");
     } else {
       flip.flipNext?.();
     }
   };
 
   const handlePrevPage = () => {
+    if (isWrapping) return;
+
     const flip = bookRef.current?.pageFlip?.();
     if (!flip || totalPages <= 1) return;
 
     const currentIndex = flip.getCurrentPageIndex?.() ?? 0;
     if (currentIndex <= 0) {
-      const anyFlip = flip as any;
-      const controller = anyFlip?.getFlipController?.();
-      const collection = anyFlip?.getPageCollection?.();
-      const lastPageIndex = totalPages - 1;
-      const lastSpreadIndex = collection?.getSpreadIndexByPage?.(lastPageIndex);
-
-      if (
-        controller &&
-        collection &&
-        typeof collection.currentSpreadIndex === "number" &&
-        typeof collection.currentPageIndex === "number"
-      ) {
-        const wrapIndex =
-          typeof lastSpreadIndex === "number"
-            ? lastSpreadIndex + 1
-            : collection.currentSpreadIndex + 1;
-
-        const normalizedWrapIndex = Math.floor(wrapIndex);
-
-        if (Number.isFinite(normalizedWrapIndex)) {
-          collection.currentSpreadIndex = normalizedWrapIndex;
-          collection.currentPageIndex = Math.max(lastPageIndex + 1, 1);
-          controller.flipPrev?.("top");
-        } else {
-          flip.flip?.(lastPageIndex);
-        }
-      } else {
-        flip.flip?.(lastPageIndex);
-      }
+      triggerWrapRotation(totalPages - 1, "backward");
     } else {
       flip.flipPrev?.();
     }
@@ -111,33 +106,51 @@ export default function ResponsiveFlipBook({ pages, ratio = 0.707 }: ResponsiveF
 
   if (!size.pageWidth) return null;
 
+  const rotationClass = wrapDirection
+    ? wrapDirection === "forward"
+      ? "flipbook-spin-forward"
+      : "flipbook-spin-backward"
+    : "";
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black">
-      <HTMLFlipBook
-        ref={bookRef}
-        key={`${size.pageWidth}x${size.pageHeight}`} // force re-render au resize
-        width={size.pageWidth}
-        height={size.pageHeight}
-        size="fixed"
-        minWidth={200}
-        maxWidth={3000}
-        minHeight={200}
-        maxHeight={4000}
-        showCover={true}
-        usePortrait={false} // 🚀 force toujours double page
-        className="shadow-2xl"
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black"
+      style={{ perspective: "2000px" }}
+    >
+      <div
+        className={`flipbook-rotate-wrapper ${rotationClass}`.trim()}
+        style={
+          wrapDirection
+            ? { animationDuration: `${WRAP_SPIN_DURATION}ms` }
+            : undefined
+        }
       >
-        {pages.map((src, index) => (
-          <div key={index} className="w-full h-full">
-            <img
-              src={src}
-              alt={`page-${index + 1}`}
-              className="w-full h-full object-cover"
-              draggable={false}
-            />
-          </div>
-        ))}
-      </HTMLFlipBook>
+        <HTMLFlipBook
+          ref={bookRef}
+          key={`${size.pageWidth}x${size.pageHeight}`} // force re-render au resize
+          width={size.pageWidth}
+          height={size.pageHeight}
+          size="fixed"
+          minWidth={200}
+          maxWidth={3000}
+          minHeight={200}
+          maxHeight={4000}
+          showCover={true}
+          usePortrait={false} // 🚀 force toujours double page
+          className="shadow-2xl"
+        >
+          {pages.map((src, index) => (
+            <div key={index} className="w-full h-full">
+              <img
+                src={src}
+                alt={`page-${index + 1}`}
+                className="w-full h-full object-cover"
+                draggable={false}
+              />
+            </div>
+          ))}
+        </HTMLFlipBook>
+      </div>
 
       {/* Boutons navigation */}
       <button

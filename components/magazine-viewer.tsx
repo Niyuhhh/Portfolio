@@ -21,6 +21,7 @@ const CLOSED_SCALE = 1
 const OPEN_SCALE = 1
 const INITIAL_POS = { x: 0, y: 0 }
 const FLIP_DURATION = 700
+const WRAP_SPIN_DURATION = 600
 const V_MARGIN = 40
 
 const sections = [
@@ -88,6 +89,7 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
   const [translate, setTranslate] = useState(INITIAL_POS)
   const [isDragging, setIsDragging] = useState(false)
   const lastPointer = useRef(INITIAL_POS)
+  const wrapTimeoutRef = useRef<number | null>(null)
 
   const totalPages = pages.length
   const PAGE_RATIO = 500 / 710
@@ -127,74 +129,69 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     }
   }, [])
 
+  useEffect(() => {
+    return () => {
+      if (wrapTimeoutRef.current != null) {
+        window.clearTimeout(wrapTimeoutRef.current)
+        wrapTimeoutRef.current = null
+      }
+    }
+  }, [])
+
+  const [wrapDirection, setWrapDirection] = useState<"forward" | "backward" | null>(null)
+  const isWrapping = wrapDirection !== null
+
+  const triggerWrapRotation = (targetIndex: number, direction: "forward" | "backward") => {
+    const flip = bookRef.current?.pageFlip?.()
+    if (!flip) return
+
+    setWrapDirection(direction)
+
+    requestAnimationFrame(() => {
+      flip.turnToPage?.(targetIndex)
+      setCurrentPage(targetIndex)
+    })
+
+    if (wrapTimeoutRef.current != null) {
+      window.clearTimeout(wrapTimeoutRef.current)
+    }
+
+    wrapTimeoutRef.current = window.setTimeout(() => {
+      setWrapDirection(null)
+      wrapTimeoutRef.current = null
+    }, WRAP_SPIN_DURATION)
+  }
+
   const handleNextPage = () => {
+    if (isWrapping) return
+
     const flip = bookRef.current?.pageFlip?.()
     if (!flip || totalPages <= 1) return
 
     const currentIndex = flip.getCurrentPageIndex?.() ?? currentPage
     if (currentIndex >= totalPages - 1) {
-      const anyFlip = flip as any
-      const controller = anyFlip?.getFlipController?.()
-      const collection = anyFlip?.getPageCollection?.()
-
-      if (
-        controller &&
-        collection &&
-        typeof collection.currentSpreadIndex === "number" &&
-        typeof collection.currentPageIndex === "number"
-      ) {
-        collection.currentSpreadIndex = -1
-        collection.currentPageIndex = -1
-        controller.flipNext?.("top")
-      } else {
-        flip.flip?.(0)
-      }
+      triggerWrapRotation(0, "forward")
     } else {
       flip.flipNext?.()
     }
   }
 
   const handlePrevPage = () => {
+    if (isWrapping) return
+
     const flip = bookRef.current?.pageFlip?.()
     if (!flip || totalPages <= 1) return
 
     const currentIndex = flip.getCurrentPageIndex?.() ?? currentPage
     if (currentIndex <= 0) {
-      const anyFlip = flip as any
-      const controller = anyFlip?.getFlipController?.()
-      const collection = anyFlip?.getPageCollection?.()
-      const lastPageIndex = totalPages - 1
-      const lastSpreadIndex = collection?.getSpreadIndexByPage?.(lastPageIndex)
-
-      if (
-        controller &&
-        collection &&
-        typeof collection.currentSpreadIndex === "number" &&
-        typeof collection.currentPageIndex === "number"
-      ) {
-        const wrapIndex =
-          typeof lastSpreadIndex === "number"
-            ? lastSpreadIndex + 1
-            : collection.currentSpreadIndex + 1
-
-        const normalizedWrapIndex = Math.floor(wrapIndex)
-
-        if (Number.isFinite(normalizedWrapIndex)) {
-          collection.currentSpreadIndex = normalizedWrapIndex
-          collection.currentPageIndex = Math.max(lastPageIndex + 1, 1)
-          controller.flipPrev?.("top")
-        } else {
-          flip.flip?.(lastPageIndex)
-        }
-      } else {
-        flip.flip?.(lastPageIndex)
-      }
+      triggerWrapRotation(totalPages - 1, "backward")
     } else {
       flip.flipPrev?.()
     }
   }
 
   const goToPage = (page: number) => {
+    if (isWrapping) return
     bookRef.current?.pageFlip()?.flip(page - 1)
   }
 
@@ -407,7 +404,10 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
     <div
       ref={containerRef}
       className="relative w-full h-screen overflow-hidden flex items-center justify-center px-4 py-10"
-      style={{ backgroundColor: "#0E0E0E" }}
+      style={{
+        backgroundColor: "#0E0E0E",
+        perspective: "2000px",
+      }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={endDragging}
@@ -416,49 +416,70 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
       onTouchMove={handleTouchMove}
       onTouchEnd={endDragging}
     >
-      <HTMLFlipBook
-        width={pageWidth}
-        height={pageHeight}
-        minWidth={0}
-        minHeight={0}
-        usePortrait={false}
-        showCover
-        maxShadowOpacity={0.2}
-        drawShadow
-        flippingTime={FLIP_DURATION}
-        showPageCorners
-        disableFlipByClick
-        swipeDistance={30}
-        className="shadow-md flipbook"
-        ref={bookRef}
-        onFlip={handleFlip}
+      <div
+        className="flipbook-transform-wrapper"
         style={{
           transform: `translate(${offsetX + translate.x}px, ${translate.y}px) scale(${scale})`,
-          transition: isDragging ? "none" : "transform 0.3s ease",
+          transition: isDragging || isWrapping ? "none" : "transform 0.3s ease",
           transformOrigin: "0 0",
-          ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
         }}
       >
-        {pages.map((page, index) => {
-          const isFirst = index === 0
-          const isLast = index === totalPages - 1
+        <div
+          className={`flipbook-rotate-wrapper ${
+            wrapDirection
+              ? wrapDirection === "forward"
+                ? "flipbook-spin-forward"
+                : "flipbook-spin-backward"
+              : ""
+          }`.trim()}
+          style={
+            wrapDirection
+              ? { animationDuration: `${WRAP_SPIN_DURATION}ms` }
+              : undefined
+          }
+        >
+          <HTMLFlipBook
+            width={pageWidth}
+            height={pageHeight}
+            minWidth={0}
+            minHeight={0}
+            usePortrait={false}
+            showCover
+            maxShadowOpacity={0.2}
+            drawShadow
+            flippingTime={FLIP_DURATION}
+            showPageCorners
+            disableFlipByClick
+            swipeDistance={30}
+            className="shadow-md flipbook"
+            ref={bookRef}
+            onFlip={handleFlip}
+            style={{
+              ["--flip-duration" as any]: `${FLIP_DURATION}ms`,
+            }}
+          >
+            {pages.map((page, index) => {
+              const isFirst = index === 0
+              const isLast = index === totalPages - 1
 
-          return (
-            <div
-              key={page.id}
-              className={`w-full h-full bg-white overflow-hidden shadow-md ${
-                isFirst || isLast ? "cursor-pointer" : ""
-              }`}
-              onClick={() => {
-                if (isFirst) handleNextPage()
-                else if (isLast) handlePrevPage()
-              }}
-            >
-              {page.content}
-            </div>
-          )
-        })}
-      </HTMLFlipBook>
+              return (
+                <div
+                  key={page.id}
+                  className={`w-full h-full bg-white overflow-hidden shadow-md ${
+                    isFirst || isLast ? "cursor-pointer" : ""
+                  }`}
+                  onClick={() => {
+                    if (isFirst) handleNextPage()
+                    else if (isLast) handlePrevPage()
+                  }}
+                >
+                  {page.content}
+                </div>
+              )
+            })}
+          </HTMLFlipBook>
+        </div>
+      </div>
 
       <Button
         variant="ghost"

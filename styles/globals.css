@@ -121,3 +121,49 @@
     @apply bg-background text-foreground;
   }
 }
+
+.flipbook-transform-wrapper {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.flipbook-rotate-wrapper {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.flipbook-spin-forward,
+.flipbook-spin-backward {
+  animation-fill-mode: forwards;
+  transform-style: preserve-3d;
+  animation-timing-function: ease-in-out;
+}
+
+.flipbook-spin-forward {
+  animation-name: flipbook-spin-forward;
+}
+
+.flipbook-spin-backward {
+  animation-name: flipbook-spin-backward;
+}
+
+@keyframes flipbook-spin-forward {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes flipbook-spin-backward {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-360deg);
+  }
+}
