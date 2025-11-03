@@ -441,7 +441,11 @@ export const portfolioPages = [
               className="absolute inset-0 flex items-center justify-center bg-transparent hover:bg-black/20 transition-colors"
               aria-label="Play video"
             >
-              <svg viewBox="0 0 24 24" className="w-12 h-12 text-white" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                className="w-16 h-16 text-white drop-shadow-[0_6px_12px_rgba(0,0,0,0.45)]"
+                aria-hidden="true"
+              >
                 <circle
                   cx="12"
                   cy="12"
