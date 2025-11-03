@@ -441,16 +441,34 @@ export const portfolioPages = [
               className="absolute inset-0 flex items-center justify-center bg-transparent hover:bg-black/20 transition-colors"
               aria-label="Play video"
             >
-              <svg viewBox="0 0 24 24" className="w-12 h-12 text-white" aria-hidden="true">
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="11"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <polygon points="10,8 16,12 10,16" fill="currentColor" />
+              <svg
+                viewBox="0 0 24 24"
+                className="w-16 h-16 text-white"
+                aria-hidden="true"
+              >
+                <defs>
+                  <filter
+                    id="playButtonShadow"
+                    x="-50%"
+                    y="-50%"
+                    width="200%"
+                    height="200%"
+                  >
+                    <feDropShadow dx="0" dy="8" stdDeviation="6" floodOpacity="0.55" />
+                    <feDropShadow dx="0" dy="0" stdDeviation="4" floodOpacity="0.4" />
+                  </filter>
+                </defs>
+                <g filter="url(#playButtonShadow)">
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="11"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <polygon points="10,8 16,12 10,16" fill="currentColor" />
+                </g>
               </svg>
             </button>
           }
