@@ -489,6 +489,11 @@ export const portfolioPages = [
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page35} alt="Portfolio Page 35" />
+        <img
+          src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDN6ZXp1OXZtaW5sMXg1eTRzMXdkc242NHVobmh6Z2ljNmtkdjJkYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L6J78MhsbfUmPdRl3N/giphy.gif"
+          alt="Animated cat typing on a keyboard"
+          className="absolute left-[268px] bottom-[840px] w-[2050px] h-auto pointer-events-none"
+        />
       </div>
     ),
   },
