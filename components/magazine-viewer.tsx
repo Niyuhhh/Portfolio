@@ -169,7 +169,8 @@ export function MagazineViewer({ pages }: MagazineViewerProps) {
           : 0
 
       const widthDelta = (bookWidth - newBookWidth) / 2
-      const adjustedPointX = point.x + widthDelta / 2
+      const horizontalCompensation = 0.55
+      const adjustedPointX = point.x + widthDelta * horizontalCompensation
       const newTranslateX =
         adjustedPointX - offsetXNew - bookPoint.x * newScale
       const newTranslateY = point.y - bookPoint.y * newScale
