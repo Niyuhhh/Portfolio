@@ -443,18 +443,32 @@ export const portfolioPages = [
             >
               <svg
                 viewBox="0 0 24 24"
-                className="w-16 h-16 text-white drop-shadow-[0_6px_12px_rgba(0,0,0,0.45)]"
+                className="w-16 h-16 text-white"
                 aria-hidden="true"
               >
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="11"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <polygon points="10,8 16,12 10,16" fill="currentColor" />
+                <defs>
+                  <filter
+                    id="playButtonShadow"
+                    x="-50%"
+                    y="-50%"
+                    width="200%"
+                    height="200%"
+                  >
+                    <feDropShadow dx="0" dy="8" stdDeviation="6" floodOpacity="0.55" />
+                    <feDropShadow dx="0" dy="0" stdDeviation="4" floodOpacity="0.4" />
+                  </filter>
+                </defs>
+                <g filter="url(#playButtonShadow)">
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="11"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <polygon points="10,8 16,12 10,16" fill="currentColor" />
+                </g>
               </svg>
             </button>
           }
