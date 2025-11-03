@@ -199,7 +199,37 @@
 
 /* Custom flipbook page styling */
 .flipbook .stf__item {
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  position: relative;
+  box-shadow: none;
+}
+
+.flipbook .stf__item::before,
+.flipbook .stf__item::after {
+  content: "";
+  position: absolute;
+  top: 6%;
+  bottom: 6%;
+  width: 40px;
+  pointer-events: none;
+  transition: opacity var(--flip-duration, 700ms) ease;
+}
+
+.flipbook .stf__item::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.18),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.flipbook .stf__item::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0.25),
+    rgba(0, 0, 0, 0)
+  );
 }
 
 .flipbook .stf__item > div {
