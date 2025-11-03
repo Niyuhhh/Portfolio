@@ -70,8 +70,8 @@ const page33 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121122/PORTFOLIO_ELIOTT_PAGE33_nk9wry.jpg"
 const page34 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121122/PORTFOLIO_ELIOTT_PAGE34_czowab.jpg"
-const page35 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121125/PORTFOLIO_ELIOTT_PAGE35_r5p6hc.jpg"
+const page35Gif =
+  "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDN6ZXp1OXZtaW5sMXg1eTRzMXdkc242NHVobmh6Z2ljNmtkdjJkYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L6J78MhsbfUmPdRl3N/giphy.gif"
 const page36 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121125/PORTFOLIO_ELIOTT_PAGE36_snmora.jpg"
 const page37 =
@@ -488,7 +488,11 @@ export const portfolioPages = [
     id: 35,
     content: (
       <div className="relative w-full h-full">
-        <CloudinaryImage src={page35} alt="Portfolio Page 35" />
+        <img
+          src={page35Gif}
+          alt="Portfolio Page 35 animation"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
       </div>
     ),
   },
