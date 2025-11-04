@@ -3,9 +3,6 @@ import { Button } from "@/components/ui/button"
 import { VideoModal } from "@/components/video-modal"
 import { cn } from "@/lib/utils"
 
-const BlankPage = () => (
-  <div className="relative w-full h-full bg-white" aria-hidden="true" />
-)
 const page5 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121114/PORTFOLIO_ELIOTT_PAGE5_hpcppj.jpg"
 const page6 =
@@ -14,12 +11,20 @@ const page7 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121117/PORTFOLIO_ELIOTT_PAGE7_doaio9.jpg"
 const page1 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121113/PORTFOLIO_ELIOTT_PAGE_orgdtc.jpg"
+const transitionPage2 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762255828/PORTFOLIO_ELIOTT_PAGE_ENTRE1_mboifl.jpg"
+const transitionPage3 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762255828/PORTFOLIO_ELIOTT_PAGES_ENTRE2_zk4ai2.jpg"
 const page2 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121113/PORTFOLIO_ELIOTT_PAGE2_m0epcf.jpg"
 const page3 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121114/PORTFOLIO_ELIOTT_PAGE3_fllnvf.jpg"
 const page4 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE4_cmtqjo.jpg"
+const transitionPage44 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762255828/PORTFOLIO_ELIOTT_PAGES_ENTRE3_pdnvwg.jpg"
+const transitionPage45 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762255828/PORTFOLIO_ELIOTT_PAGES_ENTRE4_lniczb.jpg"
 const page8 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE8_lcmzov.jpg"
 const page9 =
@@ -220,11 +225,27 @@ const rawPortfolioPages = [
   },
 
   {
-    content: <BlankPage />,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage
+          src={transitionPage2}
+          alt="Portfolio Transition Page 2"
+          loading="eager"
+        />
+      </div>
+    ),
   },
 
   {
-    content: <BlankPage />,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage
+          src={transitionPage3}
+          alt="Portfolio Transition Page 3"
+          loading="eager"
+        />
+      </div>
+    ),
   },
 
   {
@@ -523,10 +544,18 @@ const rawPortfolioPages = [
     ),
   },
   {
-    content: <BlankPage />,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={transitionPage44} alt="Portfolio Transition Page 44" />
+      </div>
+    ),
   },
   {
-    content: <BlankPage />,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={transitionPage45} alt="Portfolio Transition Page 45" />
+      </div>
+    ),
   },
   {
     content: (
