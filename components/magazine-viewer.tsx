@@ -26,12 +26,12 @@ const V_MARGIN = 40
 
 const sections = [
   { page: 1, label: "01- Accueil" },
-  { page: 6, label: "06- Björn" },
-  { page: 12, label: "12- MBAT" },
-  { page: 20, label: "20- Daily energy" },
-  { page: 26, label: "26- Frau Wurst" },
-  { page: 32, label: "32- Trajectoire" },
-  { page: 36, label: "36- Illustrations" },
+  { page: 8, label: "08- Björn" },
+  { page: 14, label: "14- MBAT" },
+  { page: 22, label: "22- Daily energy" },
+  { page: 28, label: "28- Frau Wurst" },
+  { page: 34, label: "34- Trajectoire" },
+  { page: 38, label: "38- Illustrations" },
 ]
 
 interface SectionSelectorProps {
