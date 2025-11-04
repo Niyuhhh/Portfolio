@@ -30,7 +30,7 @@ const sections = [
   { page: 14, label: "12- MBAT" },
   { page: 22, label: "20- Daily energy" },
   { page: 28, label: "26- Frau Wurst" },
-  { page: 32, label: "32- Trajectoire" },
+  { page: 34, label: "32- Trajectoire" },
   { page: 38, label: "36- Illustrations" },
 ]
 
