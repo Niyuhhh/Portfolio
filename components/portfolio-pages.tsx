@@ -15,9 +15,9 @@ const page7 =
 const page1 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121113/PORTFOLIO_ELIOTT_PAGE_orgdtc.jpg"
 const page2 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121113/PORTFOLIO_ELIOTT_PAGE2_m0epcf.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1763536980/PORTFOLIO_ELIOTT_PAGE2_krsgbi.jpg"
 const page3 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121114/PORTFOLIO_ELIOTT_PAGE3_fllnvf.jpg"
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1763536981/PORTFOLIO_ELIOTT_PAGE3_yt9ejq.jpg"
 const page4 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121115/PORTFOLIO_ELIOTT_PAGE4_cmtqjo.jpg"
 const page8 =
@@ -90,6 +90,10 @@ const page41 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121128/PORTFOLIO_ELIOTT_PAGE41_n75rq3.jpg"
 const page42 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121127/PORTFOLIO_ELIOTT_PAGE42_aevjhy.jpg"
+const page44 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1763536982/PORTFOLIO_ELIOTT_PAGE44_lxpf5w.jpg"
+const page45 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1763536983/PORTFOLIO_ELIOTT_PAGE45_tbghmp.jpg"
 
 const buildSrc = (baseUrl: string, width: number) =>
   baseUrl.replace("/upload/", `/upload/w_${width}/`)
@@ -523,10 +527,18 @@ const rawPortfolioPages = [
     ),
   },
   {
-    content: <BlankPage />,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page44} alt="Portfolio Page 44" />
+      </div>
+    ),
   },
   {
-    content: <BlankPage />,
+    content: (
+      <div className="relative w-full h-full">
+        <CloudinaryImage src={page45} alt="Portfolio Page 45" />
+      </div>
+    ),
   },
   {
     content: (
