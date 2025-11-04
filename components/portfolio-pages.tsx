@@ -2,6 +2,10 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { VideoModal } from "@/components/video-modal"
 import { cn } from "@/lib/utils"
+
+const BlankPage = () => (
+  <div className="relative w-full h-full bg-white" aria-hidden="true" />
+)
 const page5 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121114/PORTFOLIO_ELIOTT_PAGE5_hpcppj.jpg"
 const page6 =
@@ -117,7 +121,6 @@ const CloudinaryImage = ({ src, alt, className, ...props }: CloudinaryImageProps
 
 const bjornChapterPages = [
   {
-    id: 10,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page10} alt="Portfolio Page 10" />
@@ -125,7 +128,6 @@ const bjornChapterPages = [
     ),
   },
   {
-    id: 11,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page11} alt="Portfolio Page 11" />
@@ -133,7 +135,6 @@ const bjornChapterPages = [
     ),
   },
   {
-    id: 12,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page12} alt="Portfolio Page 12" />
@@ -141,7 +142,6 @@ const bjornChapterPages = [
     ),
   },
   {
-    id: 13,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page13} alt="Portfolio Page 13" />
@@ -149,7 +149,6 @@ const bjornChapterPages = [
     ),
   },
   {
-    id: 14,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page14} alt="Portfolio Page 14" />
@@ -157,7 +156,6 @@ const bjornChapterPages = [
     ),
   },
   {
-    id: 15,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page15} alt="Portfolio Page 15" />
@@ -165,7 +163,6 @@ const bjornChapterPages = [
     ),
   },
   {
-    id: 16,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page16} alt="Portfolio Page 16" />
@@ -173,7 +170,6 @@ const bjornChapterPages = [
     ),
   },
   {
-    id: 17,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page17} alt="Portfolio Page 17" />
@@ -181,7 +177,6 @@ const bjornChapterPages = [
     ),
   },
   {
-    id: 18,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page18} alt="Portfolio Page 18" />
@@ -189,7 +184,6 @@ const bjornChapterPages = [
     ),
   },
   {
-    id: 19,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page19} alt="Portfolio Page 19" />
@@ -211,10 +205,9 @@ const bjornChapterPages = [
   },
 ]
 
-export const portfolioPages = [
+const rawPortfolioPages = [
   // Cover Page (Single)
   {
-    id: 1,
     content: (
       <div className="relative w-full h-full opacity-100">
         <CloudinaryImage
@@ -227,7 +220,14 @@ export const portfolioPages = [
   },
 
   {
-    id: 2,
+    content: <BlankPage />,
+  },
+
+  {
+    content: <BlankPage />,
+  },
+
+  {
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage
@@ -240,7 +240,6 @@ export const portfolioPages = [
   },
 
   {
-    id: 3,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page3} alt="Portfolio Page 3" loading="eager" />
@@ -249,7 +248,6 @@ export const portfolioPages = [
   },
 
   {
-    id: 4,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page4} alt="Portfolio Page 4" loading="eager" />
@@ -258,7 +256,6 @@ export const portfolioPages = [
   },
 
   {
-    id: 5,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page5} alt="Portfolio Page 5" loading="eager" />
@@ -267,7 +264,6 @@ export const portfolioPages = [
   },
 
   {
-    id: 6,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page6} alt="Portfolio Page 6" loading="eager" />
@@ -276,7 +272,6 @@ export const portfolioPages = [
   },
 
   {
-    id: 7,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page7} alt="Portfolio Page 7" loading="eager" />
@@ -285,7 +280,6 @@ export const portfolioPages = [
   },
 
   {
-    id: 8,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page8} alt="Page 8" loading="eager" />
@@ -294,7 +288,6 @@ export const portfolioPages = [
   },
 
   {
-    id: 9,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page9} alt="Page 9" loading="eager" />
@@ -306,7 +299,6 @@ export const portfolioPages = [
 
   // Contact Page (Single)
   {
-    id: 20,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page20} alt="Portfolio Page 20" />
@@ -314,7 +306,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 21,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page21} alt="Portfolio Page 21" />
@@ -322,7 +313,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 22,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page22} alt="Portfolio Page 22" />
@@ -330,7 +320,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 23,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page23} alt="Portfolio Page 23" />
@@ -358,7 +347,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 24,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page24} alt="Portfolio Page 24" />
@@ -366,7 +354,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 25,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page25} alt="Portfolio Page 25" />
@@ -374,7 +361,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 26,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page26} alt="Portfolio Page 26" />
@@ -382,7 +368,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 27,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page27} alt="Portfolio Page 27" />
@@ -390,7 +375,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 28,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page28} alt="Portfolio Page 28" />
@@ -398,7 +382,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 29,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page29} alt="Portfolio Page 29" />
@@ -406,7 +389,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 30,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page30} alt="Portfolio Page 30" />
@@ -414,7 +396,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 31,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page31} alt="Portfolio Page 31" />
@@ -422,7 +403,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 32,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page32} alt="Portfolio Page 32" />
@@ -430,7 +410,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 33,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page33} alt="Portfolio Page 33" />
@@ -477,7 +456,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 34,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page34} alt="Portfolio Page 34" />
@@ -485,7 +463,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 35,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page35} alt="Portfolio Page 35" />
@@ -504,7 +481,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 36,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page36} alt="Portfolio Page 36" />
@@ -512,7 +488,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 37,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page37} alt="Portfolio Page 37" />
@@ -520,7 +495,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 38,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page38} alt="Portfolio Page 38" />
@@ -528,7 +502,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 39,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page39} alt="Portfolio Page 39" />
@@ -536,7 +509,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 40,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page40} alt="Portfolio Page 40" />
@@ -544,7 +516,6 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 41,
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page41} alt="Portfolio Page 41" />
@@ -552,7 +523,12 @@ export const portfolioPages = [
     ),
   },
   {
-    id: 42,
+    content: <BlankPage />,
+  },
+  {
+    content: <BlankPage />,
+  },
+  {
     content: (
       <div className="relative w-full h-full">
         <CloudinaryImage src={page42} alt="Portfolio Page 42" />
@@ -560,3 +536,8 @@ export const portfolioPages = [
     ),
   },
 ]
+
+export const portfolioPages = rawPortfolioPages.map((page, index) => ({
+  ...page,
+  id: index + 1,
+}))
