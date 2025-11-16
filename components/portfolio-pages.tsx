@@ -14,9 +14,9 @@ const page1 =
 const transitionPage2 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762255828/PORTFOLIO_ELIOTT_PAGE_ENTRE1_mboifl.jpg"
 const transitionPage3 =
-  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762255828/PORTFOLIO_ELIOTT_PAGES_ENTRE2_zk4ai2.jpg"
-const page2 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1763324548/PORTFOLIO_ELIOTT_PAGEANNEXE2_hugkrz.jpg"
+const page2 =
+  "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121113/PORTFOLIO_ELIOTT_PAGE2_m0epcf.jpg"
 const page3 =
   "https://res.cloudinary.com/dakxjcdyp/image/upload/v1762121114/PORTFOLIO_ELIOTT_PAGE3_fllnvf.jpg"
 const page4 =
